@@ -1,8 +1,8 @@
 import React from "react";
-import './css/pinboard.scss';
+import '../css/pinboard.css';
 
 
-const Pinboard = () => {
+const PinboardView = () => {
 	return (
 		<div id="wrapper">
 			<main>
@@ -12,4 +12,4 @@ const Pinboard = () => {
 	);
 };
 
-export default Pinboard;
+export default PinboardView;

@@ -136,6 +136,7 @@ main { flex-grow: 1; padding-left: 2rem }
 .adUserName {
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 }
 .adUserName > .profile {
 	width: 50px;
@@ -148,6 +149,10 @@ main { flex-grow: 1; padding-left: 2rem }
 	padding-bottom: 1rem;
 	margin-bottom: 1rem;
 	border-bottom: 1px solid var(--darkGreen);
+}
+aside .adUserName {
+	margin-bottom: 1em;
+	justify-content: flex-start;
 }
 .msgSelf, .msgOther {
 	padding: 1em;
