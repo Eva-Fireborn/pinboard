@@ -1,0 +1,42 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400&display=swap");
+:root {
+	/* Magical variables ;) */
+	--maroon: rgb(226, 125, 96);
+	--blue: rgb(133, 205, 203);
+	--brown: rgb(232, 168, 124);
+	--purple: rgb(195, 141, 158);
+	--green: rgb(65, 179, 163);
+	--darkGreen: rgb(30, 129, 116);
+	--grayWhite: rgb(245, 245, 245);
+	--white: rgb(255, 255, 255);
+	--rounding-small: 0.25rem;
+	--rounding-large: 0.5rem;
+}
+body, html, #root, #App {
+	height: 100%;
+	width: 100%;
+}
+body, html {
+	background-color: var(--grayWhite);
+	margin: 0;
+	padding: 0;
+	font-family: "Open Sans", sans-serif;
+	font-size: 18px;
+	line-height: 1.45;
+}
+#App {
+	display: flex;
+	flex-direction: column;
+}
+p { margin: 0 0 2rem 0; }
+h1, h2, h3, h4, h5 {
+	font-weight: 300;
+	margin: 0;
+}
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2.2rem; }
+h3 { font-size: 1.9rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.3rem; }
+a { color: #000; text-decoration: none; }
+a:hover { color: var(--green); }
