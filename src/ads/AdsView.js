@@ -9,7 +9,7 @@ const AdsView = () => {
 			<aside>
 				<CategoryList />
 			</aside>
-			<main>
+			<main id="ads">
 				<SearchView />
 
 				<SingleAdCard />

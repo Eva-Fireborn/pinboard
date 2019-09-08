@@ -55,11 +55,12 @@ h5 { font-size: 1.3rem; }
 a { color: #000; text-decoration: none; }
 a:hover { color: var(--green); }
 
-button, input, select {
+button, input, select, textarea {
 	font-size: 1rem;
 	border-radius: var(--rounding-large);
 	padding: 0.5rem 0.8rem;
 }
+textarea { resize: none; }
 button { cursor: pointer; border: 0px; }
 button.call {
 	background-color: var(--green);
@@ -69,7 +70,7 @@ button:hover, button.call:hover {
 	color: var(--white);
 	background-color: var(--darkGreen);
 }
-input, select {
+input, select, textarea {
 	border: 1px solid #000;
 }
 
@@ -150,14 +151,29 @@ main { flex-grow: 1; padding-left: 2rem }
 	margin-bottom: 1rem;
 	border-bottom: 1px solid var(--darkGreen);
 }
+
+
 aside .adUserName {
-	margin-bottom: 1em;
+	padding: 0 1rem;
+	height: 80px;
 	justify-content: flex-start;
 }
+aside .selected { background-color: var(--green); }
+main#msg > textarea {
+	width: 100%;
+}
 .msgSelf, .msgOther {
-	padding: 1em;
-	margin-bottom: 1em;
-	border-radius: var(--rounding-large)
+	padding: 1rem;
+	margin-bottom: 1rem;
+	border-radius: var(--rounding-large);
+}
+.arrow {
+	position: relative;
+	right: -20px;
+	height: 40px;
+	width: 40px;
+	background-color: var(--green);
+	transform: rotate(45deg);
 }
 .msgSelf {
 	float: right;

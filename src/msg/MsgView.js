@@ -4,11 +4,12 @@ const MsgView = () => {
 	return (
 		<div id="wrapper">
 			<aside>
-				<div className="adUserName">
+				<div className="adUserName selected">
 					<img src={require('../img/tempProfile.jpg')} alt="profile img" className="profile" />
 					<div>
 						Magical unicorn user
 					</div>
+					<div className="arrow"></div>
 				</div>
 				<div className="adUserName">
 					<img src={require('../img/tempProfile.jpg')} alt="profile img" className="profile" />
@@ -23,7 +24,7 @@ const MsgView = () => {
 					</div>
 				</div>
 			</aside>
-			<main>
+			<main id="msg">
 				<div className="msgSelf">
 					Vestibulum gravida ornare leo eu dictum
 				</div>
@@ -36,6 +37,11 @@ const MsgView = () => {
 				<div className="msgOther">
 					Morbi quis massa sem. Aliquam et magna magna. Nullam tincidunt lacus ut eros fringilla, id aliquet risus gravida. Morbi in aliquet enim, at consequat sapien.
 				</div>
+
+				<textarea />
+				<button className="call">
+					Send
+				</button>
 			</main>
 		</div>
 	);
