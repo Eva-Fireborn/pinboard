@@ -1,4 +1,18 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400&display=swap");
+/*
+
+
+
+
+at the moment this file is pure css since I'm to lazy to remember SCSS.. :P sorry girls
+
+
+
+BUT! Going to start converting it to SCSS now that the basics h4xx1ng are down. ;)
+
+
+*/
+
 :root {
 	/* Magical variables ;) */
 	--maroon: rgb(226, 125, 96);
@@ -40,3 +54,131 @@ h4 { font-size: 1.5rem; }
 h5 { font-size: 1.3rem; }
 a { color: #000; text-decoration: none; }
 a:hover { color: var(--green); }
+
+button, input, select {
+	font-size: 1rem;
+	border-radius: var(--rounding-large);
+	padding: 0.5rem 0.8rem;
+}
+button { cursor: pointer; border: 0px; }
+button.call {
+	background-color: var(--green);
+	color: var(--grayWhite);
+}
+button:hover, button.call:hover {
+	color: var(--white);
+	background-color: var(--darkGreen);
+}
+input, select {
+	border: 1px solid #000;
+}
+
+#header, footer {
+	width: calc(100%-5rem);
+	flex-shrink: 0;
+	display: flex;
+	justify-content: space-between;
+	padding: 1rem 5rem;
+	background-color: var(--white);
+}
+#header { height: 60px; }
+a#logo {
+	flex: 0 0 60px;
+	display: block;
+	cursor: pointer;
+}
+a#logo > img {
+	height: 50px;
+	width: auto;
+}
+nav {
+	flex: 0 1 auto;
+	display: flex;
+	align-items: center;
+}
+nav > * { margin-left: 2rem; }
+
+footer > ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+footer > ul > li { margin: 0.3rem 0; }
+
+#wrapper {
+	flex: 1 0 auto;
+	margin: 0 8rem;
+	display: flex;
+	padding: 2rem 0;
+}
+
+aside { flex: 0 0 250px; }
+aside ul {
+	list-style: none;
+	margin: 0;
+	padding: 0 0 0.5rem 0;
+}
+aside li { margin: 0 0 0.3rem 0; }
+aside ul>ul { padding-left: 1rem; }
+main { flex-grow: 1; padding-left: 2rem }
+
+
+.adCard {
+	border-bottom: 1px solid #000;
+	padding-bottom: 1rem;
+	margin-bottom: 1rem;
+	display: flex;
+}
+.adCard .ads {
+	width: 200px;
+	height: auto;
+}
+.adCard .profile {
+	width: 50px;
+	height: auto;
+	border-radius: 100%;
+}
+.adUserName {
+	display: flex;
+	justify-content: space-between;
+}
+.search {
+	display: flex;
+	justify-content: space-between;
+	padding-bottom: 1rem;
+	margin-bottom: 1rem;
+	border-bottom: 1px solid var(--darkGreen);
+}
+
+
+
+
+/* Mobile view */
+@media only screen and (max-device-width: 640px) {
+	footer, #header { padding: 1rem 1rem; }
+	#wrapper { margin: 80px 1rem 1rem 1rem; padding: 0; }
+	footer { flex-direction: column; padding-bottom: 120px; text-align: center; }
+	footer ul { margin: 1rem 0; }
+	#header {
+		position: fixed;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		border-top: 1px solid #000;
+	}
+	nav {
+		font-size: 0.5rem;
+	}
+	aside {
+		position: fixed;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 36px; /* Total 50px */
+		padding: 7px 1rem;
+		border-bottom: 1px solid #000;
+		background-color: var(--white);
+	}
+	aside ul { display: flex; align-items: center; padding: 0; margin: 0 1.5rem 0 0; }
+	aside ul li { margin: 0 0 0 0.5rem; }
+}

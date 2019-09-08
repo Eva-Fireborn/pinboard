@@ -1,19 +1,22 @@
 import React from "react";
-
+import Header from "./nav/Header.js";
+import Footer from "./nav/Footer.js";
+import Ads from "./ads/Main.js";
+import AdsAside from "./ads/Aside.js";
 
 const App = () => {
 	return (
 		<div id="App">
-			<div>header</div>
+			<Header />
 			<div id="wrapper">
 				<aside>
-					Aside
+					<AdsAside />
 				</aside>
 				<main>
-					main
+					<Ads />
 				</main>
 			</div>
-			<div>footer</div>
+			<Footer />
 		</div>
 	);
 };
