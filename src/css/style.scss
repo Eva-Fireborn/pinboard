@@ -133,14 +133,14 @@ main { flex-grow: 1; padding-left: 2rem }
 	width: 200px;
 	height: auto;
 }
-.adCard .profile {
-	width: 50px;
-	height: auto;
-	border-radius: 100%;
-}
 .adUserName {
 	display: flex;
 	justify-content: space-between;
+}
+.adUserName > .profile {
+	width: 50px;
+	height: auto;
+	border-radius: 100%;
 }
 .search {
 	display: flex;
@@ -149,6 +149,22 @@ main { flex-grow: 1; padding-left: 2rem }
 	margin-bottom: 1rem;
 	border-bottom: 1px solid var(--darkGreen);
 }
+.msgSelf, .msgOther {
+	padding: 1em;
+	margin-bottom: 1em;
+	border-radius: var(--rounding-large)
+}
+.msgSelf {
+	float: right;
+	width: 80%;
+	background-color: var(--blue);
+}
+.msgOther {
+	float: left;
+	width: 80%;
+	background-color: var(--purple);
+}
+
 
 
 

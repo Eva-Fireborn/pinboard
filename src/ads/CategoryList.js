@@ -1,6 +1,6 @@
 import React from "react";
 
-const AdsAside = () => {
+const CategoryList = () => {
 	return (
 		<div>
 			{/*
@@ -22,4 +22,4 @@ const AdsAside = () => {
 	)
 };
 
-export default AdsAside;
+export default CategoryList;
