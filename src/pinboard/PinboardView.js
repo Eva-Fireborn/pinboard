@@ -1,5 +1,5 @@
 import React from "react";
-import '../css/pinboard.css';
+//import '../css/pinboard.css';
 
 
 const PinboardView = () => {
