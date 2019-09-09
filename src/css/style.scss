@@ -203,8 +203,9 @@ main#msg > textarea {
 	#wrapper { margin: 80px 1rem 1rem 1rem; padding: 0; }
 	footer { flex-direction: column; padding-bottom: 120px; text-align: center; }
 	footer ul { margin: 1rem 0; }
-	#header {
+	#header, #fixedMenu {
 		position: fixed;
+		top: auto;
 		left: 0;
 		bottom: 0;
 		width: 100%;
