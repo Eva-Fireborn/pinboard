@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 
 const Header = () => {
 	const [links] = useState([
+		
 		{name: "Annonser", to: "/annonser"},
 		{name: "Skapa annons", to: "/skapaannons"},
         {name: "Frågor och svar", to: "/frågorochsvar"},
@@ -18,21 +19,13 @@ const Header = () => {
 	
 	return (
 		<div id="header">
-			<a id="logo" href="index.html">
-				<img src={require('../img/tempLogo100.png')} alt="Pinboard" />
-			</a>
+			<span>
+				<Link to={"/home"} id="logo"> <img src={require('../img/tempLogo100.png')} alt="Pinboard" /></Link>
+			</span>
 
 			<nav>
 				{navBar}
 				
-				{/* <a href="ads.html">Annonser</a>
-				<a href="faq.html">Frågor och Svar</a>
-				<a href="profile.html">
-					<button>Login</button>
-				</a>
-				<a href="profile.html">
-					<button class="call">Skapa Konto</button>
-				</a> */}
 				{/*
 					when logged in you should have these menu (Max 5) options and sub menus:
 						Annonser
