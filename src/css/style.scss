@@ -74,15 +74,22 @@ input, select, textarea {
 	border: 1px solid #000;
 }
 
-#header, footer {
-	width: calc(100%-5rem);
-	flex-shrink: 0;
+#header, footer { flex-shrink: 0; }
+#header, #fixedMenu { height: 60px; }
+#header, footer, #fixedMenu {
+	padding: 1rem 5rem;
+	width: calc(100% - 10rem);
+}
+footer, #fixedMenu {
 	display: flex;
 	justify-content: space-between;
-	padding: 1rem 5rem;
 	background-color: var(--white);
 }
-#header { height: 60px; }
+#fixedMenu {
+	position: fixed;
+	top: 0;
+	left: 0;
+}
 a#logo {
 	flex: 0 0 60px;
 	display: block;
@@ -98,7 +105,6 @@ nav {
 	align-items: center;
 }
 nav > * { margin-left: 2rem; }
-
 footer > ul {
 	list-style: none;
 	margin: 0;
@@ -113,6 +119,7 @@ footer > ul > li { margin: 0.3rem 0; }
 	padding: 2rem 0;
 }
 
+aside > .fixed { position: fixed; }
 aside { flex: 0 0 250px; }
 aside ul {
 	list-style: none;
