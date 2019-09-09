@@ -44,8 +44,8 @@ const Header = () => {
 							-> Inställningar
 							-> logga ut
 				*/}
-			</nav>
-		</div>
+				</nav>
+			</div>
 	);
 };
 

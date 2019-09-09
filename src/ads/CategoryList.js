@@ -2,7 +2,7 @@ import React from "react";
 
 const CategoryList = () => {
 	return (
-		<div>
+		<div className="fixed">
 			{/*
 				should be swipe to horizontal scroll on mobile...
 				https://css-tricks.com/simple-swipe-with-vanilla-javascript/
