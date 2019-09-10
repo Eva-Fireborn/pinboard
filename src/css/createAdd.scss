@@ -2,7 +2,7 @@
     width: 75%;
     height: 100%;
     .formButton {
-        background-color: var(--purple);
+        background-color: $purple;
         float: right;
         margin: 0.5em;
     }
@@ -48,7 +48,7 @@
 
 .formContainer, .tipsContainer {
     background-color: #ffffff;
-    border-radius: var(--rounding-large);
+    border-radius: $rounding-large;
     .rubrik {
         text-align: center;
     }
