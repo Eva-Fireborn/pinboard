@@ -1,19 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400&display=swap");
-@import 'ProfileView';
-/*
-
-
-
-
-at the moment this file is pure css since I'm to lazy to remember SCSS.. :P sorry girls
-
-
-
-BUT! Going to start converting it to SCSS now that the basics h4xx1ng are down. ;)
-
-
-*/
-
+@import 'normalize.min';
 :root {
 	/* Magical variables ;) */
 	--maroon: rgb(226, 125, 96);
