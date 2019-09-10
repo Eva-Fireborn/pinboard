@@ -11,6 +11,7 @@ footer, #fixedMenu {
 }
 #fixedMenu {
 	position: fixed;
+	z-index: 500;
 	top: 0;
 	left: 0;
 
@@ -22,6 +23,9 @@ footer, #fixedMenu {
 			height: 50px;
 			width: auto;
 		}
+	}
+	a {
+		text-align: center;
 	}
 	nav {
 		flex: 0 1 auto;

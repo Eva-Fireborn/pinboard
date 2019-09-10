@@ -78,6 +78,27 @@ input, select, textarea {
 	aside ul>ul { padding-left: 1rem; }
 	main { flex-grow: 1; padding-left: 2rem }
 }
+.svg-inline--fa {
+	font-size: 1.5rem;
+	display: block;
+	margin: 0 auto;
+}
+
+#popup {
+	background-color: rgba(0, 0, 0, 0.8);
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	z-index: 9000;
+	#window {
+		background-color: $white;
+		margin: 2em auto;
+		height: 80%;
+		width: 80%;
+		border-radius: $rounding-large;
+		text-align: center;
+	}
+}
 
 
 @import 'header-footer.scss';
@@ -94,9 +115,9 @@ input, select, textarea {
 
 
 /* Mobile view */
-@media only screen and (max-device-width: 640px) {
+@media only screen and (max-device-width: 680px) {
 	footer, #header { padding: 1rem 1rem; }
-	#wrapper { margin: 80px 1rem 1rem 1rem; padding: 0; }
+	#wrapper { margin: 1rem; padding: 0; }
 	footer { flex-direction: column; padding-bottom: 120px; text-align: center; }
 	footer ul { margin: 1rem 0; }
 	#header, #fixedMenu {
@@ -106,20 +127,12 @@ input, select, textarea {
 		bottom: 0;
 		width: 100%;
 		border-top: 1px solid #000;
+		padding: 0;
 	}
 	nav {
 		font-size: 0.5rem;
 	}
 	aside {
-		position: fixed;
-		left: 0;
-		top: 0;
-		width: 100%;
-		height: 36px; /* Total 50px */
-		padding: 7px 1rem;
-		border-bottom: 1px solid #000;
-		background-color: $white;
+		display: none;
 	}
-	aside ul { display: flex; align-items: center; padding: 0; margin: 0 1.5rem 0 0; }
-	aside ul li { margin: 0 0 0 0.5rem; }
 }
