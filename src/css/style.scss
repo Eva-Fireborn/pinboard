@@ -22,7 +22,7 @@ body, html {
 	margin: 0;
 	padding: 0;
 	font-family: "Open Sans", sans-serif;
-	font-size: 18px;
+	font-size: 16px;
 	line-height: 1.45;
 }
 #App {
@@ -34,11 +34,11 @@ h1, h2, h3, h4, h5 {
 	font-weight: 300;
 	margin: 0;
 }
-h1 { font-size: 2.5rem; }
-h2 { font-size: 2.2rem; }
-h3 { font-size: 1.9rem; }
-h4 { font-size: 1.5rem; }
-h5 { font-size: 1.3rem; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.3rem; }
+h5 { font-size: 1rem; }
 a { color: #000; text-decoration: none; }
 a:hover { color: $green; }
 
@@ -68,7 +68,7 @@ input, select, textarea {
 	padding: 2rem 0;
 	
 	aside > .fixed { position: fixed; }
-	aside { flex: 0 0 250px; }
+	aside { flex: 0 0 150px; padding-right: 2rem; }
 	aside ul {
 		list-style: none;
 		margin: 0;
@@ -76,12 +76,10 @@ input, select, textarea {
 	}
 	aside li { margin: 0 0 0.3rem 0; }
 	aside ul>ul { padding-left: 1rem; }
-	main { flex-grow: 1; padding-left: 2rem }
+	main { flex-grow: 1; }
 }
 .svg-inline--fa {
-	font-size: 1.5rem;
-	display: block;
-	margin: 0 auto;
+	display: none;
 }
 
 #popup {
@@ -117,8 +115,13 @@ input, select, textarea {
 /* Mobile view */
 @media only screen and (max-device-width: 680px) {
 	footer, #header { padding: 1rem 1rem; }
-	#wrapper { margin: 1rem; padding: 0; }
-	footer { flex-direction: column; padding-bottom: 120px; text-align: center; }
+	#wrapper { margin: 5rem 1rem 1rem 1rem; padding: 0; }
+	footer {
+		flex-direction: column;
+		padding-bottom: 120px;
+		text-align: center;
+		width: calc(100% - 2rem);
+	}
 	footer ul { margin: 1rem 0; }
 	#header, #fixedMenu {
 		position: fixed;
@@ -130,9 +133,34 @@ input, select, textarea {
 		padding: 0;
 	}
 	nav {
-		font-size: 0.5rem;
+		> a {
+			font-size: 0.7rem;
+			margin-left: 0.4rem !important;
+		}
 	}
 	aside {
 		display: none;
+	}
+	.svg-inline--fa {
+		display: none;
+		font-size: 1.5rem;
+		display: block;
+		margin: 0 auto;
+		color: #474747;
+	}
+	div#logo {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		background-color: $white;
+		text-align: center;
+		border-bottom: 1px solid #000;
+	}
+	.adCard {
+		flex-direction: column;
+	}
+	.adCard > * {
+		text-align: center;
 	}
 }

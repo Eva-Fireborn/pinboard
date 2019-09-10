@@ -42,9 +42,11 @@ const Header = () => {
 	return (
 		<div id="header">
 			<div id="fixedMenu">
-				<a id="logo" href="index.html">
-					<img src={require('../img/tempLogo100.png')} alt="Pinboard" />
-				</a>
+				<div id="logo">
+					<Link to="/">
+						<img src={require('../img/pinboard.png')} alt="Pinboard" />
+					</Link>
+				</div>
 				<nav>
 					{navBar}
 					<Link to="/skapakonto">
