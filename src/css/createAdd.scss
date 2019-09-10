@@ -1,0 +1,56 @@
+.formContainer {
+    width: 75%;
+    height: 100%;
+    .formButton {
+        background-color: var(--purple);
+        float: right;
+        margin: 0.5em;
+    }
+    span {
+        margin: 0.5em;
+        float: left;
+    }
+    .addInfo {
+        input, textarea, select {
+            display: block;
+            margin: 0.5em;
+            width: 90%;
+        }
+        label {
+            margin: 0.5em;
+        }
+        textarea {
+            height: 5em;
+        }
+        .shortInput {
+            display: inline-block;
+            width: 30%;
+        }
+    }
+    
+    .checkboxes {
+        input {
+            display: inline-block;
+            width: 3em;
+        }
+    }
+}
+
+.tipsContainer {
+    width: 20em;
+    height: 20em;
+    margin-left: 3em;
+    p {
+        font-size: 0.9em;
+        margin: 0.5em;
+    }
+}
+
+.formContainer, .tipsContainer {
+    background-color: #ffffff;
+    border-radius: var(--rounding-large);
+    .rubrik {
+        text-align: center;
+    }
+
+}
