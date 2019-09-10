@@ -19,7 +19,7 @@ const Footer = () => {
 					<h4>Kundservice</h4>
 				</li>
 				<li>
-					<a href="index.html">Användarvilkor</a>
+					<a href="index.html">Användarvillkor</a>
 				</li>
 				<li>
 					<a href="index.html">Kundsäkerhet</a>

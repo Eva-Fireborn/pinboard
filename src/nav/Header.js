@@ -5,9 +5,7 @@ const Header = () => {
 	const [links] = useState([
 		{name: "Annonser", to: "/annonser"},
 		{name: "Skapa annons", to: "/skapaannons"},
-        {name: "Frågor och svar", to: "/frågorochsvar"},
-		{name: "Logga in", to: "/loggain"},
-		{name: "Skapa konto", to: "/skapakonto"},
+        {name: "Frågor och svar", to: "/frågorochsvar"}
 	]);
 
 	const navBar = links.map((link, index) => (
@@ -25,6 +23,12 @@ const Header = () => {
 				<nav>
 					{navBar}
 				</nav>
+				<button>
+					<Link to={"/loggain"}>Logga in</Link>
+				</button>
+				<button className="call">
+					<Link to={"/skapakonto"}>Skapa konto</Link>
+				</button>
 			</div>
 		</div>
 	);
