@@ -3,7 +3,7 @@ import React from "react";
 const ProfileView = () => {
 	return (
 		<div id="wrapper">
-			<div>
+			<main>
 				<div className="flex1">
 					<div>
 						<img src={require('../img/tempProfile.jpg')} alt="profile img" className="profile" />
@@ -36,7 +36,7 @@ const ProfileView = () => {
 						<div>Ooops</div><br />
 					</div>
 				</div>
-			</div>
+			</main>
 		</div>
 
 	)
