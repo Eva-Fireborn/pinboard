@@ -9,7 +9,7 @@ const App = () => {
 		<div id="App">
 			<Router>
 				<Header />
-				<ContentRouting></ContentRouting>
+				<ContentRouting />
 				<Footer />
 			</Router>
 		</div>
