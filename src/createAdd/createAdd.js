@@ -50,7 +50,7 @@ const CreateAdd = () => {
 						</label>
 						<label>Kategori
                         <select name="categories">
-								<option selected></option>
+								<option></option>
 								<option value="musik">musik</option>
 								<option value="mat">mat</option>
 								<option value="transport">transport</option>
