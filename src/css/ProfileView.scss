@@ -13,19 +13,19 @@
 .profileText{
   width: 100%;
   height: 100px;
-  padding: 15px;
-  background-color: var(--white);
-  border-radius: var(--rounding-large);
+  padding: 25px;
+  background-color: $white;
+  border-radius: $rounding-large;
 }
 
 
 .profileRating{
   padding: 15px;
   width: 100%;
-  background-color: var(--white);
-  border-radius: var(--rounding-large);
+  background-color:  $white;
+  border-radius: $rounding-large;
   margin-top: 15px;
 }
 .profileRating > div{
-  
+
 }
