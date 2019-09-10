@@ -66,18 +66,19 @@ input, select, textarea {
 	margin: 0 8rem;
 	display: flex;
 	padding: 2rem 0;
+	
+	aside > .fixed { position: fixed; }
+	aside { flex: 0 0 250px; }
+	aside ul {
+		list-style: none;
+		margin: 0;
+		padding: 0 0 0.5rem 0;
+	}
+	aside li { margin: 0 0 0.3rem 0; }
+	aside ul>ul { padding-left: 1rem; }
+	main { flex-grow: 1; padding-left: 2rem }
 }
 
-aside > .fixed { position: fixed; }
-aside { flex: 0 0 250px; }
-aside ul {
-	list-style: none;
-	margin: 0;
-	padding: 0 0 0.5rem 0;
-}
-aside li { margin: 0 0 0.3rem 0; }
-aside ul>ul { padding-left: 1rem; }
-main { flex-grow: 1; padding-left: 2rem }
 
 @import 'header-footer.scss';
 @import 'msg.scss';
