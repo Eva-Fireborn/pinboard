@@ -3,21 +3,21 @@ import React, { useState } from 'react';
 //const listWithData = [];
 
 const CreateAdd = () => {
-    const [value, setValue] = useState('');
-    //const [list, setList] = useState(listWithData);
+	const [value, setValue] = useState('');
+	//const [list, setList] = useState(listWithData);
 
-    const handleChange = event => {
-        setValue(event.target.value);
-    }
+	const handleChange = event => {
+		setValue(event.target.value);
+	}
 
-    const handleSubmit = event => {
-        // if (value) {
-        //     setList(list.concat({value}));
-        // }
-        // setValue('');
-        // console.log(list);
-        event.preventDefault();
-    }
+	const handleSubmit = event => {
+		// if (value) {
+		//     setList(list.concat({value}));
+		// }
+		// setValue('');
+		// console.log(list);
+		event.preventDefault();
+	}
 
     
     return (
@@ -29,12 +29,12 @@ const CreateAdd = () => {
                         <label>
                             <input type="checkbox" /> Sökes
                         </label>
-                        <label>
-                            <input type="checkbox" /> Finnes
+						<label>
+							<input type="checkbox" /> Finnes
                         </label>
-                    </div>
-                    <div className="addInfo">
-                        <label>Rubrik
+					</div>
+					<div className="addInfo">
+						<label>Rubrik
                             <input type="text" value={value} onChange={handleChange} />
                         </label>
                         <label>Kategori

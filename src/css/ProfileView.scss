@@ -1,0 +1,24 @@
+.flex1{
+  display: flex;
+  justify-content: space-between;
+  padding: 25px;
+}
+
+.flex2{
+  display: flex;
+  justify-content: flex-start;
+  margin: 0;
+
+}
+
+.profileText{
+  width: 400px;
+  height: 100px;
+  padding: 25px;
+  background-color: $white;
+  border-radius: $rounding-large;
+}
+
+.profileRating{
+  padding-left: 15px;
+}
