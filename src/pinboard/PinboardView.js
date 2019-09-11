@@ -1,8 +1,5 @@
 import React from "react";
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/viktor
 
 const PinboardView = () => {
 	return (

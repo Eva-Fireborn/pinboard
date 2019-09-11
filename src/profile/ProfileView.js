@@ -1,4 +1,9 @@
 import React from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import {
+  faCog
+} from '@fortawesome/free-solid-svg-icons';
 
 const ProfileView = () => {
 	return (
@@ -15,7 +20,7 @@ const ProfileView = () => {
 						</div>
 						<div>Har funnits på Pinboard sedan 2012</div>
 						<div>
-							<span>nål</span><span>Göteborg</span>
+							<FontAwesomeIcon icon={faCog} /><span>Göteborg</span>
 						</div>
 					</div>
 					<div className="settingsProfile">
