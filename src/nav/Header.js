@@ -59,18 +59,6 @@ const Header = () => {
 							Skapa konto
 						</button>
 					</Link>
-
-					{/*
-					when logged in you should have these menu (Max 5) options and sub menus:
-						Annonser
-						Skapa annons
-						Mina Kurser
-						Meddelanden
-						Profil
-							-> Help?
-							-> Inställningar
-							-> logga ut
-				*/}
 				</nav>
 			</div>
 		</div>
