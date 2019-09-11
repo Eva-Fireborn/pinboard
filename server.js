@@ -12,8 +12,9 @@ expServer.get('/Eva-Fireborn/pinboard/static/media/tempProfile.0ca70095.jpg', (r
     response.sendFile(__dirname + '/build/static/media/tempProfile.0ca70095.jpg')
 });
 
+/*.all('*', ....)
+response.status(404)
 
-/*
 expServer.get('/', (request, response) => {
     console.log('Request: ', request.url)
     response.sendFile(__dirname + '/build/index.html')
