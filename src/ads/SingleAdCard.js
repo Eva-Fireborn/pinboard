@@ -4,7 +4,7 @@ const SingleAdCard = () => {
 	return (
 		<div className="adCard">
 			<div>
-				<img src={require('../img/tempCourse.jpg')} alt="ads img" className="ads" />
+				<img src={require('../img/tempCourse.jpg')} alt="ads img" />
 			</div>
 			<div className="adInformation">
 				<h2>Lorem ipsum dolor sit amet</h2>
