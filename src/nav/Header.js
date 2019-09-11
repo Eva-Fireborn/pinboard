@@ -26,13 +26,13 @@ const Header = () => {
 			icon: faQuestionCircle
 		},
 		{
-			name: "Logga in",
-			to: "/loggain",
+			name: "Profil",
+			to: "/profil",
 			icon: faSignInAlt
 		},
 		{
-			name: "Profil",
-			to: "/profil",
+			name: "Logga in",
+			to: "/loggain",
 			icon: faSignInAlt
 		}
 	]);
@@ -54,11 +54,6 @@ const Header = () => {
 				</div>
 				<nav>
 					{navBar}
-					<Link to="/skapakonto">
-						<button className="call">
-							Skapa konto
-						</button>
-					</Link>
 				</nav>
 			</div>
 		</div>
