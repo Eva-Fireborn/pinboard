@@ -18,6 +18,10 @@
   border-radius: $rounding-large;
 }
 
+.svg-inline--fa{
+  padding-right: 5px;
+  color: #474747;
+}
 
 .profileRating{
   padding: 15px;
@@ -25,7 +29,4 @@
   background-color:  $white;
   border-radius: $rounding-large;
   margin-top: 15px;
-}
-.profileRating > div{
-
 }
