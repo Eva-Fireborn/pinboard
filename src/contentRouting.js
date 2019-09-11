@@ -7,6 +7,7 @@ import CreateAdd from './createAdd/createAdd';
 import FrogorOchSvar from './fos/faq';
 import Login from './login/login';
 import ProfileView from './profile/ProfileView';
+import MsgView from './msg/MsgView';
 
 
 const ContentRouting = () => {
@@ -17,7 +18,8 @@ const ContentRouting = () => {
 		{ exact: false, path: "/skapaannons", component: CreateAdd },
 		{ exact: false, path: "/frågorochsvar", component: FrogorOchSvar },
 		{ exact: false, path: "/loggain", component: Login },
-		{ exact: false, path: "/profil", component: ProfileView }
+		{ exact: false, path: "/profil", component: ProfileView },
+		{ exact: false, path: "/meddelanden", component: MsgView }
 	]);
 
 	const Routes = routes.map((route, index) => (

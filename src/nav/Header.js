@@ -31,6 +31,11 @@ const Header = () => {
 			icon: faSignInAlt
 		},
 		{
+			name: "Meddelanden",
+			to: "/meddelanden",
+			icon: faSignInAlt
+		},
+		{
 			name: "Logga in",
 			to: "/loggain",
 			icon: faSignInAlt
