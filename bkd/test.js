@@ -1,9 +1,9 @@
 const test = require('tape')
 const API = require('./data')
 
-test('timing test', t =>  {
+test('test user functions', t =>  {
   // how many tests
-    t.plan(6)
+    t.plan(7)
     // add url so all functions will work directly
     const api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority")
     t.ok(api, 'api exists')
@@ -23,8 +23,14 @@ test('timing test', t =>  {
         t.notEqual(paul.name, 'anna', 'paul is not anna')
 
       })
-
-
+      api.deleteUser(userID, paul => {
+        t.ok(paul, 'paul got removed')
+      })
     })
 
 })
+
+
+// todo
+test('test user functions')
+test('test ads functions')

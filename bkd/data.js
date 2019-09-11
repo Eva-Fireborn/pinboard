@@ -26,7 +26,7 @@ class API {
   createUser (user, callback) {
     // callback from the developer code, from calling these functions
     this.makeUserCollection(collection => {
-      // here you get a coll that was sent from fun makeUserCollection
+      // here you get a collection that was sent from fun makeUserCollection
         collection.insertOne(user, (error, result) => {
         if( error ) throw error
         //this function returns the result as a callback to the other developer
@@ -35,6 +35,27 @@ class API {
       })
     })
 
+  }
+
+  getUser (user, callback) {
+    this.makeUserCollection(collection => {
+      collection.findOne(user, (error, result) => {
+        if( error ) throw error
+        callback(result)
+        this.client.close()
+      })
+    })
+
+  }
+
+  deleteUser (user, callback) {
+    this.makeUserCollection(collection => {
+      collection.deleteOne(user, (error, result) => {
+        if( error ) throw error
+        callback(result)
+        this.client.close()
+      })
+    })
   }
 }
 
