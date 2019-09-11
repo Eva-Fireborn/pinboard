@@ -1,13 +1,26 @@
 const express = require('express');
 const expServer = express();
 const httpServer = require('http').createServer(expServer);
-const io = require('socket.io')(httpServer);
-const port = 6000;
+//const io = require('socket.io')(httpServer);
+const port = 4000;
 
 
-expServer.use( express.static(__dirname + '/public/') );
+expServer.use( express.static(__dirname + '/build/') );
 
-/*io.on('connection', socket => {
+expServer.get('/Eva-Fireborn/pinboard/static/media/tempProfile.0ca70095.jpg', (request, response) => {
+    console.log('Request: ', request.url)
+    response.sendFile(__dirname + '/build/static/media/tempProfile.0ca70095.jpg')
+});
+
+
+/*
+expServer.get('/', (request, response) => {
+    console.log('Request: ', request.url)
+    response.sendFile(__dirname + '/build/index.html')
+
+});
+
+io.on('connection', socket => {
 	console.log('Server received new client connection: #' + id);
 	socket.on('disconnect', () => {
 		console.log(`Client #${id} disconnected from server`);
