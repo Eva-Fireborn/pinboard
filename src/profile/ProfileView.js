@@ -1,4 +1,11 @@
 import React from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import {
+  faEye,
+  faMapMarkerAlt,
+  faCog
+} from '@fortawesome/free-solid-svg-icons';
 
 const ProfileView = () => {
 	return (
@@ -13,23 +20,23 @@ const ProfileView = () => {
 						<div className="rating">
 							<span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
 						</div>
-						<div>Har funnits på Pinboard sedan 2012</div>
 						<div>
-							<span>nål</span><span>Göteborg</span>
+							<FontAwesomeIcon icon={faMapMarkerAlt} /><span>Göteborg</span>
 						</div>
+            <div>Har funnits på Pinboard sedan 2012</div>
 					</div>
 					<div className="settingsProfile">
 						<div>
-							<span>hjul</span><span>Inställningar</span>
+						<FontAwesomeIcon icon={faCog} /><span>Inställningar</span>
 						</div>
 						<div>
-							<span>öga</span><span>Antal besökare</span>
+							<FontAwesomeIcon icon={faEye} /><span>Antal besökare</span>
 						</div>
 					</div>
 
 				</div>
 				<div className="flex2">
-					<div className="profileText">blabla</div>
+					<div className="profileText">Lite om mig och så...</div>
 					<div className="profileRating">
 						<div>Grym</div><br />
 						<div>Nja</div><br />

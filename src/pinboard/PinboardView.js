@@ -1,5 +1,6 @@
 import React from "react";
 
+
 const PinboardView = () => {
 	return (
 		<div id="wrapper">

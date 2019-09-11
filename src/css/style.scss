@@ -67,7 +67,7 @@ input, select, textarea {
 	margin: 0 8rem;
 	display: flex;
 	padding: 2rem 0;
-	
+
 	aside > .fixed { position: fixed; }
 	aside { flex: 0 0 150px; padding-right: 2rem; }
 	aside ul {
@@ -78,9 +78,6 @@ input, select, textarea {
 	aside li { margin: 0 0 0.3rem 0; }
 	aside ul>ul { padding-left: 1rem; }
 	main { flex-grow: 1; }
-}
-.svg-inline--fa {
-	display: none;
 }
 
 #popup {
