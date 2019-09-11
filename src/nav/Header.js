@@ -11,7 +11,7 @@ import {
 const Header = () => {
 	const [links] = useState([
 		{
-			name: "Annonser",
+			name: "Tjänster",
 			to: "/annonser",
 			icon: faChalkboardTeacher
 		},
