@@ -3,7 +3,7 @@ const API = require('./data')
 
 test('test user functions', t =>  {
   // how many tests
-    t.plan(7)
+    t.plan(8)
     // add url so all functions will work directly
     const api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority")
     t.ok(api, 'api exists')
@@ -21,19 +21,22 @@ test('test user functions', t =>  {
         t.ok(paul, 'paul returned')
         t.equal(paul.city, 'lund', 'paul is still in lund')
         t.notEqual(paul.name, 'anna', 'paul is not anna')
-        api.deleteUser(paul, success => {
-          t.ok(success, 'paul got removed')
-          // send reference of function and when it's closed it'll call t.end to finish the test
-          api.disconnect(t.end)
+        paul.city = 'stockholm'
+        api.updateUser(paul, success => {
+          t.ok(success, 'paul moved to stockholm' )
+          // to avoid conflict in the order of events, delete is after update
+          api.deleteUser(paul, success => {
+            t.ok(success, 'paul got removed')
+            // send reference of function and when it's closed it'll call t.end to finish the test
+            api.disconnect(t.end)
+          })
         })
+
 
       })
 
     })
 
 })
-
-
 // todo
-test('test user functions')
 test('test ads functions')

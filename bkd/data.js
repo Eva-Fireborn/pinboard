@@ -12,8 +12,6 @@ class API {
 
   }
 
-
-
   makeUserCollection(callback) {
     // connect and fetch the collection for further usage
     if (this.userCollection) return callback(this.userCollection)
@@ -50,6 +48,15 @@ class API {
 
   }
 
+  updateUser (user, callback) {
+    this.makeUserCollection( collection => {
+      collection.updateOne({_id: user.id}, {$set: user}, null, (error, result) => {
+        if( error ) throw error
+        callback(true)
+      })
+    })
+  }
+
   deleteUser (id, callback) {
     this.makeUserCollection(collection => {
       collection.deleteOne({_id: id}, null, (error, result) => {
@@ -66,78 +73,3 @@ class API {
 }
 
 module.exports = API
-
-// client.connect(err => {
-//   const collection = client.db("Pinboard").collection("Users")
-//   // perform actions on the co llection object
-//
-//   function get(sendBack) {
-//   	// connect to the database
-//   	MongoClient.connect(uri, (error, client) => {
-//   		if( error ) {
-//   			throw error;
-//   		}
-//   		// run a query
-//   		let collection = client.db('Pinboard').collection('Users');
-//
-//   		collection.find({}).toArray((error, result) => {
-//   			if(error) throw error;
-//
-//   			// send the result back
-//   			sendBack(result);
-//   			client.close();
-//   		});
-//
-//   	})
-//   }
-//
-//   function post(user, sendBack) {
-//
-//   	MongoClient.connect(uri, (error, client) => {
-//   		if( error ) {
-//   			throw error;
-//   		}
-//
-//   		let collection = client.db('Pinboard').collection('Users');
-//
-//   		collection.insertOne(user, (error, result) => {
-//   			if( error ) throw error;
-//   			sendBack(result);
-//   			client.close();
-//   		})
-//   	})
-//   }
-//
-//   function remove (user, sendBack) {
-//
-//   	MongoClient.connect(uri, (error, client) => {
-//   		if( error ) {
-//   			throw error;
-//   		}
-//
-//   		let collection = client.db('Pinboard').collection('Users');
-//
-//   		collection.deleteOne(user, (error, result) => {
-//   			if( error ) throw error;
-//   			sendBack(result);
-//   			client.close();
-//   		})
-//   	})
-//   }
-
-
-
-//   let newDoc = {
-//     user: "user2",
-//     city: "Malmo"
-//   }
-//
-//   collection.insertOne(newDoc, (error, result) => {
-//     if (error) {
-//       console.error("something went wrong", error)
-//       throw error
-//     }
-//   console.log("got some docs")
-//   })
-//   client.close()
-// })
