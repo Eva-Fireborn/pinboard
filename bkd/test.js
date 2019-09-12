@@ -31,12 +31,36 @@ test('test user functions', t =>  {
             api.disconnect(t.end)
           })
         })
-
-
       })
-
     })
-
 })
-// todo
-test('test ads functions')
+
+test('test ads functions', t =>  {
+  // how many tests
+    t.plan(8)
+    const api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority")
+    t.ok(api, 'api exists')
+    const ad = {
+      title: "watch my cat",
+      city: "goteborg"
+    }
+    t.equal(typeof api.createAd, 'function', 'createAd should be a function')
+
+    api.createAd(ad, adID => {
+      t.ok(adID, 'ads id should have been returned')
+      console.log('ad id of inserted ad:', adID)
+      api.getAd(adID, catAd => {
+        t.ok(catAd, 'watch my cat ad had been returned')
+        t.equal(catAd.city, 'goteborg', 'cat is in goteborg')
+        t.notEqual(catAd.title, 'walk my dog', 'cats dont really walk outside')
+        catAd.title = 'watch 2 cats'
+        api.updateAd(catAd, success => {
+          t.ok(success, 'cats multiply!' )
+          api.deleteAd(ad, success => {
+            t.ok(success, 'ad got removed')
+            api.disconnect(t.end)
+          })
+        })
+      })
+    })
+})

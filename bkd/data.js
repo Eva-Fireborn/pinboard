@@ -67,6 +67,57 @@ class API {
     })
   }
 
+// repeat functions for another collection
+
+  makeAdCollection(callback) {
+    if (this.adCollection) return callback(this.adCollection)
+
+    this.client.connect(error => {
+      if( error ) throw error;
+      console.log('we connected to the collection', error)
+      this.adCollection = this.client.db("Pinboard").collection("Ads")
+      callback(this.adCollection)
+    })
+    console.log('connecting to uri', this.uri)
+  }
+  createAd (ad, callback) {
+    this.makeAdCollection(collection => {
+        collection.insertOne(ad, (error, result) => {
+        if( error ) throw error
+        callback(result.insertedId)
+      })
+    })
+
+  }
+
+  getAd (ad, callback) {
+    this.makeAdCollection(collection => {
+      collection.findOne(ad, (error, result) => {
+        if( error ) throw error
+        callback(result)
+      })
+    })
+
+  }
+
+  updateAd (ad, callback) {
+    this.makeAdCollection( collection => {
+      collection.updateOne({_id: ad.id}, {$set: ad}, null, (error, result) => {
+        if( error ) throw error
+        callback(true)
+      })
+    })
+  }
+
+  deleteAd (id, callback) {
+    this.makeAdCollection(collection => {
+      collection.deleteOne({_id: id}, null, (error, result) => {
+        if( error ) throw error
+        callback(result)
+      })
+    })
+  }
+
   disconnect(callback) {
     this.client.close(callback)
   }
