@@ -18,7 +18,7 @@ const SingleAdCard = () => {
 						4.24 ★ (12)
 					</div>
 					<div>
-						💰 500 kr/månad
+						<span role="img" aria-label="Påse med pengar">💰</span> 500 kr/månad
 					</div>
 				</div>
 			</div>

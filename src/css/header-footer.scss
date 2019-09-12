@@ -35,6 +35,13 @@ footer, #fixedMenu {
 		> a {
 			margin-left: 2rem;
 		}
+		#loginNavbar{
+			margin-left: 2rem;
+		}
+		#loginNavbar:hover{
+			cursor: pointer;
+			color: $green;
+		}
 		.svg-inline--fa {
 			display: none;
 		}
