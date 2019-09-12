@@ -37,11 +37,15 @@ const ProfileView = () => {
 				</div>
 				<div className="flex2">
 					<div className="profileText">Lite om mig och så...</div>
+          <p id="reviewp">Tycker andra om mig</p>
 					<div className="profileRating">
-						<div>Grym</div><br />
-						<div>Nja</div><br />
-						<div>Ooops</div><br />
+						<div>Grym</div>
+						<div>Nja <br  />
+            najs
+            </div>
+						<div>Ooops</div>
 					</div>
+          <button id="logout">Logga ut</button>
 				</div>
 			</main>
 		</div>
