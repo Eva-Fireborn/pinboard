@@ -12,13 +12,17 @@ class API {
 
   }
 
+
+
   makeUserCollection(callback) {
     // connect and fetch the collection for further usage
+    if (this.userCollection) return callback(this.userCollection)
+
     this.client.connect(error => {
       if( error ) throw error;
       console.log('we connected to the collection', error)
-      const collection = this.client.db("Pinboard").collection("Users")
-      callback(collection)
+      this.userCollection = this.client.db("Pinboard").collection("Users")
+      callback(this.userCollection)
     })
     console.log('connecting to uri', this.uri)
   }
@@ -31,7 +35,6 @@ class API {
         if( error ) throw error
         //this function returns the result as a callback to the other developer
         callback(result.insertedId)
-        this.client.close()
       })
     })
 
@@ -42,20 +45,23 @@ class API {
       collection.findOne(user, (error, result) => {
         if( error ) throw error
         callback(result)
-        this.client.close()
       })
     })
 
   }
 
-  deleteUser (user, callback) {
+  deleteUser (id, callback) {
     this.makeUserCollection(collection => {
-      collection.deleteOne(user, (error, result) => {
+      collection.deleteOne({_id: id}, null, (error, result) => {
         if( error ) throw error
+        // this.client.close()
         callback(result)
-        this.client.close()
       })
     })
+  }
+
+  disconnect(callback) {
+    this.client.close(callback)
   }
 }
 

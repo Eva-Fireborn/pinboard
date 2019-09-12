@@ -21,11 +21,14 @@ test('test user functions', t =>  {
         t.ok(paul, 'paul returned')
         t.equal(paul.city, 'lund', 'paul is still in lund')
         t.notEqual(paul.name, 'anna', 'paul is not anna')
+        api.deleteUser(paul, success => {
+          t.ok(success, 'paul got removed')
+          // send reference of function and when it's closed it'll call t.end to finish the test
+          api.disconnect(t.end)
+        })
 
       })
-      api.deleteUser(userID, paul => {
-        t.ok(paul, 'paul got removed')
-      })
+
     })
 
 })
