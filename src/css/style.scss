@@ -104,13 +104,13 @@ input, select, textarea {
 	#loginWindow {
 		background-color: $white;
 		margin: 2em auto;
-		height: 60%;
+		height: 70%;
 		width: 30%;
 		border-radius: $rounding-large;
 		text-align: center;
 		display: grid;
 		grid-template-columns: 10% auto 10%;
-		grid-template-rows: 50px 150px 60px 60px 50px 60px 60px;
+		grid-template-rows: 50px 150px 60px 60px 50px 60px 60px 60px;
 		#removeLoginPopupButton {
 			grid-column: 3;
 			grid-row: 1; 
@@ -140,6 +140,14 @@ input, select, textarea {
 		#loginWithGoogleButton {
 			grid-column: 2;
 			grid-row: 7;
+		}
+		#loginWithFacebookButton {
+			grid-column: 2;
+			grid-row: 8;
+			#spinner {
+				border-radius: 5px;
+				width: 250px
+			}
 		}
 	}
 }
