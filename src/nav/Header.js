@@ -11,7 +11,7 @@ import {
 const Header = () => {
 	const [links] = useState([
 		{
-			name: "Annonser",
+			name: "Tjänster",
 			to: "/annonser",
 			icon: faChalkboardTeacher
 		},
@@ -26,13 +26,18 @@ const Header = () => {
 			icon: faQuestionCircle
 		},
 		{
-			name: "Logga in",
-			to: "/loggain",
+			name: "Profil",
+			to: "/profil",
 			icon: faSignInAlt
 		},
 		{
-			name: "Profil",
-			to: "/profil",
+			name: "Meddelanden",
+			to: "/meddelanden",
+			icon: faSignInAlt
+		},
+		{
+			name: "Logga in",
+			to: "/loggain",
 			icon: faSignInAlt
 		}
 	]);
@@ -54,23 +59,6 @@ const Header = () => {
 				</div>
 				<nav>
 					{navBar}
-					<Link to="/skapakonto">
-						<button className="call">
-							Skapa konto
-						</button>
-					</Link>
-
-					{/*
-					when logged in you should have these menu (Max 5) options and sub menus:
-						Annonser
-						Skapa annons
-						Mina Kurser
-						Meddelanden
-						Profil
-							-> Help?
-							-> Inställningar
-							-> logga ut
-				*/}
 				</nav>
 			</div>
 		</div>
