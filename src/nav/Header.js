@@ -18,7 +18,7 @@ const Header = () => {
 	}
 	const [links] = useState([
 		{
-			name: "Annonser",
+			name: "Tjänster",
 			to: "/annonser",
 			icon: faChalkboardTeacher
 		},
@@ -35,6 +35,11 @@ const Header = () => {
 		{
 			name: "Profil",
 			to: "/profil",
+			icon: faSignInAlt
+		},
+		{
+			name: "Meddelanden",
+			to: "/meddelanden",
 			icon: faSignInAlt
 		}
 	]);
