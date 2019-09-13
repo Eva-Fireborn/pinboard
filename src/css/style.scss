@@ -13,6 +13,8 @@ $grayWhite: rgb(245, 245, 245);
 $white: rgb(255, 255, 255);
 $rounding-small: 0.25rem;
 $rounding-large: 0.5rem;
+$breakpoint-tablet: 960px;
+$breakpoint-mobile: 640px;
 
 body, html, #root, #App {
 	height: 100%;
@@ -78,6 +80,13 @@ input, select, textarea {
 	aside li { margin: 0 0 0.3rem 0; }
 	aside ul>ul { padding-left: 1rem; }
 	main { flex-grow: 1; }
+	@media (max-width: $breakpoint-mobile) {
+		margin: 5rem 1rem 1rem 1rem;
+		padding: 0;
+		aside {
+			display: none;
+		}
+	}
 }
 
 #popup {
@@ -102,64 +111,3 @@ input, select, textarea {
 @import 'ads';
 @import 'createAdd';
 @import 'ProfileView';
-
-
-
-
-
-
-
-
-
-/* Mobile view */
-@media only screen and (max-device-width: 680px) {
-	footer, #header { padding: 1rem 1rem; }
-	#wrapper { margin: 5rem 1rem 1rem 1rem; padding: 0; }
-	footer {
-		flex-direction: column;
-		padding-bottom: 120px;
-		text-align: center;
-		width: calc(100% - 2rem);
-	}
-	footer ul { margin: 1rem 0; }
-	#header, #fixedMenu {
-		position: fixed;
-		top: auto;
-		left: 0;
-		bottom: 0;
-		width: 100%;
-		border-top: 1px solid #000;
-		padding: 0;
-	}
-	nav {
-		> a {
-			font-size: 0.7rem;
-			margin-left: 0.4rem !important;
-		}
-	}
-	aside {
-		display: none;
-	}
-	.svg-inline--fa {
-		display: none;
-		font-size: 1.5rem;
-		display: block;
-		margin: 0 auto;
-		color: #474747;
-	}
-	div#logo {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		background-color: $white;
-		text-align: center;
-		border-bottom: 1px solid #000;
-	}
-	.adCard {
-		flex-direction: column;
-	}
-	.adCard > * {
-		text-align: center;
-	}
-}

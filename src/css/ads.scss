@@ -3,6 +3,12 @@
 	padding-bottom: 1rem;
 	margin-bottom: 1rem;
 	display: flex;
+	@media (max-width: $breakpoint-mobile) {
+		flex-direction: column;
+		.adCard > * {
+			text-align: center;
+		}
+	}
 }
 .adCard .ads {
 	width: 200px;
