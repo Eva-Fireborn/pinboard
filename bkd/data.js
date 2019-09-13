@@ -17,7 +17,10 @@ class API {
     if (this.userCollection) return callback(this.userCollection)
 
     this.client.connect(error => {
-      if( error ) throw error;
+      if( error ) {
+        console.log('error: ',error)
+        throw error
+      }
       console.log('we connected to the collection', error)
       this.userCollection = this.client.db("Pinboard").collection("Users")
       callback(this.userCollection)
@@ -30,7 +33,10 @@ class API {
     this.makeUserCollection(collection => {
       // here you get a collection that was sent from fun makeUserCollection
         collection.insertOne(user, (error, result) => {
-        if( error ) throw error
+        if( error ) {
+          console.log('error: ',error)
+          throw error
+        }
         //this function returns the result as a callback to the other developer
         callback(result.insertedId)
       })

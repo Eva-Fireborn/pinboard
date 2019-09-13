@@ -33,13 +33,30 @@ const Login = ({visibility, activateLogin}) => {
         return null;
     }
 }
-const responseGoogle = (response) => {
+async function responseGoogle (response) {
     console.log(response);
     let info = response.profileObj;
     console.log('ID: ' + info.googleId); // Do not send to your backend! Use an ID token instead.
     console.log('Name: ' + info.name);
     console.log('Image URL: ' + info.imageUrl);
     console.log('Email: ' + info.email); // This is null if the 'email' scope is not present.
+    let body = {
+        name: info.name,
+        email: info.email,
+        imgUrl: info.imageUrl
+    }
+    //let xhr = new XMLHttpRequest();
+    //xhr.open('GET', `http://localhost:4000/ApiLogInNewUser`);
+    //xhr.send(JSON.stringify(body));
+    const serverResponse = await fetch('http://localhost:4000/ApiLogInNewUser', {
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8"
+    }
+    });
+    const res = await serverResponse.json();
+    console.log('response: ', res.status)
   }
 const responseFacebook = (response) => {
     console.log(response);
