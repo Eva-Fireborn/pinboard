@@ -1,0 +1,17 @@
+.tipsContainer {
+    width: 20%;
+    height: 60%;
+    margin-left: 2em;
+    li {
+        font-size: 0.9em;
+        padding: 0.5em;
+    }
+}
+.tipsContainer {
+    background-color: #ffffff;
+    border-radius: $rounding-large;
+    .rubrik {
+        text-align: center;
+        margin: 0.5em;
+    }
+}
