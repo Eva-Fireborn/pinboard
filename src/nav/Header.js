@@ -13,16 +13,13 @@ import {
 
 const Header = () => {
 	let [visibility, changeVisibility] = useState(false);
-	const [isLoggedIn, changeIsLoggedIn] = useState(false);
+	const [isLoggedIn, updateIsLoggedIn] = useState(false);
 
-	let activateLogin = () => {
-		let current = visibility;
-		return changeVisibility(!current);
-	}
+	let activateLogin = () => changeVisibility(!visibility);
 
 	return (
-		<div id="loginWrapper">
-			<Login visibility={visibility} activateLogin={activateLogin} changeIsLoggedIn={changeIsLoggedIn} />
+		<div id="headerWrapper">
+			<Login visibility={visibility} activateLogin={activateLogin} updateIsLoggedIn={updateIsLoggedIn} />
 			<div id="header">
 				<div id="fixedMenu">
 					<div id="logo">
