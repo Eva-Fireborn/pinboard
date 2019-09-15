@@ -1,36 +1,54 @@
 .adCard {
-	border-bottom: 1px solid #000;
-	padding-bottom: 1rem;
-	margin-bottom: 1rem;
+	padding: 0 0 2em 0;
+	margin: 0 0 2em 0;
 	display: flex;
+	border-bottom: 2px solid $white;
+	p {
+		margin: 1em 0;
+	}
+	img {
+		border-radius: $rounding-large;
+	}
+	div:first-child {
+		text-align: center;
+	}
+	.price {
+		font-size: 1.2rem;
+		width: 100%;
+		margin-top: 1em;
+	}
 	@media (max-width: $breakpoint-mobile) {
 		flex-direction: column;
-		.adCard > * {
+		> * {
 			text-align: center;
+		}
+		.price {
+			margin-bottom: 1em;
 		}
 	}
 }
-.adCard .ads {
-	width: 200px;
-	height: auto;
-}
-.adUserName {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-}
-.adUserName > .profile {
-	width: 50px;
-	height: auto;
-	border-radius: 100%;
-}
-.search {
-	display: flex;
-	justify-content: space-between;
-	padding-bottom: 1rem;
-	margin-bottom: 1rem;
-	border-bottom: 1px solid $darkGreen;
-	input {
-		max-width: 40%;
+.adInformation {
+	flex: 1 1 auto;
+	margin-left: 1em;
+	> button {
+		float: left;
+	}
+	> div {
+		float: right;
+		width: 50%;
+		text-align: right;
+	}
+	img {
+		float: right;
+		width: 50px;
+		height: auto;
+		margin-left: 1em;
+		border-radius: 100%;
+	}
+	@media (max-width: $breakpoint-mobile) {
+		margin-left: 0;
+		> p {
+			text-align: left;
+		}
 	}
 }

@@ -7,11 +7,10 @@ const AdsView = () => {
 	return (
 		<div id="wrapper">
 			<aside>
+				<SearchView />
 				<CategoryList />
 			</aside>
 			<main id="ads">
-				<SearchView />
-
 				<SingleAdCard />
 				<SingleAdCard />
 				<SingleAdCard />
