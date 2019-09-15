@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Login from './../login/login';
 import {
 	faChalkboardTeacher,
 	faPlusSquare,
@@ -9,9 +10,15 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 
 const Header = () => {
+	let [visibility, changeVisibility] = useState(false);
+
+	let activateLogin = () => {
+		let current = visibility;
+		return changeVisibility(!current);
+	}
 	const [links] = useState([
 		{
-			name: "Annonser",
+			name: "Tjänster",
 			to: "/annonser",
 			icon: faChalkboardTeacher
 		},
@@ -26,25 +33,28 @@ const Header = () => {
 			icon: faQuestionCircle
 		},
 		{
-			name: "Logga in",
-			to: "/loggain",
+			name: "Profil",
+			to: "/profil",
 			icon: faSignInAlt
 		},
 		{
-			name: "Profil",
-			to: "/profil",
+			name: "Meddelanden",
+			to: "/meddelanden",
 			icon: faSignInAlt
 		}
 	]);
 
 	const navBar = links.map((link, index) => (
 		<Link to={link.to} key={index} >
-			<FontAwesomeIcon icon={link.icon} />
-			{link.name}
-		</Link>
+		<FontAwesomeIcon icon={link.icon} />
+		{link.name}
+	</Link>	
 	));
+	const loginMenu = {name: "Logga in", icon: faSignInAlt}
 
 	return (
+		<div id="loginWrapper">
+			<Login visibility={visibility} activateLogin={activateLogin} />
 		<div id="header">
 			<div id="fixedMenu">
 				<div id="logo">
@@ -54,6 +64,10 @@ const Header = () => {
 				</div>
 				<nav>
 					{navBar}
+					<div id="loginNavbar" onClick={activateLogin}>
+					<FontAwesomeIcon icon={loginMenu.icon} />
+					{loginMenu.name}
+					</div>
 					<Link to="/skapakonto">
 						<button className="call">
 							Skapa konto
@@ -73,6 +87,7 @@ const Header = () => {
 				*/}
 				</nav>
 			</div>
+		</div>
 		</div>
 	);
 };
