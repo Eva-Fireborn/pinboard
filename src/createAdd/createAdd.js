@@ -23,35 +23,37 @@ const CreateAdd = () => {
                     }}
                     validationSchema={Yup.object().shape({
                         addType: Yup.array()
-                            .required('At least one checkbox is required'),
+                            .required('Välj typ av annons'),
                         header: Yup.string()
-                            .required('Rubrik is required'),
+                            .required('Skriv en rubrik'),
                         category: Yup.string()
-                            .required('Category is required'),
+                            .required('Välj en kategori'),
                         description: Yup.string()
-                            .min(20, 'description must be at least 20 characters')
-                            .required('Description is required'),
+                            .min(20, 'Annonstext måste vara åtminstone 20 tecken lång')
+                            .required('Skriv en annonstext'),
                         city:  Yup.string()
-                            .required('City is required'),
+                            .required('Skriv en stad'),
                         zip: Yup.string()
-                            .matches(/^[0-9]{5}$/, 'Must be exactly 5 digits')
-                            .required('Post code is required'),
+                            .matches(/^[0-9]{5}$/, 'Postnumret måste vara 5 tecken lång')
+                            .required('Skriv ett postnummer'),
                         price: Yup.number()
-                            .positive('Price must be higher than 0')
-                            .required('Price is required')
+                            .positive('Pris måste vara högre än 0')
+                            .required('Skriv ett pris')
                     })}
                     onSubmit={fields => {
                         alert('SUCCESS!! \n\n' + JSON.stringify(fields, null, 4))
                     }}
                     render={({ errors, status, touched, values }) => (
                         <Form>
+                            
                             <FieldArray
                                 name="addType"
                                 render={arrayHelpers => (
-                                <div>
+                                <div className="checkboxes">
                                     {categories.map(category => (
-                                        <div key={category.id} className="checkboxes">
+                                        <div key={category.id} className="checkbox">
                                             <label>
+                                            {category.name}
                                                 <input
                                                     name="addType"
                                                     type="checkbox"
@@ -66,15 +68,16 @@ const CreateAdd = () => {
                                                         }
                                                     }}
                                                 />{" "}
-                                            {category.name}
+                                            
                                             </label>
                                         </div>
                                     ))}
                                 </div>
                                 )}
                             />
+                           <div>
                             { typeof errors.addType === 'string' ? <ErrorMessage name="addType" component="div" className="invalid-feedback" /> : null} 
-                    
+                            </div>
                             <div className="form-group">
                                 <label htmlFor="header">Rubrik*</label>
                                 <Field name="header" type="text" className={'form-control' + (errors.header && touched.header ? ' is-invalid' : '')} />
@@ -110,22 +113,24 @@ const CreateAdd = () => {
                                 <label htmlFor="street">Gatuadress</label>
                                 <Field name="street" type="text" />
                             </div>
-                            <div className="form-group shortInput">
-                                <label htmlFor="zip">Postnummer*</label>
-                                <Field name="zip" type="text" className={'form-control shortInput' + (errors.zip && touched.zip ? ' is-invalid' : '')} />
-                                <ErrorMessage name="zip" component="div" className="invalid-feedback" />
-                            </div>
-                            <div className="form-group shortInput">
-                                <label htmlFor="price">Pris*</label>
-                                <Field name="price" type="text" className={'form-control shortInput' + (errors.price && touched.price ? ' is-invalid' : '')} />
-                                <ErrorMessage name="price" component="div" className="invalid-feedback" />
+                            <div className="shortInputs">
+                                <div className="form-group shortInput">
+                                    <label htmlFor="zip">Postnummer*</label>
+                                    <Field name="zip" type="text" className={'form-control' + (errors.zip && touched.zip ? ' is-invalid' : '')} />
+                                    <ErrorMessage name="zip" component="div" className="invalid-feedback" />
+                                </div>
+                                <div className="form-group shortInput">
+                                    <label htmlFor="price">Pris* (kr)</label>
+                                    <Field name="price" type="text" className={'form-control' + (errors.price && touched.price ? ' is-invalid' : '')} />
+                                    <ErrorMessage name="price" component="div" className="invalid-feedback" />
+                                </div>
                             </div>
                             <div>*obligatorisk</div> 
                             <div className="form-group">
                                 <button type="submit" className="formButton">Publicera</button>
-                                <button type="reset">Reset</button>
+                                <button type="reset" className="resetButton">Återställ</button>
                             </div>
-                            <pre>{JSON.stringify(values, null, 2)}</pre>
+                            {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
                         </Form>
                     )}
                 />
