@@ -10,7 +10,7 @@ const FrogorOchSvar = () => {
                         <div className="col">
                                 <div className="tabs">
                                     <div className="tab">
-                                        <input type="checkbox" id="chck1" checked="checked"/>
+                                        <input type="checkbox" id="chck1" defaultChecked="checked"/>
                                         <label className="tab-label" htmlFor="chck1">Hur kan man välja en pålitlig kund/leverantör?</label>
                                         <div className="tab-content">
                                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. In ornare quam viverra orci sagittis eu volutpat. Id porta nibh venenatis cras sed felis. Diam maecenas ultricies mi eget mauris. Cursus vitae congue mauris rhoncus aenean vel elit scelerisque mauris. Augue interdum velit euismod in. Cursus risus at ultrices mi tempus imperdiet nulla malesuada.
