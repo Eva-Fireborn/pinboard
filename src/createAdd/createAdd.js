@@ -85,7 +85,7 @@ const CreateAdd = () => {
                             </div>
                             <div className="form-group">
                                 <label htmlFor="category">Kategori*</label>
-                                <Field component="select" name="category" type="select" className={'form-control' + (errors.category && touched.category ? 'is-invalid' : '')}>
+                                <Field component="select" name="category" type="select" className={'form-control' + (errors.category && touched.category ? ' is-invalid' : '')}>
                                     <option value=""></option>
                                     <option value="musik">musik</option>
                                     <option value="mat">mat</option>
