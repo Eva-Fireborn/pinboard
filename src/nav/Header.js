@@ -6,7 +6,9 @@ import {
 	faChalkboardTeacher,
 	faPlusSquare,
 	faQuestionCircle,
-	faSignInAlt
+	faSignInAlt,
+	faUser,
+	faEnvelope
 } from '@fortawesome/free-solid-svg-icons'
 
 const Header = () => {
@@ -20,7 +22,7 @@ const Header = () => {
 		{
 			name: "Tjänster",
 			to: "/annonser",
-			icon: faChalkboardTeacher
+			icon: faChalkboardTeacher,
 		},
 		{
 			name: "Skapa annons",
@@ -35,59 +37,43 @@ const Header = () => {
 		{
 			name: "Profil",
 			to: "/profil",
-			icon: faSignInAlt
+			icon: faUser
 		},
 		{
 			name: "Meddelanden",
 			to: "/meddelanden",
-			icon: faSignInAlt
+			icon: faEnvelope
 		}
 	]);
 
 	const navBar = links.map((link, index) => (
 		<Link to={link.to} key={index} >
-		<FontAwesomeIcon icon={link.icon} />
-		{link.name}
-	</Link>	
+			<FontAwesomeIcon icon={link.icon} />
+			{link.name}
+		</Link>
 	));
-	const loginMenu = {name: "Logga in", icon: faSignInAlt}
+
+	const loginMenu = { name: "Logga in", icon: faSignInAlt }
 
 	return (
 		<div id="loginWrapper">
 			<Login visibility={visibility} activateLogin={activateLogin} />
-		<div id="header">
-			<div id="fixedMenu">
-				<div id="logo">
-					<Link to="/">
-						<img src={require('../img/pinboard.png')} alt="Pinboard" />
-					</Link>
-				</div>
-				<nav>
-					{navBar}
-					<div id="loginNavbar" onClick={activateLogin}>
-					<FontAwesomeIcon icon={loginMenu.icon} />
-					{loginMenu.name}
+			<div id="header">
+				<div id="fixedMenu">
+					<div id="logo">
+						<Link to="/">
+							<img src={require('../img/pinboard.png')} alt="Pinboard" />
+						</Link>
 					</div>
-					<Link to="/skapakonto">
-						<button className="call">
-							Skapa konto
-						</button>
-					</Link>
-
-					{/*
-					when logged in you should have these menu (Max 5) options and sub menus:
-						Annonser
-						Skapa annons
-						Mina Kurser
-						Meddelanden
-						Profil
-							-> Help?
-							-> Inställningar
-							-> logga ut
-				*/}
-				</nav>
+					<nav>
+						{navBar}
+						<Link to="#" onClick={activateLogin}>
+							<FontAwesomeIcon icon={loginMenu.icon} />
+							{loginMenu.name}
+						</Link>
+					</nav>
+				</div>
 			</div>
-		</div>
 		</div>
 	);
 };
