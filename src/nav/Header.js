@@ -13,51 +13,16 @@ import {
 
 const Header = () => {
 	let [visibility, changeVisibility] = useState(false);
+	const [isLoggedIn, changeIsLoggedIn] = useState(false);
 
 	let activateLogin = () => {
 		let current = visibility;
 		return changeVisibility(!current);
 	}
-	const [links] = useState([
-		{
-			name: "Tjänster",
-			to: "/annonser",
-			icon: faChalkboardTeacher,
-		},
-		{
-			name: "Skapa annons",
-			to: "/skapaannons",
-			icon: faPlusSquare
-		},
-		{
-			name: "Frågor och svar",
-			to: "/frågorochsvar",
-			icon: faQuestionCircle
-		},
-		{
-			name: "Profil",
-			to: "/profil",
-			icon: faUser
-		},
-		{
-			name: "Meddelanden",
-			to: "/meddelanden",
-			icon: faEnvelope
-		}
-	]);
-
-	const navBar = links.map((link, index) => (
-		<Link to={link.to} key={index} >
-			<FontAwesomeIcon icon={link.icon} />
-			{link.name}
-		</Link>
-	));
-
-	const loginMenu = { name: "Logga in", icon: faSignInAlt }
 
 	return (
 		<div id="loginWrapper">
-			<Login visibility={visibility} activateLogin={activateLogin} />
+			<Login visibility={visibility} activateLogin={activateLogin} changeIsLoggedIn={changeIsLoggedIn} />
 			<div id="header">
 				<div id="fixedMenu">
 					<div id="logo">
@@ -66,11 +31,36 @@ const Header = () => {
 						</Link>
 					</div>
 					<nav>
-						{navBar}
-						<Link to="#" onClick={activateLogin}>
-							<FontAwesomeIcon icon={loginMenu.icon} />
-							{loginMenu.name}
+						<Link to="/annonser">
+							<FontAwesomeIcon icon={faChalkboardTeacher} />
+							Tjänster
 						</Link>
+						<Link to="/skapaannons">
+							<FontAwesomeIcon icon={faPlusSquare} />
+							Skapa annons
+						</Link>
+						<Link to="/frågorochsvar">
+							<FontAwesomeIcon icon={faQuestionCircle} />
+							Frågor och svar
+						</Link>
+						{isLoggedIn ? (
+							<Link to="/meddelanden">
+								<FontAwesomeIcon icon={faEnvelope} />
+								Meddelanden
+						</Link>) : null}
+						{isLoggedIn ?
+							(
+								<Link to="/profil">
+									<FontAwesomeIcon icon={faUser} />
+									Profil
+								</Link>
+							) : (
+								<Link to="#" onClick={activateLogin}>
+									<FontAwesomeIcon icon={faSignInAlt} />
+									Logga in
+								</Link>
+							)
+						}
 					</nav>
 				</div>
 			</div>
