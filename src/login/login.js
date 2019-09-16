@@ -37,20 +37,12 @@ async function responseGoogle(response) {
 	if (response.error) {
 		console.log('oh, nooo..');
 	} else {
-		console.log(response);
 		let info = response.profileObj;
-		console.log('ID: ' + info.googleId); // Do not send to your backend! Use an ID token instead.
-		console.log('Name: ' + info.name);
-		console.log('Image URL: ' + info.imageUrl);
-		console.log('Email: ' + info.email); // This is null if the 'email' scope is not present.
 		let body = {
 			name: info.name,
 			email: info.email,
 			imgUrl: info.imageUrl
 		}
-		//let xhr = new XMLHttpRequest();
-		//xhr.open('GET', `http://localhost:4000/ApiLogInNewUser`);
-		//xhr.send(JSON.stringify(body));
 		const serverResponse = await fetch('http://localhost:4000/ApiLogInNewUser', {
 			method: 'POST',
 			body: JSON.stringify(body),

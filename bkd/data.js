@@ -105,6 +105,15 @@ class API {
 
   }
 
+  getAllAds ( callback) {
+    this.makeAdCollection(collection => {
+      collection.find({}).toArray( (error, result) => {
+        if( error ) throw error
+        callback(JSON.stringify(result))
+      })
+    })
+  }
+
   updateAd (ad, callback) {
     this.makeAdCollection( collection => {
       collection.updateOne({_id: ad.id}, {$set: ad}, null, (error, result) => {
