@@ -35,10 +35,11 @@ expServer.post('/ApiLogInNewUser', (request, response) => {
 	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
 	api.createUser(newUser , response => {
 		console.log(response)
-		let body = {
-			status: 200
-		}
-		response.send(body);
+		
+	})
+	//TODO fix this callback
+	response.send({
+		status: 200
 	})
 })
 

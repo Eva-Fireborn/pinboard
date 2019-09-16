@@ -41,7 +41,6 @@ class API {
         callback(result.insertedId)
       })
     })
-
   }
 
   getUser (user, callback) {

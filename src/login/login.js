@@ -45,9 +45,6 @@ async function responseGoogle (response) {
         email: info.email,
         imgUrl: info.imageUrl
     }
-    //let xhr = new XMLHttpRequest();
-    //xhr.open('GET', `http://localhost:4000/ApiLogInNewUser`);
-    //xhr.send(JSON.stringify(body));
     const serverResponse = await fetch('http://localhost:4000/ApiLogInNewUser', {
     method: 'POST',
     body: JSON.stringify(body),
