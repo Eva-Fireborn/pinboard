@@ -6,88 +6,61 @@ import {
 	faChalkboardTeacher,
 	faPlusSquare,
 	faQuestionCircle,
-	faSignInAlt
+	faSignInAlt,
+	faUser,
+	faEnvelope
 } from '@fortawesome/free-solid-svg-icons'
 
 const Header = () => {
 	let [visibility, changeVisibility] = useState(false);
+	const [isLoggedIn, updateIsLoggedIn] = useState(false);
 
-	let activateLogin = () => {
-		let current = visibility;
-		return changeVisibility(!current);
-	}
-	const [links] = useState([
-		{
-			name: "Tjänster",
-			to: "/annonser",
-			icon: faChalkboardTeacher
-		},
-		{
-			name: "Skapa annons",
-			to: "/skapaannons",
-			icon: faPlusSquare
-		},
-		{
-			name: "Frågor och svar",
-			to: "/frågorochsvar",
-			icon: faQuestionCircle
-		},
-		{
-			name: "Profil",
-			to: "/profil",
-			icon: faSignInAlt
-		},
-		{
-			name: "Meddelanden",
-			to: "/meddelanden",
-			icon: faSignInAlt
-		}
-	]);
-
-	const navBar = links.map((link, index) => (
-		<Link to={link.to} key={index} >
-		<FontAwesomeIcon icon={link.icon} />
-		{link.name}
-	</Link>	
-	));
-	const loginMenu = {name: "Logga in", icon: faSignInAlt}
+	let activateLogin = () => changeVisibility(!visibility);
 
 	return (
-		<div id="loginWrapper">
-			<Login visibility={visibility} activateLogin={activateLogin} />
-		<div id="header">
-			<div id="fixedMenu">
-				<div id="logo">
-					<Link to="/">
-						<img src={require('../img/pinboard.png')} alt="Pinboard" />
-					</Link>
-				</div>
-				<nav>
-					{navBar}
-					<div id="loginNavbar" onClick={activateLogin}>
-					<FontAwesomeIcon icon={loginMenu.icon} />
-					{loginMenu.name}
+		<div id="headerWrapper">
+			<Login visibility={visibility} activateLogin={activateLogin} updateIsLoggedIn={updateIsLoggedIn} />
+			<div id="header">
+				<div id="fixedMenu">
+					<div id="logo">
+						<Link to="/">
+							<img src={require('../img/pinboard.png')} alt="Pinboard" />
+						</Link>
 					</div>
-					<Link to="/skapakonto">
-						<button className="call">
-							Skapa konto
-						</button>
-					</Link>
-
-					{/*
-					when logged in you should have these menu (Max 5) options and sub menus:
-						Annonser
-						Skapa annons
-						Mina Kurser
-						Meddelanden
-						Profil
-							-> Help?
-							-> Inställningar
-							-> logga ut
-				*/}
-				</nav>
+					<nav>
+						<Link to="/annonser">
+							<FontAwesomeIcon icon={faChalkboardTeacher} />
+							Tjänster
+						</Link>
+						<Link to="/skapaannons">
+							<FontAwesomeIcon icon={faPlusSquare} />
+							Skapa annons
+						</Link>
+						<Link to="/frågorochsvar">
+							<FontAwesomeIcon icon={faQuestionCircle} />
+							Frågor och svar
+						</Link>
+						{isLoggedIn ? (
+							<Link to="/meddelanden">
+								<FontAwesomeIcon icon={faEnvelope} />
+								Meddelanden
+						</Link>) : null}
+						{isLoggedIn ?
+							(
+								<Link to="/profil">
+									<FontAwesomeIcon icon={faUser} />
+									Profil
+								</Link>
+							) : (
+								<Link to="#" onClick={activateLogin}>
+									<FontAwesomeIcon icon={faSignInAlt} />
+									Logga in
+								</Link>
+							)
+						}
+					</nav>
+				</div>
 			</div>
-		</div>
 		</div>
 	);
 };
