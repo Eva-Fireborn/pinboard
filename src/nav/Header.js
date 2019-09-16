@@ -42,12 +42,12 @@ const Header = ({ isLoggedIn, activateLogin }) => {
 							<Link to="/profil">
 								<FontAwesomeIcon icon={faUser} />
 								Profil
-								</Link>
+							</Link>
 						) : (
 							<Link to="#" onClick={activateLogin}>
 								<FontAwesomeIcon icon={faSignInAlt} />
 								Logga in
-								</Link>
+							</Link>
 						)
 					}
 				</nav>
