@@ -15,12 +15,17 @@
 	.price {
 		font-size: 1.2rem;
 		width: 100%;
+		max-width: 200px;
 		margin-top: 1em;
 	}
 	@media (max-width: $breakpoint-mobile) {
 		flex-direction: column;
 		> * {
 			text-align: center;
+		}
+		img {
+			display: block;
+			margin: 0 auto;
 		}
 		.price {
 			margin-bottom: 1em;
