@@ -9,7 +9,8 @@ test('test user functions', t =>  {
     t.ok(api, 'api exists')
     const user = {
       name: "paul",
-      city: "lund"
+      city: "lund",
+      email: "paul@school.com"
     }
     t.equal(typeof api.createUser, 'function', 'create user should be a function')
 
