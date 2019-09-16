@@ -8,6 +8,8 @@
 	}
 	img {
 		border-radius: $rounding-large;
+		display: block;
+		margin: 0 auto;
 	}
 	div:first-child {
 		text-align: center;
@@ -22,10 +24,6 @@
 		flex-direction: column;
 		> * {
 			text-align: center;
-		}
-		img {
-			display: block;
-			margin: 0 auto;
 		}
 		.price {
 			margin-bottom: 1em;
