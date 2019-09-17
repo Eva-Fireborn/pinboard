@@ -5,10 +5,10 @@ import SingleAdCard from "./SingleAdCard.js";
 const AdsView = () => {
 	return (
 		<div id="wrapper">
-			<aside>
+			<aside className="ads">
 				<CategoryList />
 			</aside>
-			<main id="ads">
+			<main className="ads">
 				<SingleAdCard />
 				<SingleAdCard />
 				<SingleAdCard />

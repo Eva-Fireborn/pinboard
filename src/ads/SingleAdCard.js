@@ -39,8 +39,8 @@ const SingleAdCard = () => {
 
 				<div>
 					<img src={require('../img/tempProfile.jpg')} alt="profile img" />
-					Unicorn User<br />
-					4.24 <FontAwesomeIcon icon={faStar} /> (12)
+					Fredrika Lycke<br />
+					4.24 <FontAwesomeIcon icon={faStar} /> (3)
 				</div>
 			</div>
 		</div>
