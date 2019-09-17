@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Login from './../login/login';
+import CreateUser from '../login/createUser';
 import {
 	faChalkboardTeacher,
 	faPlusSquare,
@@ -12,14 +13,17 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 
 const Header = () => {
-	let [visibility, changeVisibility] = useState(false);
+	let [loginVisibility, changeLoginVisibility] = useState(false);
+	let [createUserVisibility, changeCreateUserVisibility] = useState(false);
 	const [isLoggedIn, updateIsLoggedIn] = useState(false);
 
-	let activateLogin = () => changeVisibility(!visibility);
+	let activateLogin = () => changeLoginVisibility(!loginVisibility);
+	let activateCreateUser = () => changeCreateUserVisibility(!createUserVisibility)
 
 	return (
 		<div id="headerWrapper">
-			<Login visibility={visibility} activateLogin={activateLogin} updateIsLoggedIn={updateIsLoggedIn} />
+			<Login visibility={loginVisibility} activateLogin={activateLogin} updateIsLoggedIn={updateIsLoggedIn} activateCreateUser={activateCreateUser} />
+			<CreateUser visibility={createUserVisibility} updateIsLoggedIn={updateIsLoggedIn} activateCreateUser={activateCreateUser}/>
 			<div id="header">
 				<div id="fixedMenu">
 					<div id="logo">

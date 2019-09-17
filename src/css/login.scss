@@ -25,6 +25,30 @@
 		> * {
 			margin: 0 0 1em 0;
 		}
+		#createNewAccountPLInk:hover {
+			cursor: pointer;
+			b:hover {
+				text-decoration: underline;
+			}
+		}
+	}
+	#createUserWindow{
+		position: fixed;
+		z-index: 9001;
+		background-color: $white;
+		width: 400px;
+		left: auto;
+		top: 10%;
+		left: calc(50% - 200px);
+		padding-bottom: 3em;
+		border-radius: $rounding-large;
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		> * {
+			margin: 0 0 1em 0;
+		}
 	}
 	.close {
 		align-self: flex-end;
