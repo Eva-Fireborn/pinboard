@@ -65,3 +65,40 @@ test('test ads functions', t =>  {
       })
     })
 })
+
+test.only('test message functions', t =>  {
+  // how many tests
+  t.plan(8)
+  const api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority")
+  t.ok(api, 'api exists')
+  // create user author of the message
+  api.createUser({name: 'Maria', city: 'malmo', email: 'maria@work.com'}, mariaId => {
+    t.ok(mariaId, 'maria has been created')
+    api.createUser({name: 'Bob', city: 'cph', email: 'bob@school.com'}, bobId => {
+
+      t.ok(bobId, 'bob has been created')
+      const msg = {
+        authorId: mariaId,
+        text: "Hey i'm Maria",
+        to: bobId,
+        timestamp: new Date()
+      }
+
+      t.equal(typeof api.createMsg, 'function', 'createMessage should be a function')
+
+      api.createMsg(msg, msgID => {
+        t.ok(msgID, 'the message id should have been returned')
+        console.log('id of inserted msg:', msgID)
+        api.getMsg(msgID, msg => {
+          t.ok(msg, 'hey im maria had been returned')
+          t.equal(msg.to.toString(), bobId.toString(), 'maria sent a message to bob')
+          t.notEqual(msg.text, 'hey im lena', 'maria is not lena')
+          api.disconnect(() => {
+            console.log('closed successfully')
+            t.end()
+          })
+        })
+      })
+    })
+  })
+})
