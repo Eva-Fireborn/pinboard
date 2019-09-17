@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link } from "react-router-dom";
 import {
-	faEye,
 	faMapMarkerAlt,
-	faCog
+	faCog,
+	faSignOutAlt,
+	faQuestionCircle,
+	faIdCard,
 } from '@fortawesome/free-solid-svg-icons';
 
-const ProfileView = () => {
+const ProfileView = ({ isLoggedIn }) => {
 	const [owner, setOwner] = useState(true);
 
 	return (
@@ -25,21 +28,41 @@ const ProfileView = () => {
 						</div>
 					</div>
 
-					<div className="settingsProfile">
-						<div>
-							<FontAwesomeIcon icon={faCog} /> Inställningar
-						</div>
-						<div>
-							<FontAwesomeIcon icon={faEye} /> Antal besökare
-						</div>
-					</div>
+					{owner ? (
+						<ul className="settingsProfile">
+							<li>
+								<Link to="#">
+									<FontAwesomeIcon icon={faIdCard} /> Ändra publik profil
+								</Link>
+							</li>
+							<li>
+								<Link to="#">
+									<FontAwesomeIcon icon={faCog} /> Ändra konto Inställningar
+								</Link>
+							</li>
+							<li>
+								<Link to="#">
+									<FontAwesomeIcon icon={faQuestionCircle} /> Hjälp
+								</Link>
+							</li>
+							<li>
+								<Link to="#">
+									<FontAwesomeIcon icon={faSignOutAlt} /> Logga ut
+								</Link>
+							</li>
+						</ul>
+					) : null}
 				</div>
 
 				<div className="flex2">
-
 					<h3>Om mig:</h3>
 					<div className="profileText">
-						Lite om mig och så...  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut id mauris ac erat dapibus tempus sit amet bibendum nisi. Aliquam magna erat, iaculis sit amet laoreet a, viverra quis metus. Fusce ac ultricies felis, vel vulputate mauris. Quisque et suscipit nunc. Nullam in facilisis erat, ut posuere erat. Ut volutpat.
+						<p>
+							Lite om mig och så...  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut id mauris ac erat dapibus tempus sit amet bibendum nisi. Aliquam magna erat, iaculis sit amet laoreet a, viverra quis metus. Fusce ac ultricies felis, vel vulputate mauris. Quisque et suscipit nunc. Nullam in facilisis erat, ut posuere erat. Ut volutpat.
+						</p>
+						<button onClick={() => setOwner(!owner)}>
+							Temp Flip Owner State
+						</button>
 					</div>
 
 					<h3>Betyg: <span>☆☆☆☆☆</span></h3>

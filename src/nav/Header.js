@@ -30,7 +30,7 @@ const Header = ({ isLoggedIn, activateLogin }) => {
 						</Link>
 					<Link to="/frågorochsvar">
 						<FontAwesomeIcon icon={faQuestionCircle} />
-						Frågor och svar
+						Hjälp
 						</Link>
 					{isLoggedIn ? (
 						<Link to="/meddelanden">
