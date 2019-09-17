@@ -12,6 +12,11 @@ main.profile {
 		padding-right: 5px;
 		color: #474747;
 	}
+	@media (max-width: $breakpoint-mobile) {
+		h2 {
+			text-align: center;
+		}
+	}
 }
 aside.profile {
 	min-width: 300px;

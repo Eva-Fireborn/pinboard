@@ -30,6 +30,9 @@
 		}
 	}
 }
+.adCard:last-child {
+	border-bottom: 0px;
+}
 .adInformation {
 	flex: 1 1 auto;
 	margin-left: 1em;
@@ -88,5 +91,8 @@ aside.ads {
 	h4:hover {
 		cursor: pointer;
 		color: $darkGreen
+	}
+	@media (max-width: $breakpoint-tablet) {
+			display: none;
 	}
 }

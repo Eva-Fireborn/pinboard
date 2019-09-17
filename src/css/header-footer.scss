@@ -63,6 +63,7 @@
 	}
 	@media (max-width: $breakpoint-tablet) {
 		#logo {
+			z-index: 9000;
 			position: fixed;
 			top: 0;
 			left: 0;
