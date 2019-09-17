@@ -66,7 +66,7 @@ test('test ads functions', t =>  {
     })
 })
 
-test.only('test message functions', t =>  {
+test('test message functions', t =>  {
   // how many tests
   t.plan(8)
   const api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority")

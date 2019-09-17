@@ -97,7 +97,7 @@ class API {
   connectToAdCollection(callback) {
     if (this.adCollection) return callback(this.adCollection)
 
-    this.makeConnection.then(() => {
+    this.makeConnection().then(() => {
       console.log('we connected to the ad collection')
       this.adCollection = this.client.db("Pinboard").collection("Ads")
       callback(this.adCollection)
