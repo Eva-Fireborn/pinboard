@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Link } from "react-router-dom";
 import {
 	faMapMarkerAlt,
 	faCommentsDollar,
@@ -24,7 +25,7 @@ const SingleAdCard = () => {
 				<h2>Lorem ipsum dolor sit amet</h2>
 				<a href="map.html">
 					<FontAwesomeIcon icon={faMapMarkerAlt} />
-					Inside the magical forest
+					Göteborg
 				</a>
 				{
 					readAll ?
@@ -38,9 +39,11 @@ const SingleAdCard = () => {
 				</button>
 
 				<div>
-					<img src={require('../img/tempProfile.jpg')} alt="profile img" />
-					Fredrika Lycke<br />
-					4.24 <FontAwesomeIcon icon={faStar} /> (3)
+					<Link to="#">
+						<img src={require('../img/tempProfile.jpg')} alt="profile img" />
+						Fredrika Lycke<br />
+						4.24 <FontAwesomeIcon icon={faStar} />(3)
+					</Link>
 				</div>
 			</div>
 		</div>

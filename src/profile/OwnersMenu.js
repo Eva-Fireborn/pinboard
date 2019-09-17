@@ -24,7 +24,7 @@ const OwnersMenu = () => {
 				</Link>
 			</li>
 			<li>
-				<Link to="#">
+				<Link to="/frågorochsvar#konto">
 					<FontAwesomeIcon icon={faQuestionCircle} />
 					Hjälp
 				</Link>

@@ -13,9 +13,7 @@ main.profile {
 		color: #474747;
 	}
 	@media (max-width: $breakpoint-mobile) {
-		h2 {
-			text-align: center;
-		}
+		h2 { text-align: center; }
 	}
 }
 aside.profile {
@@ -58,7 +56,7 @@ aside.profile {
 		align-items: center;
 	}
 	a {
-		margin-left: 2em;
+		margin-left: 1em;
 		flex: 0 0 150px;
 		text-align: center;
 		span {
