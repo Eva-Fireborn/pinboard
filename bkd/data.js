@@ -26,7 +26,10 @@ class API {
     console.log('connectToUserCollection');
     // connect and fetch the collection for further usage
     if (this.userCollection) return callback(this.userCollection)
+<<<<<<< HEAD
 
+=======
+>>>>>>> olga
     this.makeConnection().then(() => {
       console.log('we connected to the collection')
       this.userCollection = this.client.db("Pinboard").collection("Users")
@@ -45,8 +48,7 @@ class API {
       console.log('createUser, connectToUserCollection. user: ', user)
       collection.findOne({email: user.email}).then(result => {
         console.log('createUser. connectToUserCollection, result=', result)
-        if( result === 0){
-          console.log('createUser. no user')
+        if( result === null){
           // here you get a collection that was sent from fun connectToUserCollection
           collection.insertOne(user, (error, result) => {
             if( error ) throw error
@@ -183,6 +185,40 @@ class API {
   getMsg (msg, callback) {
     this.connectToMessagesCollection(collection => {
       collection.findOne(msg, (error, result) => {
+        if( error ) throw error
+        callback(result)
+      })
+    })
+  }
+
+// functions for review collection
+
+  connectToReviewCollection(callback) {
+    if (this.reviewCollection) return callback(this.reviewCollection)
+
+    this.makeConnection().then(() => {
+      console.log('we connected to the review collection')
+      this.reviewCollection = this.client.db("Pinboard").collection("Reviews")
+      callback(this.reviewCollection)
+    })
+    .catch(error => {
+      console.log('failed to connect to reviews collection', error)
+    })
+    console.log('connecting to uri', this.uri)
+  }
+
+  createReview(review, callback) {
+    this.connectToReviewCollection(collection => {
+      collection.insertOne(review, (error, result) => {
+        if( error ) throw error
+        callback(result.insertedId)
+      })
+    })
+  }
+
+  getReview (review, callback) {
+    this.connectToReviewCollection(collection => {
+      collection.findOne(review, (error, result) => {
         if( error ) throw error
         callback(result)
       })
