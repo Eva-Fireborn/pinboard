@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Login from './../login/login';
 import CreateUser from '../login/createUser';
-
 import {
 	faChalkboardTeacher,
 	faPlusSquare,
@@ -12,7 +11,6 @@ import {
 	faUser,
 	faEnvelope
 } from '@fortawesome/free-solid-svg-icons'
-
 
 const Header = () => {
 	let [loginVisibility, changeLoginVisibility] = useState(false);
@@ -37,7 +35,6 @@ const Header = () => {
 						<Link to="/annonser">
 							<FontAwesomeIcon icon={faChalkboardTeacher} />
 							Tjänster
-
 						</Link>
 					<Link to="/skapaannons">
 						<FontAwesomeIcon icon={faPlusSquare} />
@@ -68,7 +65,7 @@ const Header = () => {
 				</nav>
 			</div>
 		</div>
-		</div>
+	</div>
 	);
 };
 

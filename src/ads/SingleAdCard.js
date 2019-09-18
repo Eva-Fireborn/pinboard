@@ -24,9 +24,7 @@ const SingleAdCard = ({adObject}) => {
 				<h2>{adObject.title}</h2>
 				<a href="map.html">
 					<FontAwesomeIcon icon={faMapMarkerAlt} />
-
 					{adObject.city}
-
 				</a>
 				{
 					readAll ?
@@ -40,12 +38,11 @@ const SingleAdCard = ({adObject}) => {
 				</button>
 
 				<div>
-
-					<img src={adObject.userImg} alt="profile img" />
-					{adObject.userName}<br />
-					{adObject.userRating} <FontAwesomeIcon icon={faStar} /> ({adObject.userNumberOfRates})
-
-
+					<Link to="#">
+						<img src={require('../img/tempProfile.jpg')} alt="profile img" />
+						Fredrika Lycke<br />
+						4.24 <FontAwesomeIcon icon={faStar} />(3)
+					</Link>
 				</div>
 			</div>
 		</div>
