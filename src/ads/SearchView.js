@@ -1,15 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+	faFilter
+} from '@fortawesome/free-solid-svg-icons';
 
 const SearchView = () => {
+	const [filter, setFilter] = useState(false);
 	return (
-		<div className="search">
-			{/* The search / filter should be it's own component */}
-			<input type="text" placeholder="Sök" />
-			<select name="test">
-				<option value="namn">Namn</option>
-				<option value="pris">Pris</option>
-			</select>
-		</div>
+		<div className="filter">
+			<input className="search" type="text" placeholder="Sök" />
+			<button onClick={() => setFilter(!filter)}>
+				<FontAwesomeIcon icon={faFilter} />
+			</button>
+			{
+				filter ?
+					(<p>magical filter stuff</p>)
+					: null
+			}
+		</div >
 	);
 };
 

@@ -1,5 +1,5 @@
 aside .adUserName {
-	padding: 0 1rem;
+	padding: 0 1em;
 	height: 80px;
 	justify-content: flex-start;
 }
@@ -8,8 +8,8 @@ main#msg > textarea {
 	width: 100%;
 }
 .msgSelf, .msgOther {
-	padding: 1rem;
-	margin-bottom: 1rem;
+	padding: 1em;
+	margin-bottom: 1em;
 	border-radius: $rounding-large;
 }
 .arrow {

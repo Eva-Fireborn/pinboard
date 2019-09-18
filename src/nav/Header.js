@@ -1,54 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
 	faChalkboardTeacher,
 	faPlusSquare,
 	faQuestionCircle,
-	faSignInAlt
+	faSignInAlt,
+	faUser,
+	faEnvelope
 } from '@fortawesome/free-solid-svg-icons'
 
-const Header = () => {
-	const [links] = useState([
-		{
-			name: "Tjänster",
-			to: "/annonser",
-			icon: faChalkboardTeacher
-		},
-		{
-			name: "Skapa annons",
-			to: "/skapaannons",
-			icon: faPlusSquare
-		},
-		{
-			name: "Frågor och svar",
-			to: "/frågorochsvar",
-			icon: faQuestionCircle
-		},
-		{
-			name: "Profil",
-			to: "/profil",
-			icon: faSignInAlt
-		},
-		{
-			name: "Meddelanden",
-			to: "/meddelanden",
-			icon: faSignInAlt
-		},
-		{
-			name: "Logga in",
-			to: "/loggain",
-			icon: faSignInAlt
-		}
-	]);
-
-	const navBar = links.map((link, index) => (
-		<Link to={link.to} key={index} >
-			<FontAwesomeIcon icon={link.icon} />
-			{link.name}
-		</Link>
-	));
-
+const Header = ({ isLoggedIn, activateLogin }) => {
 	return (
 		<div id="header">
 			<div id="fixedMenu">
@@ -58,7 +20,36 @@ const Header = () => {
 					</Link>
 				</div>
 				<nav>
-					{navBar}
+					<Link to="/annonser">
+						<FontAwesomeIcon icon={faChalkboardTeacher} />
+						Tjänster
+						</Link>
+					<Link to="/skapaannons">
+						<FontAwesomeIcon icon={faPlusSquare} />
+						Skapa annons
+						</Link>
+					<Link to="/frågorochsvar">
+						<FontAwesomeIcon icon={faQuestionCircle} />
+						Frågor och svar
+						</Link>
+					{isLoggedIn ? (
+						<Link to="/meddelanden">
+							<FontAwesomeIcon icon={faEnvelope} />
+							Meddelanden
+						</Link>) : null}
+					{isLoggedIn ?
+						(
+							<Link to="/profil">
+								<FontAwesomeIcon icon={faUser} />
+								Profil
+								</Link>
+						) : (
+							<Link to="#" onClick={activateLogin}>
+								<FontAwesomeIcon icon={faSignInAlt} />
+								Logga in
+								</Link>
+						)
+					}
 				</nav>
 			</div>
 		</div>

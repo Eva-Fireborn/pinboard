@@ -1,23 +1,30 @@
 import React from "react";
+import SearchView from "./SearchView.js";
+import SingleCategory from "./SingleCategory.js";
 
 const CategoryList = () => {
+	const category = [
+		{
+			title: 'Musik',
+			subCat: ['Gitarr', 'Piano', 'Fiol', 'Flöjt']
+		},
+		{
+			title: 'Mat',
+			subCat: ['Laga mat', 'Mat provning', 'Vin provning', 'Öl provning', 'Munching']
+		},
+		{
+			title: 'Lek',
+			subCat: ['Magic', 's...', 'Slut på idéer']
+		}
+	]
+
 	return (
 		<div className="fixed">
-			{/*
-				should be swipe to horizontal scroll on mobile...
-				https://css-tricks.com/simple-swipe-with-vanilla-javascript/
-			*/}
+			<SearchView />
+
 			<h3>Kategorier:</h3>
 			<ul>
-				<li><h4>Musik</h4></li>
-				<ul>
-					<li>Gitarr</li>
-					<li>Piano</li>
-					<li>Fiol</li>
-					<li>Flöjt</li>
-				</ul>
-				<li><h4>Mat</h4></li>
-				<li><h4>Lek</h4></li>
+				{category.map((s) => <SingleCategory category={s} key={s.title} />)}
 			</ul>
 		</div>
 	)

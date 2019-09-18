@@ -1,6 +1,5 @@
 import React from "react";
 import CategoryList from "./CategoryList.js";
-import SearchView from "./SearchView.js";
 import SingleAdCard from "./SingleAdCard.js";
 
 const AdsView = () => {
@@ -10,8 +9,8 @@ const AdsView = () => {
 				<CategoryList />
 			</aside>
 			<main id="ads">
-				<SearchView />
-
+				<SingleAdCard />
+				<SingleAdCard />
 				<SingleAdCard />
 				<SingleAdCard />
 				<SingleAdCard />
