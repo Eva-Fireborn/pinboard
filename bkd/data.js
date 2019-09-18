@@ -127,7 +127,7 @@ class API {
 	}
 
 	getAllAds(callback) {
-		this.makeAdCollection(collection => {
+		this.connectToAdCollection(collection => {
 			collection.find({}).toArray((error, result) => {
 				if (error) throw error
 				callback(JSON.stringify(result))
