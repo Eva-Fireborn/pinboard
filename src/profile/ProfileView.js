@@ -12,6 +12,7 @@ import {
 
 const ProfileView = ({ isLoggedIn }) => {
 	const [owner, setOwner] = useState(true);
+	const [editProfile, SetEditProfile] = useState(false);
 	const [profileData, setProfileData] = useState({
 		name: 'Fredrika Lycke',
 		about: 'Lite om mig och så...  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut id mauris ac erat dapibus tempus sit amet bibendum nisi. Aliquam magna erat, iaculis sit amet laoreet a, viverra quis metus. Fusce ac ultricies felis, vel vulputate mauris. Quisque et suscipit nunc. Nullam in facilisis erat, ut posuere erat. Ut volutpat.',
@@ -38,7 +39,11 @@ const ProfileView = ({ isLoggedIn }) => {
 						</li>
 						<li>
 							<FontAwesomeIcon icon={faChalkboardTeacher} />
-							Språk: {profileData.language.map((s) => s + ' ')}
+							Språk: {
+								editProfile ?
+									(<input type="text" placeholder={profileData.language.map((s) => s + ' ')} />)
+									: profileData.language.map((s) => s + ' ')
+							}
 						</li>
 						<li>
 							<Link to="#" onClick={reviewScroll}>
@@ -50,8 +55,12 @@ const ProfileView = ({ isLoggedIn }) => {
 				</section>
 
 				<section>
-					{owner ? <OwnersMenu /> : null}
-
+					{owner ?
+						<OwnersMenu
+							SetEditProfile={() => SetEditProfile(!editProfile)}
+						/>
+						: null
+					}
 					<button onClick={() => setOwner(!owner)}>
 						Temp Flip Owner State
 					</button>
