@@ -24,11 +24,7 @@ const SingleAdCard = ({adObject}) => {
 				<h2>{adObject.title}</h2>
 				<a href="map.html">
 					<FontAwesomeIcon icon={faMapMarkerAlt} />
-<<<<<<< HEAD
 					{adObject.city}
-=======
-					Göteborg
->>>>>>> 64bfc9ff2a559acebcfd368d0e1cfa61ececceed
 				</a>
 				{
 					readAll ?
@@ -42,17 +38,11 @@ const SingleAdCard = ({adObject}) => {
 				</button>
 
 				<div>
-<<<<<<< HEAD
-					<img src={adObject.userImg} alt="profile img" />
-					{adObject.userName}<br />
-					{adObject.userRating} <FontAwesomeIcon icon={faStar} /> ({adObject.userNumberOfRates})
-=======
 					<Link to="#">
 						<img src={require('../img/tempProfile.jpg')} alt="profile img" />
 						Fredrika Lycke<br />
 						4.24 <FontAwesomeIcon icon={faStar} />(3)
 					</Link>
->>>>>>> 64bfc9ff2a559acebcfd368d0e1cfa61ececceed
 				</div>
 			</div>
 		</div>
