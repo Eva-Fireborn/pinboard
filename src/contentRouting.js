@@ -5,7 +5,6 @@ import AdsView from './ads/AdsView';
 import PinboardView from './pinboard/PinboardView';
 import CreateAdd from './createAdd/CreateAdd';
 import FrogorOchSvar from './fos/Faq';
-import Login from './login/login';
 import ProfileView from './profile/ProfileView';
 import MsgView from './msg/MsgView';
 import Betalning from './fos/Betalning';
@@ -21,7 +20,6 @@ const ContentRouting = () => {
 		{ exact: false, path: "/annonser", component: AdsView },
 		{ exact: false, path: "/skapaannons", component: CreateAdd },
 		{ exact: false, path: "/frågorochsvar", component: FrogorOchSvar },
-		{ exact: false, path: "/loggain", component: Login },
 		{ exact: false, path: "/profil", component: ProfileView },
 		{ exact: false, path: "/meddelanden", component: MsgView },
 		{ exact: false, path: "/betalning", component: Betalning },
