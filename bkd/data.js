@@ -26,10 +26,6 @@ class API {
     console.log('connectToUserCollection');
     // connect and fetch the collection for further usage
     if (this.userCollection) return callback(this.userCollection)
-<<<<<<< HEAD
-
-=======
->>>>>>> olga
     this.makeConnection().then(() => {
       console.log('we connected to the collection')
       this.userCollection = this.client.db("Pinboard").collection("Users")
@@ -131,7 +127,7 @@ class API {
   }
 
   getAllAds ( callback) {
-    this.makeAdCollection(collection => {
+    this.connectToAdCollection(collection => {
       collection.find({}).toArray( (error, result) => {
         if( error ) throw error
         callback(JSON.stringify(result))
