@@ -26,19 +26,39 @@ expServer.get('/Eva-Fireborn/pinboard/static/media/tempProfile.0ca70095.jpg', (r
 });
 
 expServer.post('/ApiLogInNewUser', (request, response) => {
-	console.log('You got a request: ', request.body);
-	let newUser = {
-		name: request.body.name,
-		email: request.body.email,
-		imgUrl: request.body.imgUrl
-	}
 	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
-	api.createUser(newUser , response => {
-		console.log(response)
-		let body = {
+	api.createUser(request.body , res => {
+		console.log(res)
+		response.send({
 			status: 200
-		}
-		response.send(body);
+		})
+	})
+})
+expServer.post('/ApiLogInUser', (request, response) => {
+	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
+	api.getUser(request.body , res => {
+		console.log(res)
+		response.send({
+			status: 200
+		})
+	})
+})
+expServer.get('/ApiGetAllAds', (request, response) => {
+	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
+	api.getAllAds( res => {
+		response.send({
+			status: 200,
+			body: res
+		})
+	})	
+})
+
+expServer.post('/ApiPostNewAd', (request, response) => {
+	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
+	api.createAd(request.body, res => {
+		response.send({
+			status: 200
+		})
 	})
 })
 

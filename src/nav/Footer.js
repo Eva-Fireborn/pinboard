@@ -1,4 +1,7 @@
 import React from "react";
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebookSquare, faInstagram, faTwitter, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 
 const Footer = () => {
 	return (
@@ -8,10 +11,10 @@ const Footer = () => {
 					<h4>Hjälp vid köp</h4>
 				</li>
 				<li>
-					<a href="index.html">Betalning</a>
+					<Link to='/betalning'>Betalning</Link>
 				</li>
 				<li>
-					<a href="index.html">Anmäl störande annons</a>
+					<Link to='/anmäl-annons'>Anmäl störande annons</Link>
 				</li>
 			</ul>
 			<ul>
@@ -19,13 +22,13 @@ const Footer = () => {
 					<h4>Kundservice</h4>
 				</li>
 				<li>
-					<a href="index.html">Användarvillkor</a>
+					<Link to='/användarvillkor'>Användarvillkor</Link>
 				</li>
 				<li>
-					<a href="index.html">Kundsäkerhet</a>
+					<Link to='/kundsäkerhet'>Kundsäkerhet</Link>
 				</li>
 				<li>
-					<a href="index.html">Frågor och svar</a>
+					<Link to='/frågorochsvar'>Frågor och svar</Link>
 				</li>
 			</ul>
 			<ul>
@@ -33,12 +36,13 @@ const Footer = () => {
 					<h4>Kontakta oss</h4>
 				</li>
 				<li>
-					<a href="index.html">magic@ducklings.dev</a>
+					<Link to='/'>info@pinboard.com</Link>
 				</li>
 				<li>
-					<img src="#" alt="fb " />
-					<img src="#" alt="twiter " />
-					<img src="#" alt="Insta " />
+					<Link to='/'><FontAwesomeIcon icon={faInstagram} /></Link>
+					<Link to='/'><FontAwesomeIcon icon={faFacebookSquare} /></Link>
+					<Link to='/'><FontAwesomeIcon icon={faTwitter} /></Link>
+					<Link to='/'><FontAwesomeIcon icon={faLinkedin} /></Link>
 				</li>
 			</ul>
 		</footer>

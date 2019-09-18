@@ -27,17 +27,8 @@ class API {
     // connect and fetch the collection for further usage
     if (this.userCollection) return callback(this.userCollection)
 
-<<<<<<< HEAD
     this.makeConnection().then(() => {
       console.log('we connected to the collection')
-=======
-    this.client.connect(error => {
-      if( error ) {
-        console.log('error: ',error)
-        throw error
-      }
-      console.log('we connected to the collection', error)
->>>>>>> 0878c1e6cd56abe2022a2594118bceba42ef1682
       this.userCollection = this.client.db("Pinboard").collection("Users")
       callback(this.userCollection)
     })
@@ -50,7 +41,6 @@ class API {
 
   createUser (user, callback) {
     // callback from the developer code, from calling these functions
-<<<<<<< HEAD
     this.connectToUserCollection(collection => {
       console.log('createUser, connectToUserCollection. user: ', user)
       collection.findOne({email: user.email}).then(result => {
@@ -68,17 +58,6 @@ class API {
           console.log('user already exist')
           callback(result._id)
         }
-=======
-    this.makeUserCollection(collection => {
-      // here you get a collection that was sent from fun makeUserCollection
-        collection.insertOne(user, (error, result) => {
-        if( error ) {
-          console.log('error: ',error)
-          throw error
-        }
-        //this function returns the result as a callback to the other developer
-        callback(result.insertedId)
->>>>>>> 0878c1e6cd56abe2022a2594118bceba42ef1682
       })
     })
   }
@@ -147,6 +126,15 @@ class API {
       })
     })
 
+  }
+
+  getAllAds ( callback) {
+    this.makeAdCollection(collection => {
+      collection.find({}).toArray( (error, result) => {
+        if( error ) throw error
+        callback(JSON.stringify(result))
+      })
+    })
   }
 
   updateAd (ad, callback) {
