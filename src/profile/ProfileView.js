@@ -12,7 +12,13 @@ import {
 
 const ProfileView = ({ isLoggedIn }) => {
 	const [owner, setOwner] = useState(true);
-	const [username] = useState('Fredrika Lycke');
+	const [profileData, setProfileData] = useState({
+		name: 'Fredrika Lycke',
+		about: 'Lite om mig och så...  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut id mauris ac erat dapibus tempus sit amet bibendum nisi. Aliquam magna erat, iaculis sit amet laoreet a, viverra quis metus. Fusce ac ultricies felis, vel vulputate mauris. Quisque et suscipit nunc. Nullam in facilisis erat, ut posuere erat. Ut volutpat.',
+		location: 'Göteborg',
+		language: ['Svenska', 'Engelska'],
+	});
+
 	const reviewScroll = () => document.getElementById("reviews").scrollIntoView({ behavior: "smooth" });
 
 	return (
@@ -20,19 +26,19 @@ const ProfileView = ({ isLoggedIn }) => {
 			<aside className="profile">
 				<img src={require('../img/tempProfile.jpg')} alt="profile img" />
 				<section>
-					<h1>{username}</h1>
+					<h1>{profileData.name}</h1>
 					<h5>Medlem på Pinboard sedan 2012.</h5>
 
 					<ul>
 						<li>
 							<Link to="#">
 								<FontAwesomeIcon icon={faMapMarkerAlt} />
-								Göteborg
+								{profileData.location}
 							</Link>
 						</li>
 						<li>
 							<FontAwesomeIcon icon={faChalkboardTeacher} />
-							Språk: Svenska, Engelska
+							Språk: {profileData.language.map((s) => s + ' ')}
 						</li>
 						<li>
 							<Link to="#" onClick={reviewScroll}>
@@ -55,7 +61,7 @@ const ProfileView = ({ isLoggedIn }) => {
 				<h2>Om mig:</h2>
 				<section>
 					<p>
-						Lite om mig och så...  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut id mauris ac erat dapibus tempus sit amet bibendum nisi. Aliquam magna erat, iaculis sit amet laoreet a, viverra quis metus. Fusce ac ultricies felis, vel vulputate mauris. Quisque et suscipit nunc. Nullam in facilisis erat, ut posuere erat. Ut volutpat.
+						{profileData.about}
 					</p>
 				</section>
 
