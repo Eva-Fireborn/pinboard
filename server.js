@@ -17,7 +17,7 @@ response.status(404)
 */
 expServer.get('/', (request, response) => {
     console.log('Request: ', request.url)
-    response.sendFile(__dirname + '/build/index.html')
+    response.sendFile(__dirname + '/public/index.html')
 
 });
 
@@ -30,8 +30,8 @@ io.on('connection', socket => {
 	})
 	socket.on('chat message', data => {
 		console.log(`Server received chat message from #${id}: `, data);
-
-		data.senderId = id;
+    data.senderId = id;
+    socket.broadcast.emit('chat message', data);
 	})
   socket.on('chat message', message => {
     io.emit('chat message', message);
