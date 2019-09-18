@@ -26,18 +26,8 @@ class API {
     console.log('connectToUserCollection');
     // connect and fetch the collection for further usage
     if (this.userCollection) return callback(this.userCollection)
-
-<<<<<<< HEAD
     this.makeConnection().then(() => {
       console.log('we connected to the collection')
-=======
-    this.client.connect(error => {
-      if( error ) {
-        console.log('error: ',error)
-        throw error
-      }
-      console.log('we connected to the collection', error)
->>>>>>> 0878c1e6cd56abe2022a2594118bceba42ef1682
       this.userCollection = this.client.db("Pinboard").collection("Users")
       callback(this.userCollection)
     })
@@ -50,13 +40,11 @@ class API {
 
   createUser (user, callback) {
     // callback from the developer code, from calling these functions
-<<<<<<< HEAD
     this.connectToUserCollection(collection => {
       console.log('createUser, connectToUserCollection. user: ', user)
       collection.findOne({email: user.email}).then(result => {
         console.log('createUser. connectToUserCollection, result=', result)
-        if( result === 0){
-          console.log('createUser. no user')
+        if( result === null){
           // here you get a collection that was sent from fun connectToUserCollection
           collection.insertOne(user, (error, result) => {
             if( error ) throw error
@@ -68,17 +56,6 @@ class API {
           console.log('user already exist')
           callback(result._id)
         }
-=======
-    this.makeUserCollection(collection => {
-      // here you get a collection that was sent from fun makeUserCollection
-        collection.insertOne(user, (error, result) => {
-        if( error ) {
-          console.log('error: ',error)
-          throw error
-        }
-        //this function returns the result as a callback to the other developer
-        callback(result.insertedId)
->>>>>>> 0878c1e6cd56abe2022a2594118bceba42ef1682
       })
     })
   }
@@ -195,6 +172,40 @@ class API {
   getMsg (msg, callback) {
     this.connectToMessagesCollection(collection => {
       collection.findOne(msg, (error, result) => {
+        if( error ) throw error
+        callback(result)
+      })
+    })
+  }
+
+// functions for review collection
+
+  connectToReviewCollection(callback) {
+    if (this.reviewCollection) return callback(this.reviewCollection)
+
+    this.makeConnection().then(() => {
+      console.log('we connected to the review collection')
+      this.reviewCollection = this.client.db("Pinboard").collection("Reviews")
+      callback(this.reviewCollection)
+    })
+    .catch(error => {
+      console.log('failed to connect to reviews collection', error)
+    })
+    console.log('connecting to uri', this.uri)
+  }
+
+  createReview(review, callback) {
+    this.connectToReviewCollection(collection => {
+      collection.insertOne(review, (error, result) => {
+        if( error ) throw error
+        callback(result.insertedId)
+      })
+    })
+  }
+
+  getReview (review, callback) {
+    this.connectToReviewCollection(collection => {
+      collection.findOne(review, (error, result) => {
         if( error ) throw error
         callback(result)
       })
