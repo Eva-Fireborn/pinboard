@@ -30,7 +30,6 @@
     "eject": "react-scripts eject",
     "apitest": "$(npm bin)/tape bkd/test.js",
     "apitest-debug": "node inspect $(npm bin)/tape bkd/test.js"
-
   },
   "eslintConfig": {
     "extends": "react-app"
