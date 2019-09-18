@@ -4,7 +4,7 @@ import { Switch, Route } from "react-router-dom";
 import AdsView from './ads/AdsView';
 import PinboardView from './pinboard/PinboardView';
 import CreateAdd from './createAdd/createAdd';
-import FrogorOchSvar from './fos/faq';
+import FrogorOchSvar from './fos/Faq';
 //import Signin from './login/signin';
 import ProfileView from './profile/ProfileView';
 import MsgView from './msg/MsgView';
