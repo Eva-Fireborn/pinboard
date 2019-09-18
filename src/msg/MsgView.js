@@ -1,6 +1,99 @@
-import React from "react";
+import React, { Component } from "react";
+import openSocket from 'socket.io-client';
 
-const MsgView = () => {
+const socket = openSocket('http://localhost:4000');
+
+const mh = [
+	{
+		_id: '1337',
+		message: 'Hej',
+		senderId: 1,
+		receiverId: 2,
+		timestamp: null
+	},
+	{
+		_id: '1338',
+		message: 'tjena',
+		senderId: 2,
+		receiverId: 1,
+		timestamp: null
+	},
+	{
+		_id: '1339',
+		message: 'hejdå',
+		senderId: 1,
+		receiverId: 2,
+		timestamp: null
+	},
+
+]
+
+export default class MsgView extends Component {
+
+//userId & receiverId via props
+
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			userId: 1, //från db
+			message: "", //input från anv.
+			recieverId: 2, //annons id från db
+			messageHistory: [...mh]
+		};
+	}
+
+	componentDidMount() {
+		socket.emit('user info', { email: 'julian@gmail.com', nickname: 'Jules' });
+		socket.on('chat message', data => {
+			console.log('Client received chat message: ', data);
+
+		})
+	}
+
+	handleChangeMessage = e => {
+		console.log('Körs handleChangeMessage?');
+		this.setState({
+			message: e.target.value
+		})
+	}
+
+	addMessageButton = e => {
+		console.log('Körs addMessageButton?');
+		let messageObj = { message:this.state.message, senderId: this.state.userId, recieverId: this.state.recieverId, timeStamp: this.getNewTime(new Date()) };
+		this.setState({
+			messageHistory: [...this.state.messageHistory, messageObj]
+		})
+		socket.emit('chat message', messageObj);
+		this.setState({
+			message: ""
+		})
+	}
+
+
+	getNewTime = (date) => {
+	  return `${date.getHours()}: ${("0" + date.getMinutes()).slice(-2)} `
+	}
+
+	render(){
+
+		const allMessages = this.state.messageHistory.map(m => {
+			let className;
+			console.log('vad händer? ', m);
+			if(this.state.userId === m.senderId){
+				className = "msgSelf";
+			}
+			else{
+				className = "msgOther";
+			}
+			return (
+				<div className={className} key={m._id} >
+				{m.message}
+				{m.timeStamp}
+				{m.senderId}
+				</div>
+			)
+		});
 	return (
 		<div id="wrapper">
 			<aside>
@@ -25,26 +118,19 @@ const MsgView = () => {
 				</div>
 			</aside>
 			<main id="msg">
-				<div className="msgSelf">
-					Vestibulum gravida ornare leo eu dictum
-				</div>
-				<div className="msgOther">
-					Morbi pharetra velit in mi congue condimentum. Fusce finibus elit et nisl aliquam rhoncus.
-				</div>
-				<div className="msgSelf">
-					Etiam pharetra sapien enim, nec facilisis massa dignissim a. Quisque nec bibendum magna.
-				</div>
-				<div className="msgOther">
-					Morbi quis massa sem. Aliquam et magna magna. Nullam tincidunt lacus ut eros fringilla, id aliquet risus gravida. Morbi in aliquet enim, at consequat sapien.
-				</div>
+			{allMessages}
+				<textarea id="textMessage" type="text"
+							value={this.state.message}
+							onChange={this.handleChangeMessage}
+							placeholder="Skriv ditt meddelande här" />
 
-				<textarea />
-				<button className="call">
-					Send
+				<button className="call"
+								onClick={this.addMessageButton}>
+					Skicka
 				</button>
 			</main>
 		</div>
 	);
-};
 
-export default MsgView;
+	};
+};

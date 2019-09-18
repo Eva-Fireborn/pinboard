@@ -8,11 +8,11 @@ import {
 	faIdCard,
 } from '@fortawesome/free-solid-svg-icons';
 
-const OwnersMenu = () => {
+const OwnersMenu = ({ SetEditProfile }) => {
 	return (
 		<ul>
 			<li>
-				<Link to="#">
+				<Link to="#" onClick={() => SetEditProfile()}>
 					<FontAwesomeIcon icon={faIdCard} />
 					Ändra publik profil
 				</Link>
