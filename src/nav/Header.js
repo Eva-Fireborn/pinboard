@@ -30,7 +30,7 @@ const Header = ({ isLoggedIn, activateLogin }) => {
 						</Link>
 					<Link to="/frågorochsvar">
 						<FontAwesomeIcon icon={faQuestionCircle} />
-						Frågor och svar
+						Hjälp
 						</Link>
 					{isLoggedIn ? (
 						<Link to="/meddelanden">
@@ -42,12 +42,12 @@ const Header = ({ isLoggedIn, activateLogin }) => {
 							<Link to="/profil">
 								<FontAwesomeIcon icon={faUser} />
 								Profil
-								</Link>
+							</Link>
 						) : (
 							<Link to="#" onClick={activateLogin}>
 								<FontAwesomeIcon icon={faSignInAlt} />
 								Logga in
-								</Link>
+							</Link>
 						)
 					}
 				</nav>
