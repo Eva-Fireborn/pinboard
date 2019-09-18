@@ -36,7 +36,7 @@ class AdsView extends React.Component {
 	render () {
 		return (
 		<div id="wrapper">
-			<aside>
+			<aside className="ads">
 				<CategoryList />
 			</aside>
 			<main id="ads">

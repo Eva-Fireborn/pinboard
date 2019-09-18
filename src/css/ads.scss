@@ -8,6 +8,8 @@
 	}
 	img {
 		border-radius: $rounding-large;
+		display: block;
+		margin: 0 auto;
 	}
 	div:first-child {
 		text-align: center;
@@ -15,6 +17,7 @@
 	.price {
 		font-size: 1.2rem;
 		width: 100%;
+		max-width: 200px;
 		margin-top: 1em;
 	}
 	@media (max-width: $breakpoint-mobile) {
@@ -26,6 +29,9 @@
 			margin-bottom: 1em;
 		}
 	}
+}
+.adCard:last-child {
+	border-bottom: 0px;
 }
 .adInformation {
 	flex: 1 1 auto;
@@ -43,7 +49,7 @@
 		width: 50px;
 		height: auto;
 		margin-left: 1em;
-		border-radius: 100%;
+		border-radius: 50%;
 	}
 	@media (max-width: $breakpoint-mobile) {
 		margin-left: 0;
@@ -69,5 +75,24 @@
 		border-top-left-radius: 0;
 		border-bottom-left-radius: 0;
 		border-left: 0;
+	}
+}
+aside.ads {
+	ul {
+		list-style: none;
+		margin: 0 0 0 1em;
+		padding: 0 0 0.5em 0;
+	}
+	li { margin: 0 0 0.3em 0; }
+	> .fixed {
+		position: fixed;
+		width: $aside-width;
+	}
+	h4:hover {
+		cursor: pointer;
+		color: $darkGreen
+	}
+	@media (max-width: $breakpoint-tablet) {
+			display: none;
 	}
 }

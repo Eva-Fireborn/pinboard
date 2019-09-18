@@ -13,8 +13,8 @@ $grayWhite: rgb(245, 245, 245);
 $white: rgb(255, 255, 255);
 $rounding-small: 0.25em;
 $rounding-large: 0.5em;
-$breakpoint-tablet: 960px;
-$breakpoint-mobile: 640px;
+$breakpoint-tablet: 1024px;
+$breakpoint-mobile: 580px;
 
 body, html, #root, #App {
 	height: 100%;
@@ -65,30 +65,25 @@ input, select, textarea {
 	box-sizing: border-box;
 }
 
-$aside-width: 175px;
 #wrapper {
 	flex: 1 0 auto;
 	margin: 0 8em;
 	display: flex;
 	padding: 2em 0;
-
-	aside > .fixed { position: fixed; width: $aside-width; }
-	aside { flex: 0 0 $aside-width; }
-	aside h4:hover { cursor: pointer; color: $darkGreen }
-	aside ul {
-		list-style: none;
-		margin: 0 0 0 1em;
-		padding: 0 0 0.5em 0;
-	}
-	aside li { margin: 0 0 0.3em 0; }
-	main { flex-grow: 1; margin-left: 2em; }
-	@media (max-width: $breakpoint-mobile) {
+	@media (max-width: $breakpoint-tablet) {
 		margin: 5em 1em 1em 1em;
 		padding: 0;
-		aside {
-			display: none;
-		}
-		main { margin-left: 0em; }
+		flex-direction: column;
+	}
+}
+
+main { flex-grow: 1; }
+$aside-width: 175px;
+aside {
+	flex: 0 0 $aside-width;
+	margin-right: 2em;
+	@media (max-width: $breakpoint-mobile) {
+		margin-right: 0em;
 	}
 }
 

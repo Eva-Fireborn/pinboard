@@ -11,25 +11,64 @@ class API {
     this.client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 
   }
+  // this is a condition for the connection to db, if it's conneted, return existing one and don't make a second connection
+  makeConnection(){
+    if(!this.connection) {
+      this.connection = this.client.connect()
+    }
+    this.connection.catch(error => {
+      console.log('failed to connect', error)
+    })
+    return this.connection
+  }
 
-  makeUserCollection(callback) {
+  connectToUserCollection(callback) {
+    console.log('connectToUserCollection');
     // connect and fetch the collection for further usage
     if (this.userCollection) return callback(this.userCollection)
 
+<<<<<<< HEAD
+    this.makeConnection().then(() => {
+      console.log('we connected to the collection')
+=======
     this.client.connect(error => {
       if( error ) {
         console.log('error: ',error)
         throw error
       }
       console.log('we connected to the collection', error)
+>>>>>>> 0878c1e6cd56abe2022a2594118bceba42ef1682
       this.userCollection = this.client.db("Pinboard").collection("Users")
       callback(this.userCollection)
     })
+    .catch(error => {
+      //separate then and catch error handler
+      console.log('failed to connect to user collection', error)
+    })
     console.log('connecting to uri', this.uri)
   }
-  //callback hell
+
   createUser (user, callback) {
     // callback from the developer code, from calling these functions
+<<<<<<< HEAD
+    this.connectToUserCollection(collection => {
+      console.log('createUser, connectToUserCollection. user: ', user)
+      collection.findOne({email: user.email}).then(result => {
+        console.log('createUser. connectToUserCollection, result=', result)
+        if( result === 0){
+          console.log('createUser. no user')
+          // here you get a collection that was sent from fun connectToUserCollection
+          collection.insertOne(user, (error, result) => {
+            if( error ) throw error
+              //this function returns the result as a callback to the other developer
+            callback(result.insertedId)
+            console.log(user)
+          })
+        } else {
+          console.log('user already exist')
+          callback(result._id)
+        }
+=======
     this.makeUserCollection(collection => {
       // here you get a collection that was sent from fun makeUserCollection
         collection.insertOne(user, (error, result) => {
@@ -39,22 +78,24 @@ class API {
         }
         //this function returns the result as a callback to the other developer
         callback(result.insertedId)
+>>>>>>> 0878c1e6cd56abe2022a2594118bceba42ef1682
       })
     })
   }
 
+
+
   getUser (user, callback) {
-    this.makeUserCollection(collection => {
+    this.connectToUserCollection(collection => {
       collection.findOne(user, (error, result) => {
         if( error ) throw error
         callback(result)
       })
     })
-
   }
 
   updateUser (user, callback) {
-    this.makeUserCollection( collection => {
+    this.connectToUserCollection( collection => {
       collection.updateOne({_id: user.id}, {$set: user}, null, (error, result) => {
         if( error ) throw error
         callback(true)
@@ -63,7 +104,7 @@ class API {
   }
 
   deleteUser (id, callback) {
-    this.makeUserCollection(collection => {
+    this.connectToUserCollection(collection => {
       collection.deleteOne({_id: id}, null, (error, result) => {
         if( error ) throw error
         // this.client.close()
@@ -72,22 +113,25 @@ class API {
     })
   }
 
-// repeat functions for another collection
+  // repeat functions for another collection
 
-  makeAdCollection(callback) {
+  connectToAdCollection(callback) {
     if (this.adCollection) return callback(this.adCollection)
 
-    this.client.connect(error => {
-      if( error ) throw error;
-      console.log('we connected to the collection', error)
+    this.makeConnection().then(() => {
+      console.log('we connected to the ad collection')
       this.adCollection = this.client.db("Pinboard").collection("Ads")
       callback(this.adCollection)
     })
+    .catch(error => {
+      console.log('failed to connect to ads collection', error)
+    })
     console.log('connecting to uri', this.uri)
   }
+
   createAd (ad, callback) {
-    this.makeAdCollection(collection => {
-        collection.insertOne(ad, (error, result) => {
+    this.connectToAdCollection(collection => {
+      collection.insertOne(ad, (error, result) => {
         if( error ) throw error
         callback(result.insertedId)
       })
@@ -96,7 +140,7 @@ class API {
   }
 
   getAd (ad, callback) {
-    this.makeAdCollection(collection => {
+    this.connectToAdCollection(collection => {
       collection.findOne(ad, (error, result) => {
         if( error ) throw error
         callback(result)
@@ -115,7 +159,7 @@ class API {
   }
 
   updateAd (ad, callback) {
-    this.makeAdCollection( collection => {
+    this.connectToAdCollection( collection => {
       collection.updateOne({_id: ad.id}, {$set: ad}, null, (error, result) => {
         if( error ) throw error
         callback(true)
@@ -124,8 +168,42 @@ class API {
   }
 
   deleteAd (id, callback) {
-    this.makeAdCollection(collection => {
+    this.connectToAdCollection(collection => {
       collection.deleteOne({_id: id}, null, (error, result) => {
+        if( error ) throw error
+        callback(result)
+      })
+    })
+  }
+
+  // repeat functions for another collection
+
+  connectToMessagesCollection(callback) {
+    if (this.msgCollection) return callback(this.msgCollection)
+
+    this.makeConnection().then(() => {
+      console.log('we connected to the msg collection')
+      this.msgCollection = this.client.db("Pinboard").collection("Messages")
+      callback(this.msgCollection)
+    })
+    .catch(error => {
+      console.log('failed to connect to msg collection', error)
+    })
+    console.log('connecting to uri', this.uri)
+  }
+
+  createMsg (msg, callback) {
+    this.connectToMessagesCollection(collection => {
+      collection.insertOne(msg, (error, result) => {
+        if( error ) throw error
+        callback(result.insertedId)
+      })
+    })
+  }
+
+  getMsg (msg, callback) {
+    this.connectToMessagesCollection(collection => {
+      collection.findOne(msg, (error, result) => {
         if( error ) throw error
         callback(result)
       })
