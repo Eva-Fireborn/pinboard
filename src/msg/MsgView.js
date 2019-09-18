@@ -44,7 +44,11 @@ export default class MsgView extends Component {
 	}
 
 	componentDidMount() {
-		this.initSocket()
+		socket.emit('user info', { email: 'julian@gmail.com', nickname: 'Jules' });
+		socket.on('chat message', data => {
+			console.log('Client received chat message: ', data);
+
+		})
 	}
 
 	handleChangeMessage = e => {
@@ -60,35 +64,16 @@ export default class MsgView extends Component {
 		this.setState({
 			messageHistory: [...this.state.messageHistory, messageObj]
 		})
+		socket.emit('chat message', messageObj);
 		this.setState({
 			message: ""
 		})
 	}
 
 
-	initSocket = () => {
-		socket.emit('user info', { email: 'kslomartire@hotmail.com', nickname: 'Tinna' });
-		socket.on('connect', () => {
-			console.log('Connected');
-		})
-		//this.setState({socket})
-	}
-
-	//set userid in state
-	setUser = (user) => {
-		const { socket } = this.state
-		socket.emit('connected', user);
-		this.setState({ user })
-	}
-
-
 	getNewTime = (date) => {
 	  return `${date.getHours()}: ${("0" + date.getMinutes()).slice(-2)} `
 	}
-
-	//spara meddelande till db.
-
-
 
 	render(){
 
