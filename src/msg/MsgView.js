@@ -2,9 +2,7 @@ import React, { Component } from "react";
 import openSocket from 'socket.io-client';
 
 const socket = openSocket('http://localhost:4000');
-//const socket = io(socket)
 
-//
 const mh = [
 	{
 		_id: '1337',
@@ -62,17 +60,18 @@ export default class MsgView extends Component {
 		this.setState({
 			messageHistory: [...this.state.messageHistory, messageObj]
 		})
-
-		//se om användaren/mottagaren är inloggad.
-		//lägga till meddelande till db.
+		this.setState({
+			message: ""
+		})
 	}
+
 
 	initSocket = () => {
 		socket.emit('user info', { email: 'kslomartire@hotmail.com', nickname: 'Tinna' });
 		socket.on('connect', () => {
 			console.log('Connected');
 		})
-		this.setState({socket})
+		//this.setState({socket})
 	}
 
 	//set userid in state
@@ -92,8 +91,6 @@ export default class MsgView extends Component {
 
 
 	render(){
-		//const { title } = this.props
-		//const { socket } = this.state
 
 		const allMessages = this.state.messageHistory.map(m => {
 			let className;
@@ -137,9 +134,14 @@ export default class MsgView extends Component {
 			</aside>
 			<main id="msg">
 			{allMessages}
-				<textarea id="textMessage" />
-				<button className="call">
-					Send
+				<textarea id="textMessage" type="text"
+							value={this.state.message}
+							onChange={this.handleChangeMessage}
+							placeholder="Skriv ditt meddelande här" />
+
+				<button className="call"
+								onClick={this.addMessageButton}>
+					Skicka
 				</button>
 			</main>
 		</div>
