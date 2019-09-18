@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from './../img/pinboard.png';
+//import logo from './../img/pinboard.png';
 
 const CreateUserInputForm = ({activateCreateUser, userInformation, changeUserInformation}) => {
     const updateField = e => {
@@ -23,7 +23,6 @@ const CreateUserInputForm = ({activateCreateUser, userInformation, changeUserInf
     return (
         <div id="createUserWindow">
             <button className="close" onClick={activateCreateUser}>X</button>
-            <img src={logo} id="loginLogo" alt="logotyp" />
             <p>Adress</p>
             <input type='text' name="address" onChange={updateField} />
             <p>Postnummer</p>
@@ -32,6 +31,8 @@ const CreateUserInputForm = ({activateCreateUser, userInformation, changeUserInf
             <input type='text' name="city" onChange={updateField} />
             <p>Telefon</p>
             <input type='text' name="phone" onChange={updateField} />
+            <p>Beskrivning om dig</p>
+            <textarea rows="3" column="2" type='text' name="description" onChange={updateField} />
             <button onClick={connectNewUser}>Skapa konto</button>
         </div>
     )
