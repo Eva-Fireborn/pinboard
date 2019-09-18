@@ -19,24 +19,8 @@
     }
     select {
         display: block;
-        width: 100%;
+        width: 90%;
     }
-    @media screen and (max-device-width: 640px), screen and (max-width: 640px) {
-        select {
-            width: 100%;
-        }
-    }
-    @media screen and (min-width: 640px) and (max-width : 1024px) {
-        select {
-            width: 95%
-        }
-    }
-    @media screen and (min-width: 1024px) {
-        select {
-            width: 92%
-        }
-    }
-   
     
     textarea {
         height: 5em;
