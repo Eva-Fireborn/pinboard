@@ -102,3 +102,42 @@ test('test message functions', t =>  {
     })
   })
 })
+
+test.only('test review functions', t =>  {
+  // how many tests
+  t.plan(9)
+  const api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority")
+  t.ok(api, 'api exists')
+  // create user author of the review
+  api.createUser({name: 'Luise', city: 'stockholm', email: 'luise@work.com'}, luiseId => {
+    t.ok(luiseId, 'Luise has been created')
+    api.createUser({name: 'Greg', city: 'cph', email: 'greg@school.com'}, gregId => {
+      t.ok(gregId, 'greg has been created')
+
+      const review = {
+        authorId: luiseId,
+        reviewText: "Greg is an awesome worker",
+        to: gregId,
+        rating: '5',
+        timestamp: new Date()
+      }
+
+      t.equal(typeof api.createReview, 'function', 'createReview should be a function')
+
+      api.createReview(review, reviewID => {
+        t.ok(reviewID, 'the review id should have been returned')
+        console.log('id of inserted review:', reviewID)
+        api.getReview(reviewID, review => {
+          t.ok(review, 'greg is awesome worker had been returned')
+          t.equal(review.to.toString(), gregId.toString(), 'luise left review about greg')
+          t.notEqual(review.reviewText, 'greg is horrible', 'greg has to be awesome')
+          t.equal (review.rating, '5', 'greg has rating 5')
+          api.disconnect(() => {
+            console.log('closed successfully')
+            t.end()
+          })
+        })
+      })
+    })
+  })
+})

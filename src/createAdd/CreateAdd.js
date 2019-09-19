@@ -5,6 +5,19 @@ import * as Yup from 'yup';
 
 const CreateAdd = () => {
     let categories = [{id: 1, name: 'Sökes'}, {id: 2, name: 'Finnes'}];
+
+    async function sendNewAd(fields) {
+        const serverResponse = await fetch('http://localhost:4000/ApiPostNewAd', {
+            method: 'POST',
+            body: JSON.stringify(fields, null, 4),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        });
+        const res = await serverResponse.json();
+        console.log('response: ', res.status)
+    }
+
     return (
         <div id="wrapper">
             <main className="formContainer">
@@ -19,7 +32,8 @@ const CreateAdd = () => {
                         city: '',
                         street: '',
                         zip: '',
-                        price: ''
+                        price: '',
+                        
                     }}
                     validationSchema={Yup.object().shape({
                         addType: Yup.array()
@@ -41,7 +55,8 @@ const CreateAdd = () => {
                             .required('Skriv ett pris')
                     })}
                     onSubmit={fields => {
-                        alert('SUCCESS!! \n\n' + JSON.stringify(fields, null, 4))
+                        sendNewAd(fields);
+                        //alert('SUCCESS!! \n\n' + JSON.stringify(fields, null, 4))
                     }}
                     render={({ errors, status, touched, values }) => (
                         <Form>
@@ -85,7 +100,7 @@ const CreateAdd = () => {
                             </div>
                             <div className="form-group">
                                 <label htmlFor="category">Kategori*</label>
-                                <Field component="select" name="category" type="select" className={'form-control' + (errors.category && touched.category ? ' is-invalid' : '')}>
+                                <Field component="select" name="category" type="select" className={'form-control select' + (errors.category && touched.category ? ' is-invalid' : '')}>
                                     <option value=""></option>
                                     <option value="musik">musik</option>
                                     <option value="mat">mat</option>
