@@ -1,7 +1,7 @@
 import React from 'react';
 //import logo from './../img/pinboard.png';
 
-const CreateUserInputForm = ({activateCreateUser, userInformation, changeUserInformation}) => {
+const CreateUserInputForm = ({activateCreateUser, userInformation, changeUserInformation, updateIsLoggedIn}) => {
     const updateField = e => {
         changeUserInformation({
             ...userInformation,
@@ -18,7 +18,10 @@ const CreateUserInputForm = ({activateCreateUser, userInformation, changeUserInf
             }
         });
         const res = await serverResponse.json();
-        console.log('response: ', res.status)
+        updateIsLoggedIn({
+            user: res.body.res
+        })
+        activateCreateUser();
     }
     return (
         <div id="createUserWindow">

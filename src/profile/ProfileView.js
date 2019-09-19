@@ -4,6 +4,7 @@ import SingleAdCard from "../ads/SingleAdCard.js";
 import SingleReview from "./SingleReview.js";
 import ProfileSideList from "./ProfileSideList.js";
 
+
 class ProfileView extends React.Component {
 	constructor(props) {
 		super(props);
@@ -19,6 +20,7 @@ class ProfileView extends React.Component {
 			}
 		}
 	}
+
 
 	componentDidMount() {
 		fetch('http://localhost:4000/ApiGetAllAds')
@@ -41,7 +43,6 @@ class ProfileView extends React.Component {
 				}
 			)
 	}
-
 
 	render() {
 		const reviewScroll = () => document.getElementById("reviews").scrollIntoView({ behavior: "smooth" });

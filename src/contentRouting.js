@@ -3,6 +3,8 @@ import { Switch, Route } from "react-router-dom";
 
 import AdsView from './ads/AdsView';
 import PinboardView from './pinboard/PinboardView';
+import CreateAdd from './createAdd/createAdd';
+import FrogorOchSvar from './fos/faq';
 import CreateAdd from './createAdd/CreateAdd';
 import FrogorOchSvar from './fos/Faq';
 import ProfileView from './profile/ProfileView';
@@ -13,7 +15,7 @@ import Anvandarvillkor from './fos/Anvandarvillkor';
 import Kundsakerhet from './fos/Kundsakerhet';
 
 
-const ContentRouting = () => {
+const ContentRouting = ({isLoggedIn}) => {
 	const [routes] = useState([
 		{ exact: true, path: "/", component: PinboardView },
 		{ exact: false, path: "/home", component: PinboardView },
@@ -35,7 +37,7 @@ const ContentRouting = () => {
 			path={route.path}
 			render={
 				({ match }) => (
-					<route.component match={match} />
+					<route.component match={match} isLoggedIn={isLoggedIn} />
 				)}
 		/>
 	));
