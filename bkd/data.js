@@ -23,12 +23,12 @@ class API {
   }
 
   connectToUserCollection(callback) {
-    console.log('connectToUserCollection');
+    //console.log('connectToUserCollection');
     // connect and fetch the collection for further usage
     if (this.userCollection) return callback(this.userCollection)
 
     this.makeConnection().then(() => {
-      console.log('we connected to the collection')
+      //console.log('we connected to the collection')
       this.userCollection = this.client.db("Pinboard").collection("Users")
       callback(this.userCollection)
     })
@@ -36,7 +36,7 @@ class API {
       //separate then and catch error handler
       console.log('failed to connect to user collection', error)
     })
-    console.log('connecting to uri', this.uri)
+    //console.log('connecting to uri', this.uri)
   }
 
   createUser (user, callback) {
@@ -45,7 +45,7 @@ class API {
       console.log('createUser, connectToUserCollection. user: ', user)
       collection.findOne({email: user.email}).then(result => {
         console.log('createUser. connectToUserCollection, result=', result)
-        if( result === 0){
+        if( result === null){
           console.log('createUser. no user')
           // here you get a collection that was sent from fun connectToUserCollection
           collection.insertOne(user, (error, result) => {
@@ -129,7 +129,7 @@ class API {
   }
 
   getAllAds ( callback) {
-    this.makeAdCollection(collection => {
+    this.connectToAdCollection(collection => {
       collection.find({}).toArray( (error, result) => {
         if( error ) throw error
         callback(JSON.stringify(result))

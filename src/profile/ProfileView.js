@@ -11,77 +11,87 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 const ProfileView = ({ isLoggedIn }) => {
-	const [owner, setOwner] = useState(true);
-	const [profileData, setProfileData] = useState({
+	const [owner, setOwner] = useState(false);
+	/*const [profileData, setProfileData] = useState({
 		name: 'Fredrika Lycke',
 		about: 'Lite om mig och så...  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut id mauris ac erat dapibus tempus sit amet bibendum nisi. Aliquam magna erat, iaculis sit amet laoreet a, viverra quis metus. Fusce ac ultricies felis, vel vulputate mauris. Quisque et suscipit nunc. Nullam in facilisis erat, ut posuere erat. Ut volutpat.',
 		location: 'Göteborg',
 		language: ['Svenska', 'Engelska'],
-	});
+	});*/
 
 	const reviewScroll = () => document.getElementById("reviews").scrollIntoView({ behavior: "smooth" });
 
-	return (
-		<div id="wrapper">
-			<aside className="profile">
-				<img src={require('../img/tempProfile.jpg')} alt="profile img" />
-				<section>
-					<h1>{profileData.name}</h1>
-					<h5>Medlem på Pinboard sedan 2012.</h5>
+	if (isLoggedIn){
+		return (
+			<div id="wrapper">
+				<aside className="profile">
+					<img src={isLoggedIn.user.imgUrl} alt="profile img" />
+					<section>
+						<h1>{isLoggedIn.user.name}</h1>
+						<h5>Medlem på Pinboard sedan {isLoggedIn.user.memberSince}.</h5>
+	
+						<ul>
+							<li>
+								<Link to="#">
+									<FontAwesomeIcon icon={faMapMarkerAlt} />
+									{isLoggedIn.user.city}
+								</Link>
+							</li>
+							<li>
+								<Link to="#" onClick={reviewScroll}>
+									<FontAwesomeIcon icon={faComment} />
+									{isLoggedIn.user.totalOfRatings} Recensioner
+								</Link>
+							</li>
+						</ul>
+					</section>
+	
+					<section>
+						{owner ? <OwnersMenu /> : null}
+	
+						<button onClick={() => setOwner(!owner)}>
+							Temp Flip Owner State
+						</button>
+					</section>
+				</aside>
+				<main className="profile">
+					<h2>Om mig:</h2>
+					<section>
+						<p>
+							{isLoggedIn.user.about}
+						</p>
+					</section>
+	
+					<section>
+						<h2>Min tjänster:</h2>
+						
+					</section>
+	
+					<section id="reviews">
+						<h2>Betyg:</h2>
+						<ul>
+							
+						</ul>
+					</section>
+				</main>
+			</div >
+		);
+	} else {
+		return (
+			<div id="wrapper">
+				<p>Du är inte inloggad.</p>
+			</div>
+		)
+	}
 
-					<ul>
-						<li>
-							<Link to="#">
-								<FontAwesomeIcon icon={faMapMarkerAlt} />
-								{profileData.location}
-							</Link>
-						</li>
-						<li>
-							<FontAwesomeIcon icon={faChalkboardTeacher} />
-							Språk: {profileData.language.map((s) => s + ' ')}
-						</li>
-						<li>
-							<Link to="#" onClick={reviewScroll}>
-								<FontAwesomeIcon icon={faComment} />
-								3 Recensioner
-							</Link>
-						</li>
-					</ul>
-				</section>
-
-				<section>
-					{owner ? <OwnersMenu /> : null}
-
-					<button onClick={() => setOwner(!owner)}>
-						Temp Flip Owner State
-					</button>
-				</section>
-			</aside>
-			<main className="profile">
-				<h2>Om mig:</h2>
-				<section>
-					<p>
-						{profileData.about}
-					</p>
-				</section>
-
-				<section>
-					<h2>Min tjänster:</h2>
-					<SingleAdCard />
-					<SingleAdCard />
-				</section>
-
-				<section id="reviews">
-					<h2>Betyg:</h2>
-					<ul>
-						<SingleReview />
-						<SingleReview />
-						<SingleReview />
-					</ul>
-				</section>
-			</main>
-		</div >
-	);
 };
 
 export default ProfileView;
+/*<li>
+							<FontAwesomeIcon icon={faChalkboardTeacher} />
+							Språk: {profileData.language.map((s) => s + ' ')}
+						</li>
+						
+						<SingleReview />
+						
+						<SingleAdCard />*/
