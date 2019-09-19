@@ -3,8 +3,6 @@ import { Switch, Route } from "react-router-dom";
 
 import AdsView from './ads/AdsView';
 import PinboardView from './pinboard/PinboardView';
-import CreateAdd from './createAdd/createAdd';
-import FrogorOchSvar from './fos/faq';
 import CreateAdd from './createAdd/CreateAdd';
 import FrogorOchSvar from './fos/Faq';
 import ProfileView from './profile/ProfileView';
