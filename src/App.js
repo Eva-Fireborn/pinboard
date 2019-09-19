@@ -16,6 +16,7 @@ const App = () => {
 	//const activateLogin = () => changeVisibility(!visibility);
 	let activateLogin = () => changeLoginVisibility(!loginVisibility);
 	let activateCreateUser = () => changeCreateUserVisibility(!createUserVisibility)
+	let logOff = () => updateIsLoggedIn(null)
 
 	return (
 		<div id="App">
@@ -23,7 +24,7 @@ const App = () => {
 			<CreateUser visibility={createUserVisibility} updateIsLoggedIn={updateIsLoggedIn} activateCreateUser={activateCreateUser}/>
 			<Router>
 				<Header isLoggedIn={isLoggedIn} loginVisibility={loginVisibility} changeLoginVisibility={changeLoginVisibility}/>
-				<ContentRouting isLoggedIn={isLoggedIn} />
+				<ContentRouting isLoggedIn={isLoggedIn} logOff={logOff} />
 				<Footer />
 			</Router>
 		</div>
