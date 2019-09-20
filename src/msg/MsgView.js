@@ -3,30 +3,7 @@ import openSocket from 'socket.io-client';
 
 const socket = openSocket('http://localhost:4000');
 
-const mh = [
-	{
-		_id: '1337',
-		message: 'Hej',
-		senderId: 1,
-		receiverId: 2,
-		timestamp: null
-	},
-	{
-		_id: '1338',
-		message: 'tjena',
-		senderId: 2,
-		receiverId: 1,
-		timestamp: null
-	},
-	{
-		_id: '1339',
-		message: 'hejdå',
-		senderId: 1,
-		receiverId: 2,
-		timestamp: null
-	},
 
-]
 
 export default class MsgView extends Component {
 
@@ -39,32 +16,71 @@ export default class MsgView extends Component {
 			userId: 1, //från db
 			message: "", //input från anv.
 			recieverId: 2, //annons id från db
-			messageHistory: [...mh]
+			messageHistory: []
 		};
 	}
 
 	componentDidMount() {
+		/*
+		fetch('http://localhost:4000/ApiGetAllMsg')
+		.then(res => res.json())
+		.then( (result) => {
+			let parsedResult = JSON.parse(result.body);
+			let msg = [];
+			parsedResult.forEach(res => {
+				msg.push(res)
+			});
+			this.setState({
+				messageHistory: msg
+			});
+		},
+		(error) => {
+			console.log(error)
+		}
+	)
+*/
 		socket.emit('user info', { email: 'julian@gmail.com', nickname: 'Jules' });
 		socket.on('chat message', data => {
 			console.log('Client received chat message: ', data);
-
 		})
-	}
+
+}
+
+	async	sendNewMsg(msg) {
+		const serverResponse = await fetch('http://localhost:4000/ApiPostNewMsg',
+				{
+					method: 'POST',
+					body: JSON.stringify(msg, null),
+					headers: {
+							"Content-type": "application/json; charset=UTF-8"
+					}
+			});
+			const res = await serverResponse.json();
+			console.log('response: ', res.status);
+	};
 
 	handleChangeMessage = e => {
 		console.log('Körs handleChangeMessage?');
 		this.setState({
 			message: e.target.value
 		})
-	}
+	};
 
 	addMessageButton = e => {
 		console.log('Körs addMessageButton?');
-		let messageObj = { message:this.state.message, senderId: this.state.userId, recieverId: this.state.recieverId, timeStamp: this.getNewTime(new Date()) };
+		let messageObj = {
+			message: this.state.message,
+			senderId: this.state.userId,
+			recieverId: this.state.recieverId,
+			timeStamp: this.getNewTime(new Date()) };
+
 		this.setState({
 			messageHistory: [...this.state.messageHistory, messageObj]
 		})
-		socket.emit('chat message', messageObj);
+		this.sendNewMsg(messageObj)
+
+		socket.emit('chat message', messageObj)
+		console.log('front end msg: ', messageObj);
 		this.setState({
 			message: ""
 		})

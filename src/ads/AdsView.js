@@ -31,8 +31,8 @@ class AdsView extends React.Component {
 		  }
 		)
 	}
-	
-	
+
+
 	render () {
 		return (
 		<div id="wrapper">
@@ -41,7 +41,7 @@ class AdsView extends React.Component {
 			</aside>
 			<main id="ads">
 			{this.state.listOfAds && this.state.listOfAds.length ?
-						this.state.listOfAds.map( (ad, key) => 
+						this.state.listOfAds.map( (ad, key) =>
 						<SingleAdCard key={key} adObject={ad}/> )
 						:
 						null}

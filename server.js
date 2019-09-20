@@ -62,6 +62,28 @@ expServer.post('/ApiPostNewAd', (request, response) => {
 	})
 })
 
+//getting and saving messages to db
+expServer.get('/ApiGetAllMsg', (request, response) => {
+	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
+	api.getMsg( res => {
+		response.send({
+			status: 200,
+			body: res
+		})
+	})
+})
+
+expServer.post('/ApiPostNewMsg', (request, response) => {
+	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
+	api.createMsg(request.body, res => {
+		response.send({
+			status: 200
+		})
+	})
+})
+
+
+
 expServer.use( express.static(__dirname + '/build/') );
 
 /*.all('*', ....)

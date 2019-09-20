@@ -154,7 +154,7 @@ class API {
     })
   }
 
-  // repeat functions for another collection
+  // repeat functions for message collection
 
   connectToMessagesCollection(callback) {
     if (this.msgCollection) return callback(this.msgCollection)
