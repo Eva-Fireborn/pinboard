@@ -13,7 +13,7 @@ import Anvandarvillkor from './fos/Anvandarvillkor';
 import Kundsakerhet from './fos/Kundsakerhet';
 
 
-const ContentRouting = () => {
+const ContentRouting = ({isLoggedIn}) => {
 	const [routes] = useState([
 		{ exact: true, path: "/", component: PinboardView },
 		{ exact: false, path: "/home", component: PinboardView },
@@ -35,7 +35,7 @@ const ContentRouting = () => {
 			path={route.path}
 			render={
 				({ match }) => (
-					<route.component match={match} />
+					<route.component match={match} isLoggedIn={isLoggedIn} />
 				)}
 		/>
 	));

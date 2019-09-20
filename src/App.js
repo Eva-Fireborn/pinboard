@@ -4,20 +4,26 @@ import Header from "./nav/Header.js";
 import Footer from "./nav/Footer.js";
 import ContentRouting from './contentRouting';
 import Login from './login/login';
+import CreateUser from './login/createUser'
 
 
 const App = () => {
-	const [visibility, changeVisibility] = useState(false);
-	const [isLoggedIn, updateIsLoggedIn] = useState(false);
+	//const [visibility, changeVisibility] = useState(false);
+	const [isLoggedIn, updateIsLoggedIn] = useState(null);
+	let [loginVisibility, changeLoginVisibility] = useState(false);
+	let [createUserVisibility, changeCreateUserVisibility] = useState(false);
 
-	const activateLogin = () => changeVisibility(!visibility);
+	//const activateLogin = () => changeVisibility(!visibility);
+	let activateLogin = () => changeLoginVisibility(!loginVisibility);
+	let activateCreateUser = () => changeCreateUserVisibility(!createUserVisibility)
 
 	return (
 		<div id="App">
-			<Login visibility={visibility} activateLogin={activateLogin} updateIsLoggedIn={updateIsLoggedIn} />
+			<Login visibility={loginVisibility} activateLogin={activateLogin} updateIsLoggedIn={updateIsLoggedIn} activateCreateUser={activateCreateUser} />
+			<CreateUser visibility={createUserVisibility} updateIsLoggedIn={updateIsLoggedIn} activateCreateUser={activateCreateUser}/>
 			<Router>
-				<Header isLoggedIn={isLoggedIn} activateLogin={activateLogin} />
-				<ContentRouting />
+				<Header isLoggedIn={isLoggedIn} loginVisibility={loginVisibility} changeLoginVisibility={changeLoginVisibility}/>
+				<ContentRouting isLoggedIn={isLoggedIn} />
 				<Footer />
 			</Router>
 		</div>
