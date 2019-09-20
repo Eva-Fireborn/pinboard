@@ -1,9 +1,7 @@
-import React from 'react';
+import React from "react";
 
 const Anvandarvillkor = () => {
-    return (
-        <h1>Användarvillkor</h1>
-    )
+    return <h1>Användarvillkor</h1>;
 };
 
 export default Anvandarvillkor;
