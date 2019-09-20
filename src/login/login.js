@@ -34,49 +34,55 @@ const Login = ({ visibility, activateLogin, updateIsLoggedIn, activateCreateUser
 	} else {
 		return null;
 	}
-}
 
-async function responseGoogle(response) {
-	if (response.error) {
-		console.log('oh, nooo..');
-	} else {
-		let info = response.profileObj;
-		let body = {
-			name: info.name,
-			email: info.email,
-			imgUrl: info.imageUrl
-		}
-		const serverResponse = await fetch('http://localhost:4000/ApiLogInNewUser', {
-			method: 'POST',
-			body: JSON.stringify(body),
-			headers: {
-				"Content-type": "application/json; charset=UTF-8"
-			}
-		});
-		const res = await serverResponse.json();
-		console.log('response: ', res.status)
-	}
-}
 
-async function responseFacebook (response) {
-	if (response.error) {
-		console.log('oh, nooo..');
-	} else {
-		let body = {
-			name: response.name,
-			email: response.email,
-			imgUrl: response.picture.data.url
-		}
-		const serverResponse = await fetch('http://localhost:4000/ApiLogInNewUser', {
-			method: 'POST',
-			body: JSON.stringify(body),
-			headers: {
-				"Content-type": "application/json; charset=UTF-8"
+	async function responseGoogle(response) {
+		if (response.error) {
+			console.log('oh, nooo..');
+		} else {
+			let info = response.profileObj;
+			let body = {
+				name: info.name,
+				email: info.email
 			}
-		});
-		const res = await serverResponse.json();
-		console.log('response: ', res.status)
+			const serverResponse = await fetch('http://localhost:4000/ApiLogInUser', {
+				method: 'POST',
+				body: JSON.stringify(body),
+				headers: {
+					"Content-type": "application/json; charset=UTF-8"
+				}
+			});
+			const res = await serverResponse.json();
+			updateIsLoggedIn({
+				user: res.body.res
+			})
+			activateLogin()
+		}
 	}
+
+	async function responseFacebook (response) {
+		if (response.error) {
+			console.log('oh, nooo..');
+		} else {
+			let body = {
+				name: response.name,
+				email: response.email
+			}
+			const serverResponse = await fetch('http://localhost:4000/ApiLogInUser', {
+				method: 'POST',
+				body: JSON.stringify(body),
+				headers: {
+					"Content-type": "application/json; charset=UTF-8"
+				}
+			});
+			const res = await serverResponse.json();
+			updateIsLoggedIn({
+				user: res.body.res
+			})
+			activateLogin()
+		}
+	}
+
 }
 
 //clientID google: 285513444438-31ksr33o72j9p5rsvg21jpftqmre5s6f.apps.googleusercontent.com

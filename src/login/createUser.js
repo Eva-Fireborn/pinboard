@@ -8,7 +8,7 @@ const CreateUser = ({ visibility, updateIsLoggedIn, activateCreateUser }) => {
     });
 
     let userAuth = <CreateUserVerification activateCreateUser={activateCreateUser} responseGoogle={responseGoogle} responseFacebook={responseFacebook}/>
-    let userInputForm = <CreateUserInputForm activateCreateUser={activateCreateUser} userInformation={userInformation} changeUserInformation={changeUserInformation}/>
+    let userInputForm = <CreateUserInputForm activateCreateUser={activateCreateUser} userInformation={userInformation} changeUserInformation={changeUserInformation} updateIsLoggedIn={updateIsLoggedIn}/>
     
     let updateUserInformation = (information) => {
         changeUserInformation({
