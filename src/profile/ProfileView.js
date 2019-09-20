@@ -21,7 +21,6 @@ class ProfileView extends React.Component {
 		}
 	}
 
-
 	componentDidMount() {
 		fetch('http://localhost:4000/ApiGetAllAds')
 			.then(res => res.json())
@@ -46,6 +45,7 @@ class ProfileView extends React.Component {
 
 	render() {
 		const reviewScroll = () => document.getElementById("reviews").scrollIntoView({ behavior: "smooth" });
+		console.log('testing props', this.props.match.params.userID);
 		return (
 			<div id="wrapper">
 				<aside className="profile">
