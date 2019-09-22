@@ -27,10 +27,6 @@ class API {
     //console.log('connectToUserCollection');
     // connect and fetch the collection for further usage
     if (this.userCollection) return callback(this.userCollection)
-<<<<<<< HEAD
-
-=======
->>>>>>> olga
     this.makeConnection().then(() => {
       //console.log('we connected to the collection')
       this.userCollection = this.client.db("Pinboard").collection("Users")
