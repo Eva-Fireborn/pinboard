@@ -13,7 +13,7 @@ const ProfileSideList = ({ reviewScroll, profileData, editProfile, isLoggedIn })
 			<li>
 				<Link to="#">
 					<FontAwesomeIcon icon={faMapMarkerAlt} />
-					{isLoggedIn? isLoggedIn.user.city : profileData.location}
+					{isLoggedIn? isLoggedIn.city : profileData.location}
 				</Link>
 			</li>
 			<li>
@@ -27,7 +27,7 @@ const ProfileSideList = ({ reviewScroll, profileData, editProfile, isLoggedIn })
 			<li>
 				<Link to="#" onClick={reviewScroll}>
 					<FontAwesomeIcon icon={faComment} />
-					{isLoggedIn? isLoggedIn.user.totalOfRatings + ' recensioner' : '3 Recensioner'}
+					{isLoggedIn? isLoggedIn.totalOfRatings + ' recensioner' : '3 Recensioner'}
 				</Link>
 			</li>
 		</ul>

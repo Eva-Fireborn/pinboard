@@ -20,9 +20,10 @@ class ProfileView extends React.Component {
 			}
 		}
 	}
+	
 
-
-	componentDidMount() {
+	/*componentDidMount() {
+		console.log('isloggedin: ',this.props.isLoggedIn)
 		fetch('http://localhost:4000/ApiGetAllAds')
 			.then(res => res.json())
 			.then((result) => {
@@ -42,17 +43,17 @@ class ProfileView extends React.Component {
 					console.log(error)
 				}
 			)
-	}
+	}*/
 
 	render() {
 		const reviewScroll = () => document.getElementById("reviews").scrollIntoView({ behavior: "smooth" });
 		return (
 			<div id="wrapper">
 				<aside className="profile">
-					{this.props.isLoggedIn ? <img src={this.props.isLoggedIn.user.imgUrl} alt="profile img" /> : null}
+					{this.props.isLoggedIn ? <img src={this.props.isLoggedIn.imgUrl} alt="profile img" /> : null}
 					<section>
-						<h1>{this.props.isLoggedIn? this.props.isLoggedIn.user.name : this.state.profileData.name}</h1>
-						<h5>Medlem på Pinboard sedan {this.props.isLoggedIn? this.props.isLoggedIn.user.memberSince : 2012}.</h5>
+						<h1>{this.props.isLoggedIn? this.props.isLoggedIn.name : this.state.profileData.name}</h1>
+						<h5>Medlem på Pinboard sedan {this.props.isLoggedIn? this.props.isLoggedIn.memberSince : 2012}.</h5>
 						<ProfileSideList
 							reviewScroll={reviewScroll}
 							profileData={this.state.profileData}
@@ -84,7 +85,7 @@ class ProfileView extends React.Component {
 					<h2>Om mig:</h2>
 					<section>
 						<p>
-							{this.props.isLoggedIn? this.props.isLoggedIn.user.description : this.state.profileData.about}
+							{this.props.isLoggedIn? this.props.isLoggedIn.description : this.state.profileData.about}
 						</p>
 					</section>
 

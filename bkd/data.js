@@ -1,5 +1,6 @@
 // connect to mongodb cloud
 const MongoClient = require('mongodb').MongoClient
+const ObjectId = require('mongodb').ObjectId;
 //const uri = "mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority"
 //const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 class API {
@@ -68,6 +69,24 @@ class API {
     this.connectToUserCollection(collection => {
       collection.findOne(user, (error, result) => {
         if( error ) throw error
+        callback(result)
+      })
+    })
+  }
+
+  getUserForAd (user, callback) {
+    this.connectToUserCollection(collection => {
+      let o_id = new ObjectId(user);
+      let projection = {
+        email: false,
+        memberSince: false,
+        address: false,
+        postalcode: false,
+        city: false,
+        phone: false,
+        description: false
+      }
+      collection.findOne({_id : o_id}, {projection}).then(result => {
         callback(result)
       })
     })
@@ -180,11 +199,20 @@ class API {
     })
   }
 
-  getMsg (msg, callback) {
+  /*getMsg (msg, callback) {
     this.connectToMessagesCollection(collection => {
-      collection.findOne(msg, (error, result) => {
+      collection.findOne
+      (msg, (error, result) => {
         if( error ) throw error
         callback(result)
+      })
+    })
+  }*/
+  updateMsg (msg, callback) {
+    this.connectToMessagesCollection( collection => {
+      collection.updateOne({_id: msg.id}, {$set: {messages : msg.messages, timestamp: msg.timeStamp}}, null, (error, result) => {
+        if( error ) throw error
+        callback(true)
       })
     })
   }
