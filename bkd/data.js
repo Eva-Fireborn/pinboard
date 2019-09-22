@@ -146,11 +146,7 @@ class API {
 
   }
 
-<<<<<<< HEAD
   getAllAds ( callback) {
-=======
-  getAllAds (callback) {
->>>>>>> olga
     this.connectToAdCollection(collection => {
       collection.find({}).toArray( (error, result) => {
         if( error ) throw error
