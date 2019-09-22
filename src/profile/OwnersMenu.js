@@ -8,7 +8,7 @@ import {
 	faIdCard,
 } from '@fortawesome/free-solid-svg-icons';
 
-const OwnersMenu = ({ SetEditProfile }) => {
+const OwnersMenu = ({ SetEditProfile, logOff }) => {
 	return (
 		<ul>
 			<li>
@@ -30,7 +30,7 @@ const OwnersMenu = ({ SetEditProfile }) => {
 				</Link>
 			</li>
 			<li>
-				<Link to="#">
+				<Link to="#" onClick={logOff}>
 					<FontAwesomeIcon icon={faSignOutAlt} />
 					Logga ut
 				</Link>

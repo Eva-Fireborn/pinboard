@@ -10,7 +10,7 @@ import HelpPage from "./fos/HelpPage";
 
 
 
-const ContentRouting = ({isLoggedIn}) => {
+const ContentRouting = ({isLoggedIn, logOff}) => {
 	const [routes] = useState([
 		{ exact: true, path: "/", component: PinboardView },
 		{ exact: false, path: "/home", component: PinboardView },
@@ -32,7 +32,7 @@ const ContentRouting = ({isLoggedIn}) => {
 			path={route.path}
 			render={
 				({ match }) => (
-					<route.component match={match} isLoggedIn={isLoggedIn} />
+					<route.component match={match} isLoggedIn={isLoggedIn} logOff={logOff} />
 				)}
 		/>
 	));
