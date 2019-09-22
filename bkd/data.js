@@ -201,8 +201,7 @@ class API {
 
   getMsg (msg, callback) {
     this.connectToMessagesCollection(collection => {
-      collection.findOne
-      (msg, (error, result) => {
+      collection.findOne(msg, (error, result) => {
         if( error ) throw error
         callback(result)
       })
