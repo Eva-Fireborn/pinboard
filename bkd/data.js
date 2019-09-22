@@ -199,20 +199,12 @@ class API {
     })
   }
 
-  /*getMsg (msg, callback) {
+  getMsg (msg, callback) {
     this.connectToMessagesCollection(collection => {
       collection.findOne
       (msg, (error, result) => {
         if( error ) throw error
         callback(result)
-      })
-    })
-  }*/
-  updateMsg (msg, callback) {
-    this.connectToMessagesCollection( collection => {
-      collection.updateOne({_id: msg.id}, {$set: {messages : msg.messages, timestamp: msg.timeStamp}}, null, (error, result) => {
-        if( error ) throw error
-        callback(true)
       })
     })
   }
