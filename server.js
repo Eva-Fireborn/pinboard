@@ -75,6 +75,7 @@ expServer.post('/ApiLogInNewUser', (request, response) => {
 				res
 			}
 		})
+		api.disconnect()
 	})
 })
 
@@ -87,6 +88,7 @@ expServer.post('/ApiLogInUser', (request, response) => {
 				res
 			}
 		})
+		api.disconnect()
 	})
 })
 
@@ -108,6 +110,7 @@ expServer.get('/ApiGetAllAds', (request, response) => {
 			status: 200,
 			body: res
 		})
+		api.disconnect()
 	})
 })
 
@@ -118,8 +121,36 @@ expServer.post('/ApiPostNewAd', (request, response) => {
 		response.send({
 			status: 200
 		})
+		api.disconnect()
 	})
 })
+
+//getting and saving messeges to db
+expServer.get('/ApiGetMessagesForAd', (request, response) => {
+	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
+	// TODO: fixa ad id - bör skickas med querystring
+	api.getMessagesForAd( null, res => {
+		response.send({
+			status: 200,
+			body: res
+		})
+		api.disconnect()
+	})
+})
+
+expServer.post('/ApiPostNewMsg', (request, response) => {
+	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
+	api.createMsg(request.body, res => {
+		response.send({
+			status: 200
+		})
+		api.disconnect()
+	})
+})
+
+//upDateMsg funktion för bef. konversation.
+
+
 
 expServer.use( express.static(__dirname + '/build/') );
 
@@ -131,8 +162,12 @@ expServer.get('/', (request, response) => {
     response.sendFile(__dirname + '/public/index.html')
 
 });
+//vilka är inloggade, socket objekt.
+//rout sendDirectMsg annons och person behöver hittas.
 
+//skapa en lista för inloggade i connect.
 io.on('connection', socket => {
+	let connectedUsers = [];
   let id=0;
   let message = 'hello';
 	console.log('Server received new client connection: #' + id);

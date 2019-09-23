@@ -24,11 +24,11 @@ class API {
   }
 
   connectToUserCollection(callback) {
-    //console.log('connectToUserCollection');
+
+
     // connect and fetch the collection for further usage
     if (this.userCollection) return callback(this.userCollection)
     this.makeConnection().then(() => {
-      //console.log('we connected to the collection')
       this.userCollection = this.client.db("Pinboard").collection("Users")
       callback(this.userCollection)
     })
@@ -36,7 +36,9 @@ class API {
       //separate then and catch error handler
       console.log('failed to connect to user collection', error)
     })
-    //console.log('connecting to uri', this.uri)
+
+    console.log('connecting to uri', this.uri)
+
   }
 
   createUser (user, callback) {
@@ -46,7 +48,9 @@ class API {
       collection.findOne({email: user.email}).then(result => {
         console.log('createUser. connectToUserCollection, result=', result)
         if( result === null){
+
           console.log('createUser. no user')
+
           // here you get a collection that was sent from fun connectToUserCollection
           collection.insertOne(user, (error, result) => {
             if( error ) throw error
@@ -173,7 +177,7 @@ class API {
     })
   }
 
-  // repeat functions for another collection
+  // repeat functions for message collection
 
   connectToMessagesCollection(callback) {
     if (this.msgCollection) return callback(this.msgCollection)
@@ -198,14 +202,63 @@ class API {
     })
   }
 
-  getMsg (msg, callback) {
+  // TODO:
+  // hämta ad id Ads
+  getAdsWithMyDiscussions() {
+    this.connectToAdCollection(collection => {
+      collection.find({userId: id}, (error, result) => {
+        if(error) throw console.error
+        callback(result)
+      })
+    })
+  }
+
+  // Fetches all messages from the database for one ad (TODO)
+  getMessagesForAd (adId, userId, callback) {
     this.connectToMessagesCollection(collection => {
-      collection.findOne(msg, (error, result) => {
+      collection.group({_id:adId, userId: userId }.sort({timeStamp}), (error, result) => {
+        if( error ) throw error
+        callback(result)//funktion
+      })
+    })
+  }
+
+//upDateMsg för befintlig konversation.
+
+// functions for review collection
+
+  connectToReviewCollection(callback) {
+    if (this.reviewCollection) return callback(this.reviewCollection)
+
+    this.makeConnection().then(() => {
+      console.log('we connected to the review collection')
+      this.reviewCollection = this.client.db("Pinboard").collection("Reviews")
+      callback(this.reviewCollection)
+    })
+    .catch(error => {
+      console.log('failed to connect to reviews collection', error)
+    })
+    console.log('connecting to uri', this.uri)
+  }
+
+  createReview(review, callback) {
+    this.connectToReviewCollection(collection => {
+      collection.insertOne(review, (error, result) => {
+        if( error ) throw error
+        callback(result.insertedId)
+      })
+    })
+  }
+
+  getReview (review, callback) {
+    this.connectToReviewCollection(collection => {
+      collection.findOne(review, (error, result) => {
         if( error ) throw error
         callback(result)
       })
     })
   }
+
 
   disconnect(callback) {
     this.client.close(callback)
