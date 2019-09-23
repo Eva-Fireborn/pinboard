@@ -11,10 +11,10 @@ const Footer = () => {
 					<h4>Hjälp vid köp</h4>
 				</li>
 				<li>
-					<Link to='/betalning'>Betalning</Link>
+					<Link to='/frågorochsvar/hjälp-vid-köp/Betalning'>Betalning</Link>
 				</li>
 				<li>
-					<Link to='/anmäl-annons'>Anmäl störande annons</Link>
+					<Link to='/frågorochsvar/hjälp-vid-köp/Anmäl-störande-annons'>Anmäl störande annons</Link>
 				</li>
 			</ul>
 			<ul>
@@ -22,10 +22,10 @@ const Footer = () => {
 					<h4>Kundservice</h4>
 				</li>
 				<li>
-					<Link to='/användarvillkor'>Användarvillkor</Link>
+					<Link to='/frågorochsvar/kundservice/Anvädarvillkor'>Användarvillkor</Link>
 				</li>
 				<li>
-					<Link to='/kundsäkerhet'>Kundsäkerhet</Link>
+					<Link to='/frågorochsvar/kundservice/Kundsäkerhet'>Kundsäkerhet</Link>
 				</li>
 				<li>
 					<Link to='/frågorochsvar'>Frågor och svar</Link>
@@ -39,10 +39,10 @@ const Footer = () => {
 					<Link to='/'>info@pinboard.com</Link>
 				</li>
 				<li>
-					<Link to='/'><FontAwesomeIcon icon={faInstagram} /></Link>
-					<Link to='/'><FontAwesomeIcon icon={faFacebookSquare} /></Link>
-					<Link to='/'><FontAwesomeIcon icon={faTwitter} /></Link>
-					<Link to='/'><FontAwesomeIcon icon={faLinkedin} /></Link>
+					<Link to='/'><FontAwesomeIcon icon={faInstagram} className="socialMediaButtons" /></Link>
+					<Link to='/'><FontAwesomeIcon icon={faFacebookSquare} className="socialMediaButtons"/></Link>
+					<Link to='/'><FontAwesomeIcon icon={faTwitter} className="socialMediaButtons"/></Link>
+					<Link to='/'><FontAwesomeIcon icon={faLinkedin} className="socialMediaButtons" /></Link>
 				</li>
 			</ul>
 		</footer>
