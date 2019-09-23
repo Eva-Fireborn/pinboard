@@ -27,6 +27,7 @@
 #header {
 	@include shared-large-sizing;
 	@include shared-fixed-menu;
+	z-index: 9000;
 }
 #fixedMenu {
 	@include shared-large-sizing;
