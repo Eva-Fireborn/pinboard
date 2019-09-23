@@ -53,6 +53,7 @@ const Login = ({ visibility, activateLogin, updateIsLoggedIn, activateCreateUser
 				}
 			});
 			const res = await serverResponse.json();
+			console.log('login: ', res);
 			updateIsLoggedIn({
 				user: res.body.res
 			})

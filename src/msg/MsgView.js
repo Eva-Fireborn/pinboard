@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import openSocket from 'socket.io-client';
-
+import MsgConversations from './MsgConversations';
 const socket = openSocket('http://localhost:4000');
 
 
@@ -13,22 +13,25 @@ export default class MsgView extends Component {
 		super(props);
 
 		this.state = {
-			userId: 1, //från db
-			message: "", //input från anv.
-			recieverId: 2, //annons id från db
+			userId: this.props.isLoggedIn.user._id,
+			message: "",
+			recieverId: '5d8357516ba6fb424c221ca5',
 			messageHistory: []
 		};
 	}
 
 	componentDidMount() {
-		/*
+
 		fetch('http://localhost:4000/ApiGetAllMsg')
+		//console.log('körs fetch')
 		.then(res => res.json())
 		.then( (result) => {
 			let parsedResult = JSON.parse(result.body);
 			let msg = [];
 			parsedResult.forEach(res => {
+				console.log('MsgView fetch: ', res)
 				msg.push(res)
+
 			});
 			this.setState({
 				messageHistory: msg
@@ -38,15 +41,15 @@ export default class MsgView extends Component {
 			console.log(error)
 		}
 	)
-*/
-		socket.emit('user info', { email: 'julian@gmail.com', nickname: 'Jules' });
+/*
+		socket.emit('user info', { email: 'kristina@hotmail.com', nickname: 'Tinna' });
 		socket.on('chat message', data => {
 			console.log('Client received chat message: ', data);
 		})
-
+*/
 }
 
-	async	sendNewMsg(msg) {
+	async	postNewMsg(msg) {
 		const serverResponse = await fetch('http://localhost:4000/ApiPostNewMsg',
 				{
 					method: 'POST',
@@ -77,23 +80,27 @@ export default class MsgView extends Component {
 		this.setState({
 			messageHistory: [...this.state.messageHistory, messageObj]
 		})
-		this.sendNewMsg(messageObj)
+		this.postNewMsg(messageObj)
 
 		socket.emit('chat message', messageObj)
 		console.log('front end msg: ', messageObj);
 		this.setState({
 			message: ""
 		})
+
 	}
 
 
 	getNewTime = (date) => {
 	  return `${date.getHours()}: ${("0" + date.getMinutes()).slice(-2)} `
 	}
+	//todo if conversation is choosen show messages.
+	//create component for conversations in aside.
+
 
 	render(){
 
-		const allMessages = this.state.messageHistory.map(m => {
+		const allMessages = this.state.messageHistory.map((m, index)	 => {
 			let className;
 			console.log('vad händer? ', m);
 			if(this.state.userId === m.senderId){
@@ -103,36 +110,16 @@ export default class MsgView extends Component {
 				className = "msgOther";
 			}
 			return (
-				<div className={className} key={m._id} >
+				<div className={className} key={index} >
 				{m.message}
 				{m.timeStamp}
-				{m.senderId}
+
 				</div>
 			)
 		});
 	return (
 		<div id="wrapper">
-			<aside>
-				<div className="adUserName selected">
-					<img src={require('../img/tempProfile.jpg')} alt="profile img" className="profile" />
-					<div>
-						Magical unicorn user
-					</div>
-					<div className="arrow"></div>
-				</div>
-				<div className="adUserName">
-					<img src={require('../img/tempProfile.jpg')} alt="profile img" className="profile" />
-					<div>
-						Unicorn lover
-					</div>
-				</div>
-				<div className="adUserName">
-					<img src={require('../img/tempProfile.jpg')} alt="profile img" className="profile" />
-					<div>
-						Horse
-					</div>
-				</div>
-			</aside>
+			<MsgConversations messageHistory={this.state.messageHistory} />
 			<main id="msg">
 			{allMessages}
 				<textarea id="textMessage" type="text"
@@ -147,6 +134,5 @@ export default class MsgView extends Component {
 			</main>
 		</div>
 	);
-
 	};
 };

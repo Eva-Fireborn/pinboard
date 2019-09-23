@@ -23,20 +23,12 @@ class API {
   }
 
   connectToUserCollection(callback) {
-<<<<<<< HEAD
-    console.log('connectToUserCollection');
-=======
-    //console.log('connectToUserCollection');
->>>>>>> 6206343b1bff4491b0b4e95872098dfc98c3a6a8
+
+
     // connect and fetch the collection for further usage
     if (this.userCollection) return callback(this.userCollection)
 
     this.makeConnection().then(() => {
-<<<<<<< HEAD
-      console.log('we connected to the collection')
-=======
-      //console.log('we connected to the collection')
->>>>>>> 6206343b1bff4491b0b4e95872098dfc98c3a6a8
       this.userCollection = this.client.db("Pinboard").collection("Users")
       callback(this.userCollection)
     })
@@ -44,11 +36,9 @@ class API {
       //separate then and catch error handler
       console.log('failed to connect to user collection', error)
     })
-<<<<<<< HEAD
+
     console.log('connecting to uri', this.uri)
-=======
-    //console.log('connecting to uri', this.uri)
->>>>>>> 6206343b1bff4491b0b4e95872098dfc98c3a6a8
+
   }
 
   createUser (user, callback) {
@@ -58,10 +48,9 @@ class API {
       collection.findOne({email: user.email}).then(result => {
         console.log('createUser. connectToUserCollection, result=', result)
         if( result === null){
-<<<<<<< HEAD
-=======
+
           console.log('createUser. no user')
->>>>>>> 6206343b1bff4491b0b4e95872098dfc98c3a6a8
+
           // here you get a collection that was sent from fun connectToUserCollection
           collection.insertOne(user, (error, result) => {
             if( error ) throw error
@@ -195,16 +184,29 @@ class API {
     })
   }
 
-  getMsg (msg, callback) {
-    this.connectToMessagesCollection(collection => {
-      collection.findOne(msg, (error, result) => {
-        if( error ) throw error
+  // TODO:
+  // hämta ad id Ads
+  getAdsWithMyDiscussions() {
+    this.connectToAdCollection(collection => {
+      collection.find({userId: id}, (error, result) => {
+        if(error) throw console.error
         callback(result)
       })
     })
   }
 
-<<<<<<< HEAD
+  // Fetches all messages from the database for one ad (TODO)
+  getMessagesForAd (adId, userId, callback) {
+    this.connectToMessagesCollection(collection => {
+      collection.group({_id:adId, userId: userId }.sort({timeStamp}), (error, result) => {
+        if( error ) throw error
+        callback(result)//funktion
+      })
+    })
+  }
+
+//upDateMsg för befintlig konversation.
+
 // functions for review collection
 
   connectToReviewCollection(callback) {
@@ -239,8 +241,7 @@ class API {
     })
   }
 
-=======
->>>>>>> 6206343b1bff4491b0b4e95872098dfc98c3a6a8
+
   disconnect(callback) {
     this.client.close(callback)
   }
