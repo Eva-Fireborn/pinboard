@@ -14,7 +14,7 @@ const HelpPage = () => {
                     <div>
                         <ul>
                             <li>
-                                <Link to="/frågorochsvar/hjälp-vid-köp">
+                                <Link>
                                     <h4
                                         onClick={() =>
                                             setFirstVisibility(!firstVisibility)
@@ -39,7 +39,7 @@ const HelpPage = () => {
                                 ) : null}
                             </li>
                             <li>
-                                <Link to="/frågorochsvar/kundservice">
+                                <Link>
                                     <h4
                                         onClick={() =>
                                             setSecondVisibility(

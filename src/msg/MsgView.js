@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import openSocket from 'socket.io-client';
 
-const socket = openSocket('http://localhost:4000');
+//const socket = openSocket('http://localhost:4000');
 
 const mh = [
 	{
@@ -43,13 +43,13 @@ export default class MsgView extends Component {
 		};
 	}
 
-	componentDidMount() {
-		socket.emit('user info', { email: 'julian@gmail.com', nickname: 'Jules' });
-		socket.on('chat message', data => {
-			console.log('Client received chat message: ', data);
+	// componentDidMount() {
+	// 	socket.emit('user info', { email: 'julian@gmail.com', nickname: 'Jules' });
+	// 	socket.on('chat message', data => {
+	// 		console.log('Client received chat message: ', data);
 
-		})
-	}
+	// 	})
+	// }
 
 	handleChangeMessage = e => {
 		console.log('Körs handleChangeMessage?');
@@ -64,10 +64,10 @@ export default class MsgView extends Component {
 		this.setState({
 			messageHistory: [...this.state.messageHistory, messageObj]
 		})
-		socket.emit('chat message', messageObj);
-		this.setState({
-			message: ""
-		})
+		// socket.emit('chat message', messageObj);
+		// this.setState({
+		// 	message: ""
+		// })
 	}
 
 
