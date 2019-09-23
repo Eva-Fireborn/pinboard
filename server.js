@@ -164,6 +164,7 @@ expServer.get('/', (request, response) => {
 });
 //vilka är inloggade, socket objekt.
 //rout sendDirectMsg annons och person behöver hittas.
+
 //skapa en lista för inloggade i connect.
 io.on('connection', socket => {
 	let connectedUsers = [];
