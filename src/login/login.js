@@ -55,9 +55,20 @@ const Login = ({ visibility, activateLogin, updateIsLoggedIn, activateCreateUser
 			const res = await serverResponse.json();
 			console.log('login: ', res);
 			updateIsLoggedIn({
-				user: res.body.res
+				name: res.body.res.name,
+				address: res.body.res.address,
+				email: res.body.res.email,
+				imgUrl: res.body.res.imgUrl,
+				memeberSince: res.body.res.memeberSince,
+				phone: res.body.res.phone,
+				postalcode: res.body.res.postalcode,
+				rating: res.body.res.rating,
+				totalOfRatings: res.body.res.totalOfRatings,
+				_id: res.body.res._id,
+				description: res.body.res.description
 			})
-			activateLogin()
+			activateLogin();
+			localStorage.setItem('user', JSON.stringify(res.body.res));
 		}
 	}
 
@@ -78,9 +89,20 @@ const Login = ({ visibility, activateLogin, updateIsLoggedIn, activateCreateUser
 			});
 			const res = await serverResponse.json();
 			updateIsLoggedIn({
-				user: res.body.res
+				name: res.body.res.name,
+				address: res.body.res.address,
+				email: res.body.res.email,
+				imgUrl: res.body.res.imgUrl,
+				memeberSince: res.body.res.memeberSince,
+				phone: res.body.res.phone,
+				postalcode: res.body.res.postalcode,
+				rating: res.body.res.rating,
+				totalOfRatings: res.body.res.totalOfRatings,
+				_id: res.body.res._id,
+				description: res.body.res.description
 			})
-			activateLogin()
+			activateLogin();
+			localStorage.setItem('user', JSON.stringify(res.body.res));
 		}
 	}
 
