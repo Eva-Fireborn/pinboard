@@ -105,6 +105,7 @@ class API {
   }
 
   deleteUser (id, callback) {
+    console.log(id)
     this.connectToUserCollection(collection => {
       collection.deleteOne({_id: id}, null, (error, result) => {
         if( error ) throw error
@@ -132,6 +133,7 @@ class API {
 
   createAd (ad, callback) {
     this.connectToAdCollection(collection => {
+      ad.createdAt = new Date()
       collection.insertOne(ad, (error, result) => {
         if( error ) throw error
         callback(result.insertedId)
@@ -150,11 +152,34 @@ class API {
 
   }
 
+  // Eva's fun
   getAllAds (callback) {
     this.connectToAdCollection(collection => {
       collection.find({}).toArray( (error, result) => {
         if( error ) throw error
         callback(JSON.stringify(result))
+      })
+    })
+  }
+
+  getAllAdsByUser(userId, callback) {
+    this.connectToAdCollection(collection => {
+      console.log(userId, 'finding ads by userId')
+      collection.find({userId}, (error, cursor) => {
+        if( error ) throw error
+        cursor.toArray()
+          .then(ads => callback(ads))
+          .catch(err => console.log('error in cursor get ads by user id:', err))
+      })
+    })
+  }
+
+  getTwentyNewestAds() {
+    this.connectToAdCollection( collection => {
+      collection.find({}, (error, cursor) => {
+        cursor.sort({createdAt: -1}).limit(5).toArray()
+        .then(ads => callback(ads))
+        .catch(err => console.log('error in cursor about 20 ads:', err))
       })
     })
   }
@@ -172,12 +197,15 @@ class API {
     this.connectToAdCollection(collection => {
       collection.deleteOne({_id: id}, null, (error, result) => {
         if( error ) throw error
+        console.log(id)
+        console.log(result.result)
         callback(result)
       })
     })
   }
 
-  // repeat functions for message collection
+
+  // functions for Messages collection
 
   connectToMessagesCollection(callback) {
     if (this.msgCollection) return callback(this.msgCollection)
@@ -258,6 +286,40 @@ class API {
       })
     })
   }
+  // functions for review collection
+
+  connectToReviewCollection(callback) {
+    if (this.reviewCollection) return callback(this.reviewCollection)
+
+    this.makeConnection().then(() => {
+      console.log('we connected to the review collection')
+      this.reviewCollection = this.client.db("Pinboard").collection("Reviews")
+      callback(this.reviewCollection)
+    })
+    .catch(error => {
+      console.log('failed to connect to reviews collection', error)
+    })
+    console.log('connecting to uri', this.uri)
+  }
+
+  createReview(review, callback) {
+    this.connectToReviewCollection(collection => {
+      collection.insertOne(review, (error, result) => {
+        if( error ) throw error
+        callback(result.insertedId)
+      })
+    })
+  }
+
+  getReview (review, callback) {
+    this.connectToReviewCollection(collection => {
+      collection.findOne(review, (error, result) => {
+        if( error ) throw error
+        callback(result)
+      })
+    })
+  }
+
 
 
   disconnect(callback) {

@@ -6,39 +6,50 @@
 		margin: 0;
 		padding: 0;
 		list-style: none;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-around;
+		align-items: flex-start;
 	}
 	li {
-		float: left;
-		width: 23em;
+		width: 300px;
 		min-height: 10em;
 		padding: 2.5em 1em 1em 1em;
-		margin: 3em 1em;
+		margin: 3em 2.2em;
 		background-image: url(../img/pin.png);
 		background-size: auto 50px;
 		background-repeat: no-repeat;
 		background-position: center 0;
-		background-color: $green;
+		background-color: $purple;
 		box-shadow: 5px 5px 10px 3px rgba(37, 37, 37, 0.7);
 		transform: rotate(-2deg);
 	}
 	li:nth-child(2n) {
-		margin: 2.5em 0.7em;
+		margin: 2.5em 2.6em;
 		transform: rotate(-3deg);
 		background-color: $maroon;
-		width: 23em;
-		float: right;
+		width: 340px;
 	}
 	li:nth-child(3n) {
-		margin: 2.8em 0.9em;
+		margin: 2.8em 2.9em;
 		transform: rotate(3deg);
-		background-color: $purple;
-		width: 25em;
+		background-color: $blue;
+		width: 300px;
 	}
 	li:nth-child(2) {
-		margin: 3em 0.9em;
-		transform: rotate(-4deg);
+		margin: 3em 2.4em;
+		transform: rotate(4deg);
 		background-color: $brown;
-		width: 23em;
-		float: right;
+		width: 320px;
+	}
+	.adCard {
+		border-bottom: none;
+		flex-direction: column;
+		> * {
+			text-align: center;
+		}
+		.price {
+			margin-bottom: 1em;
+		}
 	}
 }

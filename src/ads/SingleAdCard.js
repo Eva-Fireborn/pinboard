@@ -7,7 +7,7 @@ import {
 	faStar
 } from '@fortawesome/free-solid-svg-icons';
 
-const SingleAdCard = ({adObject}) => {
+const SingleAdCard = ({ adObject }) => {
 	const [readAll, setReadAll] = useState(false);
 	let [userInfo, updateUserInfo] = useState(null);
 	const fullText = adObject.description;
@@ -43,7 +43,7 @@ const SingleAdCard = ({adObject}) => {
 	}, [adObject])*/
 
 	return (
-		<div className="adCard">
+		<li className="adCard">
 			<div>
 				<img src={require('../img/tempCourse.jpg')} alt="ads img" />
 				<button className="price call">
@@ -63,9 +63,15 @@ const SingleAdCard = ({adObject}) => {
 						<p>{shortText}</p>
 				}
 
-				<button onClick={() => setReadAll(!readAll)}>
-					{readAll ? 'Stäng.' : 'Läs mer..'}
-				</button>
+				{
+					fullText !== shortText ?
+						(
+							<button onClick={() => setReadAll(!readAll)}>
+								{readAll ? 'Stäng.' : 'Läs mer..'}
+							</button>
+						) :
+						null
+				}
 
 				<div>
 					<Link to="#">
@@ -75,7 +81,7 @@ const SingleAdCard = ({adObject}) => {
 					</Link>
 				</div>
 			</div>
-		</div>
+		</li>
 	);
 };
 
