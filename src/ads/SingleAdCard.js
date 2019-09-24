@@ -13,8 +13,6 @@ const SingleAdCard = ({ adObject }) => {
 	const fullText = adObject.description;
 	const shortText = fullText.split(' ').splice(0, 25).join(' ');
 
-	console.log(adObject);
-
 	/*useEffect( () => {
 
 			fetch('http://localhost:4000/ApiGetUserForAd/'+ adObject.userId)

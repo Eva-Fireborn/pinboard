@@ -45,7 +45,7 @@ class ProfileView extends React.Component {
 					<img src={this.state.profileData.imgUrl} alt="profile img" />
 					<section>
 						<h1>{this.state.profileData.name}</h1>
-						<h5>Medlem på Pinboard sedan {typeof this.state.profileData.memberSince} //change to .getFullYear().</h5>
+						<h5>Medlem på Pinboard sedan {typeof this.state.profileData.memberSince} --> change to .getFullYear().</h5>
 						<ProfileSideList
 							reviewScroll={reviewScroll}
 							profileData={this.state.profileData}
@@ -83,7 +83,7 @@ class ProfileView extends React.Component {
 								this.state.userAds && this.state.userAds.length ?
 									this.state.userAds.map((ad, key) =>
 										<SingleAdCard key={key} adObject={ad} />)
-								: null
+									: null
 							}
 						</ul>
 					</section>
