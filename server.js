@@ -125,6 +125,17 @@ expServer.get('/ApiGetAllAds', (request, response) => {
 	})
 })
 
+expServer.get('/ApiGetLatest', (request, response) => {
+	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
+	api.getTwentyNewestAds(res => {
+		response.send({
+			status: 200,
+			body: res
+		})
+		api.disconnect()
+	})
+})
+
 expServer.post('/ApiPostNewAd', (request, response) => {
 	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
 	api.createAd(request.body, res => {
