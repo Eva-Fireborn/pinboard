@@ -202,12 +202,14 @@ class API {
     })
   }
 
-  // TODO:
-  // hämta ad id Ads
-  getAdsWithMyDiscussions() {
-    this.connectToAdCollection(collection => {
-      collection.find({userId: id}, (error, result) => {
-        if(error) throw console.error
+
+  getAllMessagesForUser(userId, callback) {
+    this.connectToMessagesCollection(collection => {
+      const query = {$or: [{senderId: userId },{recieverId: userId}]};
+      console.log('data.getAllMessagesForUser, userId=', userId, query);
+      collection.find(query).toArray((error, result) => {
+        console.log('data.getAllMessagesForUser, found: ', result);
+        if(error) throw error;
         callback(result)
       })
     })
