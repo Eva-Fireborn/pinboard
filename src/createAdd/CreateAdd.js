@@ -55,7 +55,8 @@ const CreateAdd = ({isLoggedIn}) => {
                         street: '',
                         zip: '',
                         price: '',
-                        date: new Date()
+                        date: new Date(),
+                        userId: isLoggedIn._id
                     }}
                     validationSchema={Yup.object().shape({
                         addType: Yup.array()
