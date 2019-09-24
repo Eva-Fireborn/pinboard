@@ -153,7 +153,6 @@ class API {
   }
 
   // Eva's fun
-
   getAllAds (callback) {
     this.connectToAdCollection(collection => {
       collection.find({}).toArray( (error, result) => {
@@ -205,11 +204,8 @@ class API {
     })
   }
 
-<<<<<<< HEAD
-  // repeat functions for message collection
-=======
+
   // functions for Messages collection
->>>>>>> olga
 
   connectToMessagesCollection(callback) {
     if (this.msgCollection) return callback(this.msgCollection)
@@ -236,19 +232,19 @@ class API {
 
   // TODO:
   // hämta ad id Ads
-  getAdsWithMyDiscussions() {
+  /*getAdsWithMyDiscussions() {
     this.connectToAdCollection(collection => {
       collection.find({userId: id}, (error, result) => {
         if(error) throw console.error
         callback(result)
       })
     })
-  }
+  }*/
 
   // Fetches all messages from the database for one ad (TODO)
   getMessagesForAd (adId, userId, callback) {
     this.connectToMessagesCollection(collection => {
-      collection.group({_id:adId, userId: userId }.sort({timeStamp}), (error, result) => {
+      collection.group({_id:adId, userId: userId }.sort({timeStamp: -1}), (error, result) => {
         if( error ) throw error
         callback(result)//funktion
       })

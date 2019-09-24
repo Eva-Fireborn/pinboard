@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import logo from './../img/pinboard.png';
 import GoogleLogin from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
@@ -8,16 +8,16 @@ const Login = ({ visibility, activateLogin, updateIsLoggedIn, activateCreateUser
 		activateLogin();
 		activateCreateUser();
 	}
+	let [displayError, changeDisplayError] = useState('');
 	if (visibility) {
 		return (
 			<div id="loginPopup">
 				<div id="loginWindow">
 					<button className="close" onClick={activateLogin}>X</button>
-
 					<img src={logo} id="loginLogo" alt="logotyp" />
-					<div>
-						<p id="createNewAccountPLInk" onClick={switchWindow}>Har du inte ett konto? <br/><b>Klicka här och skapa ett.</b></p>
-					</div>
+					<p id="createNewAccountPLInk">Har du inte ett konto?</p>
+					<button className="loginWindowLoginButton" onClick={switchWindow}>Klicka här för att skapa konto</button>
+					{displayError ? (<div className="loginErrorDisplay">{displayError}</div>) : null }
 					<GoogleLogin
 						clientId="285513444438-31ksr33o72j9p5rsvg21jpftqmre5s6f.apps.googleusercontent.com"
 						buttonText="Logga in med Google"
@@ -28,6 +28,7 @@ const Login = ({ visibility, activateLogin, updateIsLoggedIn, activateCreateUser
 						autoLoad={false}
 						fields="name,email,picture"
 						callback={responseFacebook} />
+
 				</div>
 				<div className="darkness" onClick={activateLogin}></div>
 			</div>)
@@ -53,22 +54,27 @@ const Login = ({ visibility, activateLogin, updateIsLoggedIn, activateCreateUser
 				}
 			});
 			const res = await serverResponse.json();
-			console.log('login: ', res);
-			updateIsLoggedIn({
-				name: res.body.res.name,
-				address: res.body.res.address,
-				email: res.body.res.email,
-				imgUrl: res.body.res.imgUrl,
-				memeberSince: res.body.res.memeberSince,
-				phone: res.body.res.phone,
-				postalcode: res.body.res.postalcode,
-				rating: res.body.res.rating,
-				totalOfRatings: res.body.res.totalOfRatings,
-				_id: res.body.res._id,
-				description: res.body.res.description
-			})
-			activateLogin();
-			localStorage.setItem('user', JSON.stringify(res.body.res));
+			if (res.body.res === null) {
+				changeDisplayError('Du måste skapa ett konto för att logga in.')
+			}
+			else {
+				updateIsLoggedIn({
+					name: res.body.res.name,
+					address: res.body.res.address,
+					email: res.body.res.email,
+					imgUrl: res.body.res.imgUrl,
+					memeberSince: res.body.res.memeberSince,
+					phone: res.body.res.phone,
+					postalcode: res.body.res.postalcode,
+					rating: res.body.res.rating,
+					totalOfRatings: res.body.res.totalOfRatings,
+					_id: res.body.res._id,
+					description: res.body.res.description
+				})
+				activateLogin();
+				localStorage.setItem('user', JSON.stringify(res.body.res));
+			}
+			
 		}
 	}
 
@@ -88,21 +94,26 @@ const Login = ({ visibility, activateLogin, updateIsLoggedIn, activateCreateUser
 				}
 			});
 			const res = await serverResponse.json();
-			updateIsLoggedIn({
-				name: res.body.res.name,
-				address: res.body.res.address,
-				email: res.body.res.email,
-				imgUrl: res.body.res.imgUrl,
-				memeberSince: res.body.res.memeberSince,
-				phone: res.body.res.phone,
-				postalcode: res.body.res.postalcode,
-				rating: res.body.res.rating,
-				totalOfRatings: res.body.res.totalOfRatings,
-				_id: res.body.res._id,
-				description: res.body.res.description
-			})
-			activateLogin();
-			localStorage.setItem('user', JSON.stringify(res.body.res));
+			if (res.body.res === null) {
+				changeDisplayError('Du måste skapa ett konto för att logga in.')
+			}
+			else {
+				updateIsLoggedIn({
+					name: res.body.res.name,
+					address: res.body.res.address,
+					email: res.body.res.email,
+					imgUrl: res.body.res.imgUrl,
+					memeberSince: res.body.res.memeberSince,
+					phone: res.body.res.phone,
+					postalcode: res.body.res.postalcode,
+					rating: res.body.res.rating,
+					totalOfRatings: res.body.res.totalOfRatings,
+					_id: res.body.res._id,
+					description: res.body.res.description
+				})
+				activateLogin();
+				localStorage.setItem('user', JSON.stringify(res.body.res));
+			}
 		}
 	}
 
