@@ -7,13 +7,13 @@ import {
 	faChalkboardTeacher,
 } from '@fortawesome/free-solid-svg-icons';
 
-const ProfileSideList = ({ reviewScroll, profileData, editProfile }) => {
+const ProfileSideList = ({ reviewScroll, profileData, editProfile, isLoggedIn }) => {
 	return (
 		<ul>
 			<li>
 				<Link to="#">
 					<FontAwesomeIcon icon={faMapMarkerAlt} />
-					{profileData.location}
+					{isLoggedIn? isLoggedIn.city : profileData.location}
 				</Link>
 			</li>
 			<li>
@@ -27,7 +27,7 @@ const ProfileSideList = ({ reviewScroll, profileData, editProfile }) => {
 			<li>
 				<Link to="#" onClick={reviewScroll}>
 					<FontAwesomeIcon icon={faComment} />
-					3 Recensioner
+					{isLoggedIn? isLoggedIn.totalOfRatings + ' recensioner' : '3 Recensioner'}
 				</Link>
 			</li>
 		</ul>

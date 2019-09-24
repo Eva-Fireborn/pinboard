@@ -67,12 +67,12 @@ input, select, textarea {
 
 #wrapper {
 	flex: 1 0 auto;
-	margin: 0 8em;
 	display: flex;
-	padding: 2em 0;
+	padding: 2em 8em;
+	margin: 0;
 	@media (max-width: $breakpoint-tablet) {
-		margin: 5em 1em 1em 1em;
-		padding: 0;
+		padding: 5em 1em 1em 1em;
+		margin: 0;
 		flex-direction: column;
 	}
 }
@@ -95,3 +95,4 @@ aside {
 @import 'login';
 @import 'faq';
 @import 'ReviewAd';
+@import 'pinboard';
