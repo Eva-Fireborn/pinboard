@@ -11,6 +11,7 @@ class ProfileView extends React.Component {
 		this.state = {
 			owner: false,
 			editProfile: false,
+			userAds: [],
 			profileData: {}
 		}
 	}
@@ -19,17 +20,20 @@ class ProfileView extends React.Component {
 	componentDidMount() {
 		fetch(`http://localhost:4000/getUserByID/${this.props.match.params.userID}`)
 			.then(res => res.json())
-			.then((result) => {
-				this.setState({
-					profileData: result
-				})
-				if (this.state.profileData._id === this.props.isLoggedIn._id) {
-					this.setState({ owner: true })
-				}
-			},
-				(error) => {
-					console.log(error)
-				}
+			.then(
+				(result) => {
+					this.setState({ profileData: result })
+					if (this.state.profileData._id === this.props.isLoggedIn._id)
+						this.setState({ owner: true })
+				}, (error) => console.log(error)
+			)
+
+		fetch(`http://localhost:4000/getAllAdsByUser/${this.props.match.params.userID}`)
+			.then(res => res.json())
+			.then(
+				(result) => {
+					this.setState({ userAds: result.body })
+				}, (error) => console.log(error)
 			)
 	}
 
@@ -74,7 +78,14 @@ class ProfileView extends React.Component {
 
 					<section>
 						<h2>Min tjänster:</h2>
-						waiting for backend stuff...
+						<ul>
+							{
+								this.state.userAds && this.state.userAds.length ?
+									this.state.userAds.map((ad, key) =>
+										<SingleAdCard key={key} adObject={ad} />)
+								: null
+							}
+						</ul>
 					</section>
 
 					<section id="reviews">

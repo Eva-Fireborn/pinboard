@@ -177,7 +177,10 @@ class API {
 			collection.find({ userId }, (error, cursor) => {
 				if (error) throw error
 				cursor.toArray()
-					.then(ads => callback(ads))
+					.then(ads => {
+						console.log(ads)
+						callback(ads)
+					})
 					.catch(err => console.log('error in cursor get ads by user id:', err))
 			})
 		})
