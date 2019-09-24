@@ -21,31 +21,23 @@ const CreateAdd = ({isLoggedIn}) => {
             }
         });
         const res = await serverResponse.json();
-        console.log('Ad created successfuly! Respone status: ', res.status)
+        console.log('Ad created successfuly! Response status: ', res.status);
     }
 
     const UserInformation = (isValid) => {
         setIsValid(false);
         if (!isLoggedIn && !isValid) {
-            console.log('is not valid and not logged in');
             setIsValid(true);
             setErrorMessage('You have to log in first and fill in the required fields')
         } else if (isValid && !isLoggedIn) {
-            console.log('valid but not logged in');
             setIsValid(true);
             setErrorMessage('You have to log in first');
         } else if (isLoggedIn && !isValid) {
-            console.log('logged in but not valid');
             setIsValid(true);
             setErrorMessage('You have to fill in the required fields')
         } else if (isValid && isLoggedIn) {
-            console.log('is loged in and is valid!')
             setErrorMessage('');
         }
-    }
-
-    const getNewTime = (date) => {
-        return `${date.getHours()}: ${("0" + date.getMinutes()).slice(-2)} `
     }
 
     return (
@@ -63,7 +55,7 @@ const CreateAdd = ({isLoggedIn}) => {
                         street: '',
                         zip: '',
                         price: '',
-                        date: getNewTime(new Date())
+                        date: new Date()
                     }}
                     validationSchema={Yup.object().shape({
                         addType: Yup.array()
@@ -88,7 +80,7 @@ const CreateAdd = ({isLoggedIn}) => {
                         if (isLoggedIn) {
                             sendNewAd(fields);
                         } else {
-                            console.log('not logged in');
+                            console.log('trying to submit without login in');
                         }
                         //alert('SUCCESS!! \n\n' + JSON.stringify(fields, null, 4))
                     }}
@@ -179,10 +171,9 @@ const CreateAdd = ({isLoggedIn}) => {
                             <div>*obligatorisk</div> 
                             <div className="form-group">
                                 <button type="submit" className="formButton" onClick={() => UserInformation(isValid)}>Publicera</button>
-                                <button type="reset" className="resetButton" onClick={() => setIsValid(!valid)}>Återställ</button>
+                                <button type="reset" className="resetButton" onClick={() => setIsValid(false)}>Återställ</button>
                                 <button type="button" onClick={() => setVisibility(!visibility)}>Förhandsgranska annons</button>
                             </div>
-                            {/*disabled={!isLoggedIn}*/}
                             {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
                             { visibility ? <ReviewAd values={JSON.stringify(values)} onClose={() => setVisibility(!visibility)}  /> : null }
                         </Form>

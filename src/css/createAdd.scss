@@ -1,6 +1,6 @@
 .formContainer {
     * {
-        margin: 0.5em; 
+        margin: 0.5em;
     }
     .formButton {
         background-color: $purple;
@@ -9,7 +9,9 @@
     .resetButton {
         float: right;
     }
-    input, textarea, label {
+    input,
+    textarea,
+    label {
         display: block;
         width: 90%;
     }
@@ -17,7 +19,7 @@
         display: block;
         width: 90%;
     }
-    
+
     textarea {
         height: 5em;
     }
@@ -30,15 +32,12 @@
             margin: 0.5px;
         }
     }
-    
-    
-    
+
     .rubrik {
         text-align: center;
         margin: 0.5em;
     }
 }
-
 
 .invalid-feedback {
     color: red;
@@ -53,7 +52,7 @@
     border: 1px solid #000;
     box-sizing: border-box;
     border-radius: $rounding-large;
-    background: #FFFF;
+    background: #ffff;
     input {
         display: inline-block;
         width: 3em;
