@@ -77,6 +77,15 @@ class API {
 		})
 	}
 
+	getUserByID(user, callback) {
+		this.connectToUserCollection(collection => {
+			let o_id = new ObjectId(user);
+			collection.findOne({ _id: o_id }).then(result => {
+				callback(result)
+			})
+		})
+	}
+
 	getUserForAd(user, callback) {
 		this.connectToUserCollection(collection => {
 			let o_id = new ObjectId(user);
@@ -95,15 +104,6 @@ class API {
 		})
 	}
 
-	getUserByID(user, callback) {
-		this.connectToUserCollection(collection => {
-			let o_id = new ObjectId(user);
-			collection.findOne({ _id: o_id }).then(result => {
-				callback(result)
-			})
-		})
-	}
-
 	updateUser(user, callback) {
 		this.connectToUserCollection(collection => {
 			collection.updateOne({ _id: user.id }, { $set: user }, null, (error, result) => {
@@ -114,6 +114,7 @@ class API {
 	}
 
 	deleteUser(id, callback) {
+		console.log(id)
 		this.connectToUserCollection(collection => {
 			collection.deleteOne({ _id: id }, null, (error, result) => {
 				if (error) throw error
@@ -141,6 +142,7 @@ class API {
 
 	createAd(ad, callback) {
 		this.connectToAdCollection(collection => {
+			ad.createdAt = new Date()
 			collection.insertOne(ad, (error, result) => {
 				if (error) throw error
 				callback(result.insertedId)
@@ -159,11 +161,34 @@ class API {
 
 	}
 
+	// Eva's fun
 	getAllAds(callback) {
 		this.connectToAdCollection(collection => {
 			collection.find({}).toArray((error, result) => {
 				if (error) throw error
 				callback(JSON.stringify(result))
+			})
+		})
+	}
+
+	getAllAdsByUser(userId, callback) {
+		this.connectToAdCollection(collection => {
+			console.log(userId, 'finding ads by userId')
+			collection.find({ userId }, (error, cursor) => {
+				if (error) throw error
+				cursor.toArray()
+					.then(ads => callback(ads))
+					.catch(err => console.log('error in cursor get ads by user id:', err))
+			})
+		})
+	}
+
+	getTwentyNewestAds(callback) {
+		this.connectToAdCollection(collection => {
+			collection.find({}, (error, cursor) => {
+				cursor.sort({ createdAt: -1 }).limit(5).toArray()
+					.then(ads => callback(ads))
+					.catch(err => console.log('error in cursor about 20 ads:', err))
 			})
 		})
 	}
@@ -181,12 +206,15 @@ class API {
 		this.connectToAdCollection(collection => {
 			collection.deleteOne({ _id: id }, null, (error, result) => {
 				if (error) throw error
+				console.log(id)
+				console.log(result.result)
 				callback(result)
 			})
 		})
 	}
 
-	// repeat functions for message collection
+
+	// functions for Messages collection
 
 	connectToMessagesCollection(callback) {
 		if (this.msgCollection) return callback(this.msgCollection)
@@ -213,19 +241,19 @@ class API {
 
 	// TODO:
 	// hämta ad id Ads
-	getAdsWithMyDiscussions() {
-		this.connectToAdCollection(collection => {
-			collection.find({ userId: id }, (error, result) => {
-				if (error) throw console.error
-				callback(result)
-			})
+	/*getAdsWithMyDiscussions() {
+	  this.connectToAdCollection(collection => {
+		collection.find({userId: id}, (error, result) => {
+		  if(error) throw console.error
+		  callback(result)
 		})
-	}
+	  })
+	}*/
 
 	// Fetches all messages from the database for one ad (TODO)
 	getMessagesForAd(adId, userId, callback) {
 		this.connectToMessagesCollection(collection => {
-			collection.group({ _id: adId, userId: userId }.sort({ timeStamp }), (error, result) => {
+			collection.group({ _id: adId, userId: userId }.sort({ timeStamp: -1 }), (error, result) => {
 				if (error) throw error
 				callback(result)//funktion
 			})
@@ -267,7 +295,6 @@ class API {
 			})
 		})
 	}
-
 
 	disconnect(callback) {
 		this.client.close(callback)
