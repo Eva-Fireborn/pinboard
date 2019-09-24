@@ -26,7 +26,7 @@ test('test user functions', t =>  {
         api.updateUser(paul, success => {
           t.ok(success, 'paul moved to stockholm' )
           // to avoid conflict in the order of events, delete is after update
-          api.deleteUser(paul, success => {
+          api.deleteUser(paul._id, success => {
             t.ok(success, 'paul got removed')
             // send reference of function and when it's closed it'll call t.end to finish the test
             api.disconnect(t.end)
@@ -38,33 +38,50 @@ test('test user functions', t =>  {
 
 test('test ads functions', t =>  {
   // how many tests
-    t.plan(8)
-    const api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority")
-    t.ok(api, 'api exists')
+  t.plan(13)
+  const api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority")
+  t.ok(api, 'api exists')
+  api.createUser({name: 'Viktor', city: 'kungsbacka', email: 'viktor@work.com'}, viktorId => {
+    t.ok(viktorId, 'Viktor has been created')
     const ad = {
+      userId: viktorId,
       title: "watch my cat",
-      city: "goteborg"
+      city: "goteborg",
+      description: "i need to have my cat watched from friday to monday next week"
     }
     t.equal(typeof api.createAd, 'function', 'createAd should be a function')
 
     api.createAd(ad, adID => {
       t.ok(adID, 'ads id should have been returned')
       console.log('ad id of inserted ad:', adID)
+      t.ok(ad.userId, 'ad must have the author')
       api.getAd(adID, catAd => {
         t.ok(catAd, 'watch my cat ad had been returned')
         t.equal(catAd.city, 'goteborg', 'cat is in goteborg')
+        t.ok(catAd.description != '', 'description should be in the ad')
+        t.notEqual(catAd.description, 'i dislike all the cats', 'the description is correct')
         t.notEqual(catAd.title, 'walk my dog', 'cats dont really walk outside')
         catAd.title = 'watch 2 cats'
-        api.updateAd(catAd, success => {
-          t.ok(success, 'cats multiply!' )
-          api.deleteAd(ad, success => {
-            t.ok(success, 'ad got removed')
-            api.disconnect(t.end)
+        api.getAllAdsByUser(viktorId, ads => {
+          console.log(ads)
+          t.equal(viktorId, ad.userId, 'function recognizes the user id')
+          api.updateAd(catAd, success => {
+            t.ok(success, 'cats multiply!' )
+            api.deleteAd(ad._id, success => {
+              t.ok(success, 'ad got removed')
+              api.disconnect(t.end)
+            })
           })
         })
       })
     })
+  })
 })
+
+//
+// test ('fetch twenty latest', t => {
+//   // to do: generate twenty ads using loop (for) and test the function
+// })
 
 test('test message functions', t =>  {
   // how many tests
