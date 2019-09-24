@@ -287,7 +287,7 @@ class API {
       })
     })
   }
- 
+  
   disconnect(callback) {
     this.client.close(callback)
   }
