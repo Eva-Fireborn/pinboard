@@ -5,17 +5,8 @@ import * as Yup from 'yup';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 
 const CreateUserInputForm = ({activateCreateUser, userInformation, changeUserInformation, updateIsLoggedIn}) => {
-    // const updateField = e => {
-    //     changeUserInformation({
-    //         ...userInformation,
-    //       [e.target.name]: e.target.value
-    //     });
-    //   };
       
       async function connectNewUser (value) {
-          console.log(userInformation);
-        
-        console.log('fields: ', value);
         const serverResponse = await fetch('http://localhost:4000/ApiLogInNewUser', {
             method: 'POST',
             body: JSON.stringify(value, null, 4),
@@ -24,19 +15,8 @@ const CreateUserInputForm = ({activateCreateUser, userInformation, changeUserInf
             }
         });
         const res = await serverResponse.json();
-        console.log('res is: ', res);
         updateIsLoggedIn({
-            name: res.body.res.name,
-            address: res.body.res.address,
-            email: res.body.res.email,
-            imgUrl: res.body.res.imgUrl,
-            memeberSince: res.body.res.memeberSince,
-            phone: res.body.res.phone,
-            postalcode: res.body.res.postalcode,
-            rating: res.body.res.rating,
-            totalOfRatings: res.body.res.totalOfRatings,
-            _id: res.body.res._id,
-            description: res.body.res.description
+            _id: res.body.res
         })
         activateCreateUser();
         localStorage.setItem('user', JSON.stringify(res.body.res));
@@ -51,7 +31,6 @@ const CreateUserInputForm = ({activateCreateUser, userInformation, changeUserInf
                         imgUrl: userInformation.imgUrl,
                         totalOfRatings: 0,
                         rating: 0,
-                        
                         address: '',
                         postalcode: '',
                         city: '',
@@ -73,8 +52,6 @@ const CreateUserInputForm = ({activateCreateUser, userInformation, changeUserInf
                             .required('Beskriv dig själv')
                     })}
                     onSubmit={fields => {
-                        // alert('SUCCESS!! \n\n' + JSON.stringify(fields, null, 4));
-                        
                         connectNewUser(fields);
                     }}
                     render={({ errors, touched, values}) => (
@@ -106,23 +83,12 @@ const CreateUserInputForm = ({activateCreateUser, userInformation, changeUserInf
                             </div>
                             <div>*obligatorisk</div> 
                             <div>
-                                <button type="submit" onClick={connectNewUser}>Skapa konto</button>
+                                <button type="submit" onClick={()=>{console.log('verifiering?')}}>Skapa konto</button>
                             </div>
                             <pre>{JSON.stringify(values, null, 2)}</pre>
                         </Form>
                     )}
                 />
-            {/* <p>Adress</p>
-            <input type='text' name="address" onChange={updateField} />
-            <p>Postnummer</p>
-            <input type='text' name="postalcode" onChange={updateField} />
-            <p>Stad</p>
-            <input type='text' name="city" onChange={updateField} />
-            <p>Telefon</p>
-            <input type='text' name="phone" onChange={updateField} />
-            <p>Beskrivning om dig</p>
-            <textarea rows="3" column="2" type='text' name="description" onChange={updateField} />
-            <button onClick={connectNewUser}>Skapa konto</button> */}
         </div>
     )
     
