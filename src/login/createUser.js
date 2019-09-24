@@ -17,8 +17,7 @@ const CreateUser = ({ visibility, updateIsLoggedIn, activateCreateUser }) => {
             email: information.email,
             imgUrl: information.imgUrl,
             totalOfRatings: 0,
-            rating: 0,
-            memberSince: new Date(),
+            rating: 0
         })
     }
 

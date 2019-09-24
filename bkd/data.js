@@ -44,6 +44,7 @@ class API {
   createUser (user, callback) {
     // callback from the developer code, from calling these functions
     this.connectToUserCollection(collection => {
+      user.memberSince = new Date();
       console.log('createUser, connectToUserCollection. user: ', user)
       collection.findOne({email: user.email}).then(result => {
         console.log('createUser. connectToUserCollection, result=', result)
@@ -174,7 +175,7 @@ class API {
     })
   }
 
-  getTwentyNewestAds() {
+  getTwentyNewestAds(callback) {
     this.connectToAdCollection( collection => {
       collection.find({}, (error, cursor) => {
         cursor.sort({createdAt: -1}).limit(5).toArray()
@@ -286,42 +287,7 @@ class API {
       })
     })
   }
-  // functions for review collection
-
-  connectToReviewCollection(callback) {
-    if (this.reviewCollection) return callback(this.reviewCollection)
-
-    this.makeConnection().then(() => {
-      console.log('we connected to the review collection')
-      this.reviewCollection = this.client.db("Pinboard").collection("Reviews")
-      callback(this.reviewCollection)
-    })
-    .catch(error => {
-      console.log('failed to connect to reviews collection', error)
-    })
-    console.log('connecting to uri', this.uri)
-  }
-
-  createReview(review, callback) {
-    this.connectToReviewCollection(collection => {
-      collection.insertOne(review, (error, result) => {
-        if( error ) throw error
-        callback(result.insertedId)
-      })
-    })
-  }
-
-  getReview (review, callback) {
-    this.connectToReviewCollection(collection => {
-      collection.findOne(review, (error, result) => {
-        if( error ) throw error
-        callback(result)
-      })
-    })
-  }
-
-
-
+ 
   disconnect(callback) {
     this.client.close(callback)
   }
