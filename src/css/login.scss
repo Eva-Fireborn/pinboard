@@ -25,11 +25,15 @@
 		> * {
 			margin: 0 0 1em 0;
 		}
-		#createNewAccountPLInk:hover {
-			cursor: pointer;
-			b:hover {
-				text-decoration: underline;
-			}
+		#createNewAccountPLInk {
+			font-weight: bold;
+		}
+		.loginWindowLoginButton{
+			margin-top: 0px;
+			margin-bottom: 50px;
+		}
+		.loginErrorDisplay{
+			color: red;
 		}
 	}
 	#createUserWindow{
