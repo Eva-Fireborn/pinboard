@@ -22,7 +22,8 @@ class ProfileView extends React.Component {
 	}
 
 
-	componentDidMount() {
+	/*componentDidMount() {
+		console.log('isloggedin: ',this.props.isLoggedIn)
 		fetch('http://localhost:4000/ApiGetAllAds')
 			.then(res => res.json())
 			.then((result) => {
@@ -42,21 +43,23 @@ class ProfileView extends React.Component {
 					console.log(error)
 				}
 			)
-	}
+	}*/
 
 	render() {
 		const reviewScroll = () => document.getElementById("reviews").scrollIntoView({ behavior: "smooth" });
+		console.log('testing props', this.props.match.params.userID);
 		return (
 			<div id="wrapper">
 				<aside className="profile">
-					<img src={require('../img/tempProfile.jpg')} alt="profile img" />
+					{this.props.isLoggedIn ? <img src={this.props.isLoggedIn.imgUrl} alt="profile img" /> : null}
 					<section>
-						<h1>{this.state.profileData.name}</h1>
-						<h5>Medlem på Pinboard sedan 2012.</h5>
+						<h1>{this.props.isLoggedIn ? this.props.isLoggedIn.name : this.state.profileData.name}</h1>
+						<h5>Medlem på Pinboard sedan {this.props.isLoggedIn ? this.props.isLoggedIn.memberSince : 2012}.</h5>
 						<ProfileSideList
 							reviewScroll={reviewScroll}
 							profileData={this.state.profileData}
 							editProfile={this.state.editProfile}
+							isLoggedIn={this.props.isLoggedIn}
 						/>
 					</section>
 
@@ -68,6 +71,7 @@ class ProfileView extends React.Component {
 										editProfile: !this.state.editProfile
 									})
 								}
+								logOff={this.props.logOff}
 							/>
 							: null
 						}
@@ -82,7 +86,7 @@ class ProfileView extends React.Component {
 					<h2>Om mig:</h2>
 					<section>
 						<p>
-							{this.state.profileData.about}
+							{this.props.isLoggedIn ? this.props.isLoggedIn.description : this.state.profileData.about}
 						</p>
 					</section>
 

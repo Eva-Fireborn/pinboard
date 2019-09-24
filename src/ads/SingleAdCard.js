@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from "react-router-dom";
 import {
@@ -7,13 +7,43 @@ import {
 	faStar
 } from '@fortawesome/free-solid-svg-icons';
 
-const SingleAdCard = ({adObject}) => {
+const SingleAdCard = ({ adObject }) => {
 	const [readAll, setReadAll] = useState(false);
+	let [userInfo, updateUserInfo] = useState(null);
 	const fullText = adObject.description;
 	const shortText = fullText.split(' ').splice(0, 25).join(' ');
 
+	/*useEffect( () => {
+
+			fetch('http://localhost:4000/ApiGetUserForAd/'+ adObject.userId)
+			.then((response) => {
+				//let res = JSON.parse(response)
+				//updateUserInfo(res);
+				console.log(response)
+				return response.json();
+			})
+			.then(function (myJson){
+				console.log(myJson);
+			})
+			
+		
+		fetch('http://localhost:4000/ApiGetUserForAd')
+		.then(res => res.json())
+		.then( (result) => {
+			let parsedResult = JSON.parse(result.body);
+			console.log('result: ', parsedResult)
+		  },
+		  // Note: it's important to handle errors here
+		  // instead of a catch() block so that we don't swallow
+		  // exceptions from actual bugs in components.
+		  (error) => {
+			  console.log(error)
+		  }
+		)
+	}, [adObject])*/
+
 	return (
-		<div className="adCard">
+		<li className="adCard">
 			<div>
 				<img src={require('../img/tempCourse.jpg')} alt="ads img" />
 				<button className="price call">
@@ -33,9 +63,15 @@ const SingleAdCard = ({adObject}) => {
 						<p>{shortText}</p>
 				}
 
-				<button onClick={() => setReadAll(!readAll)}>
-					{readAll ? 'Stäng.' : 'Läs mer..'}
-				</button>
+				{
+					fullText !== shortText ?
+						(
+							<button onClick={() => setReadAll(!readAll)}>
+								{readAll ? 'Stäng.' : 'Läs mer..'}
+							</button>
+						) :
+						null
+				}
 
 				<div>
 					<Link to="#">
@@ -45,7 +81,7 @@ const SingleAdCard = ({adObject}) => {
 					</Link>
 				</div>
 			</div>
-		</div>
+		</li>
 	);
 };
 

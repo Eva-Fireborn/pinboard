@@ -25,27 +25,43 @@ expServer.get('/Eva-Fireborn/pinboard/static/media/tempProfile.0ca70095.jpg', (r
 	response.sendFile(__dirname + '/build/static/media/tempProfile.0ca70095.jpg')
 });
 
-expServer.get('home', (request, response) => {
+expServer.get('/home', (request, response) => {
     console.log('Request: ', request.url)
     response.sendFile(__dirname + '/build/index.html')
 });
-expServer.get('annonser', (request, response) => {
+expServer.get('/annonser', (request, response) => {
     console.log('Request: ', request.url)
     response.sendFile(__dirname + '/build/index.html')
 });
-expServer.get('skapaannons', (request, response) => {
+expServer.get('/skapaannons', (request, response) => {
     console.log('Request: ', request.url)
     response.sendFile(__dirname + '/build/index.html')
 });
-expServer.get('frågorochsvar', (request, response) => {
+expServer.get('/frågorochsvar', (request, response) => {
     console.log('Request: ', request.url)
     response.sendFile(__dirname + '/build/index.html')
 });
-expServer.get('profil', (request, response) => {
+expServer.get('/profil', (request, response) => {
     console.log('Request: ', request.url)
     response.sendFile(__dirname + '/build/index.html')
 });
-expServer.get('meddelanden', (request, response) => {
+expServer.get('/meddelanden', (request, response) => {
+    console.log('Request: ', request.url)
+    response.sendFile(__dirname + '/build/index.html')
+});
+expServer.get('/betalning', (request, response) => {
+    console.log('Request: ', request.url)
+    response.sendFile(__dirname + '/build/index.html')
+});
+expServer.get('/anmäl-annons', (request, response) => {
+    console.log('Request: ', request.url)
+    response.sendFile(__dirname + '/build/index.html')
+});
+expServer.get('/användarvillkor', (request, response) => {
+    console.log('Request: ', request.url)
+    response.sendFile(__dirname + '/build/index.html')
+});
+expServer.get('/kundsäkerhet', (request, response) => {
     console.log('Request: ', request.url)
     response.sendFile(__dirname + '/build/index.html')
 });
@@ -59,6 +75,7 @@ expServer.post('/ApiLogInNewUser', (request, response) => {
 				res
 			}
 		})
+		api.disconnect()
 	})
 })
 
@@ -71,6 +88,18 @@ expServer.post('/ApiLogInUser', (request, response) => {
 				res
 			}
 		})
+		api.disconnect()
+	})
+})
+
+expServer.get('/ApiGetUserForAd/:id', (request, response) => {
+	let id = request.params.id
+	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
+	api.getUserForAd(id, res => {
+		console.log(res);
+		response.send(
+			JSON.stringify(res)
+		)
 	})
 })
 
@@ -81,6 +110,7 @@ expServer.get('/ApiGetAllAds', (request, response) => {
 			status: 200,
 			body: res
 		})
+		api.disconnect()
 	})
 })
 
@@ -91,8 +121,36 @@ expServer.post('/ApiPostNewAd', (request, response) => {
 		response.send({
 			status: 200
 		})
+		api.disconnect()
 	})
 })
+
+//getting and saving messeges to db
+expServer.get('/ApiGetMessagesForAd', (request, response) => {
+	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
+	// TODO: fixa ad id - bör skickas med querystring
+	api.getMessagesForAd( null, res => {
+		response.send({
+			status: 200,
+			body: res
+		})
+		api.disconnect()
+	})
+})
+
+expServer.post('/ApiPostNewMsg', (request, response) => {
+	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
+	api.createMsg(request.body, res => {
+		response.send({
+			status: 200
+		})
+		api.disconnect()
+	})
+})
+
+//upDateMsg funktion för bef. konversation.
+
+
 
 expServer.use( express.static(__dirname + '/build/') );
 
@@ -104,8 +162,12 @@ expServer.get('/', (request, response) => {
     response.sendFile(__dirname + '/public/index.html')
 
 });
+//vilka är inloggade, socket objekt.
+//rout sendDirectMsg annons och person behöver hittas.
 
+//skapa en lista för inloggade i connect.
 io.on('connection', socket => {
+	let connectedUsers = [];
   let id=0;
   let message = 'hello';
 	console.log('Server received new client connection: #' + id);
