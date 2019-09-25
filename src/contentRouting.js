@@ -17,7 +17,7 @@ const ContentRouting = ({ isLoggedIn, logOff }) => {
 		{ exact: false, path: "/annonser", component: AdsView },
 		{ exact: false, path: "/skapaannons", component: CreateAdd },
 		{ exact: true, path: "/frågorochsvar", component: HelpPage },
-		{ exact: false, path: "/profil/:userID", component: ProfileView },
+		{ exact: true, path: "/profil/:userID", component: ProfileView },
 		{ exact: false, path: "/meddelanden", component: MsgView },
 		{ exact: false, path: "/frågorochsvar/hjälp-vid-köp/Betalning", component: HelpPage },
 		{ exact: false, path: "/frågorochsvar/hjälp-vid-köp/Anmäl-störande-annons", component: HelpPage },
