@@ -5,6 +5,7 @@ const socket = openSocket('http://localhost:4000');
 
 
 
+
 export default class MsgView extends Component {
 
 //userId & receiverId via props
@@ -16,20 +17,19 @@ export default class MsgView extends Component {
 			userId: this.props.isLoggedIn._id,
 			message: "",
 			recieverId: '5d8357516ba6fb424c221ca5',
-			messageHistory: []
+			messageHistory: [],
+			adId: ""
 		};
 	}
 
 	componentDidMount() {
 
-		fetch('http://localhost:4000/ApiGetAllMsg')
-		//console.log('körs fetch')
+			fetch(`http://localhost:4000/ApiGetAllMsgForUser?userId=${this.state.userId}`)
 		.then(res => res.json())
 		.then( (result) => {
-			let parsedResult = JSON.parse(result.body);
+			let parsedResult = JSON.stringify(result.body);
 			let msg = [];
-			parsedResult.forEach(res => {
-				console.log('MsgView fetch: ', res)
+			JSON.parse(parsedResult).forEach(res => {
 				msg.push(res)
 
 			});
@@ -40,14 +40,14 @@ export default class MsgView extends Component {
 		(error) => {
 			console.log(error)
 		}
-	)
-/*
-		socket.emit('user info', { email: 'kristina@hotmail.com', nickname: 'Tinna' });
-		socket.on('chat message', data => {
-			console.log('Client received chat message: ', data);
-		})
-*/
+	)  // fetch
+	socket.on('chat message', data => {
+		console.log('Client received chat message: ', data);
+
+		alert(JSON.stringify(data.message))
+	});
 }
+
 
 	async	postNewMsg(msg) {
 		const serverResponse = await fetch('http://localhost:4000/ApiPostNewMsg',
@@ -75,7 +75,9 @@ export default class MsgView extends Component {
 			message: this.state.message,
 			senderId: this.state.userId,
 			recieverId: this.state.recieverId,
-			timeStamp: this.getNewTime(new Date()) };
+			timeStamp: this.getNewTime(new Date()),
+			adId: this.state.adId
+			};
 
 		this.setState({
 			messageHistory: [...this.state.messageHistory, messageObj]
@@ -83,26 +85,24 @@ export default class MsgView extends Component {
 		this.postNewMsg(messageObj)
 
 		socket.emit('chat message', messageObj)
+
 		console.log('front end msg: ', messageObj);
 		this.setState({
 			message: ""
 		})
 
-	}
-
+	};
 
 	getNewTime = (date) => {
-	  return `${date.getHours()}: ${("0" + date.getMinutes()).slice(-2)} `
+	  return `${date.getHours()}: ${("0" + date.getMinutes()).slice(-2)}  ${date.getDate()} / ${date.getMonth()} `
 	}
 	//todo if conversation is choosen show messages.
-	//create component for conversations in aside.
-
 
 	render(){
 
 		const allMessages = this.state.messageHistory.map((m, index)	 => {
 			let className;
-			console.log('vad händer? ', m);
+			//console.log('vad händer? ', m);
 			if(this.state.userId === m.senderId){
 				className = "msgSelf";
 			}
@@ -110,16 +110,21 @@ export default class MsgView extends Component {
 				className = "msgOther";
 			}
 			return (
-				<div className={className} key={index} >
+				<div className={className} key={m.timeStamp} >
 				{m.message}
 				{m.timeStamp}
-
 				</div>
 			)
 		});
+		// _id, message, senderId, receiverId, timeStamp, adId
+		// TODO: sortera efter timestamp och eliminera dubbletter
+		const ads = this.state.messageHistory.
+			map(m => m.adId)
+			console.log('vad finns här då?',this.state.messageHistory);
+
 	return (
 		<div id="wrapper">
-			<MsgConversations messageHistory={this.state.messageHistory} />
+			<MsgConversations ads={ads} />
 			<main id="msg">
 			{allMessages}
 				<textarea id="textMessage" type="text"
