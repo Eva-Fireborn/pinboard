@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from "react-router-dom";
 import {
 	faMapMarkerAlt,
-	faCommentsDollar,
 	faStar
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -13,45 +12,34 @@ const SingleAdCard = ({ adObject }) => {
 	const fullText = adObject.description;
 	const shortText = fullText.split(' ').splice(0, 25).join(' ');
 
-	/*useEffect( () => {
+	useEffect( () => {
 
 			fetch('http://localhost:4000/ApiGetUserForAd/'+ adObject.userId)
 			.then((response) => {
-				//let res = JSON.parse(response)
-				//updateUserInfo(res);
-				console.log(response)
 				return response.json();
 			})
 			.then(function (myJson){
-				console.log(myJson);
+				let res = myJson;
+				updateUserInfo({
+					name: res.name,
+					imgUrl: res.imgUrl,
+					totalOfRatings: res.totalOfRatings,
+					rating: res.rating,
+					userId: res._id
+				})
 			})
-			
-		
-		fetch('http://localhost:4000/ApiGetUserForAd')
-		.then(res => res.json())
-		.then( (result) => {
-			let parsedResult = JSON.parse(result.body);
-			console.log('result: ', parsedResult)
-		  },
-		  // Note: it's important to handle errors here
-		  // instead of a catch() block so that we don't swallow
-		  // exceptions from actual bugs in components.
-		  (error) => {
-			  console.log(error)
-		  }
-		)
-	}, [adObject])*/
+	}, [])
 
 	return (
 		<li className="adCard">
 			<div>
 				<img src={require('../img/tempCourse.jpg')} alt="ads img" />
 				<button className="price call">
-					<FontAwesomeIcon icon={faCommentsDollar} /> {adObject.price} kr
+					Svara på annonsen
 				</button>
 			</div>
 			<div className="adInformation">
-				<h2>{adObject.title}</h2>
+				<h2>{adObject.header}</h2>
 				<a href="map.html">
 					<FontAwesomeIcon icon={faMapMarkerAlt} />
 					{adObject.city}
@@ -74,11 +62,11 @@ const SingleAdCard = ({ adObject }) => {
 				}
 
 				<div>
-					<Link to="#">
-						<img src={require('../img/tempProfile.jpg')} alt="profile img" />
-						Fredrika Lycke<br />
-						4.24 <FontAwesomeIcon icon={faStar} />(3)
-					</Link>
+					{userInfo ? (<Link to="#">
+						<img src={userInfo.imgUrl} alt="profile img" />
+						{userInfo.name}<br />
+						{userInfo.rating} <FontAwesomeIcon icon={faStar} />({userInfo.totalOfRatings})
+					</Link>) : null}
 				</div>
 			</div>
 		</li>

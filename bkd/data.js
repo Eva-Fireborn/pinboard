@@ -78,6 +78,15 @@ class API {
     })
   }
 
+  getUserByID(user, callback) {
+	this.connectToUserCollection(collection => {
+		let o_id = new ObjectId(user);
+		collection.findOne({ _id: o_id }).then(result => {
+			callback(result)
+		})
+	})
+}
+
   getUserForAd (user, callback) {
     this.connectToUserCollection(collection => {
       let o_id = new ObjectId(user);
