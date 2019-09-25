@@ -63,7 +63,7 @@ const SingleAdCard = ({ adObject, isLoggedIn }) => {
 				}
 
 				<div>
-					{userInfo ? (<Link to="#">
+					{userInfo ? (<Link to={"/profil/" + userInfo.userId}>
 						<img src={userInfo.imgUrl} alt="profile img" />
 						{userInfo.name}<br />
 						{userInfo.rating} <FontAwesomeIcon icon={faStar} />({userInfo.totalOfRatings})
