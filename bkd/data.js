@@ -252,6 +252,17 @@ class API {
 		})
 	  })
 	}*/
+  getAllMessagesForUser(userId, callback) {
+    this.connectToMessagesCollection(collection => {
+      const query = {$or: [{senderId: userId },{recieverId: userId}]};
+      console.log('data.getAllMessagesForUser, userId=', userId, query);
+      collection.find(query).toArray((error, result) => {
+        console.log('data.getAllMessagesForUser, found: ', result);
+        if(error) throw error;
+        callback(result)
+      })
+    })
+  }
 
 	// Fetches all messages from the database for one ad (TODO)
 	getMessagesForAd(adId, userId, callback) {
