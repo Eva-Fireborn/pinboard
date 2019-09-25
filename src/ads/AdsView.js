@@ -11,6 +11,7 @@ class AdsView extends React.Component {
 	}
 
 	componentDidMount() {
+		console.log('isLoggedIn adsView: ',this.props.isLoggedIn)
 		fetch('http://localhost:4000/ApiGetAllAds')
 			.then(res => res.json())
 			.then((result) => {
@@ -43,7 +44,7 @@ class AdsView extends React.Component {
 					<ul>
 						{this.state.listOfAds && this.state.listOfAds.length ?
 							this.state.listOfAds.map((ad, key) =>
-								<SingleAdCard key={key} adObject={ad} />)
+								<SingleAdCard key={key} adObject={ad} isLoggedIn={this.props.isLoggedIn}/>)
 							:
 							null}
 					</ul>

@@ -5,8 +5,9 @@ import {
 	faMapMarkerAlt,
 	faStar
 } from '@fortawesome/free-solid-svg-icons';
+import FirstMessageToAd from './FirstMessageToAd';
 
-const SingleAdCard = ({ adObject }) => {
+const SingleAdCard = ({ adObject, isLoggedIn }) => {
 	const [readAll, setReadAll] = useState(false);
 	let [userInfo, updateUserInfo] = useState(null);
 	const fullText = adObject.description;
@@ -69,8 +70,13 @@ const SingleAdCard = ({ adObject }) => {
 					</Link>) : null}
 				</div>
 			</div>
+		
 		</li>
+		
 	);
 };
 
 export default SingleAdCard;
+/*	<div>
+		<FirstMessageToAd userInfo={userInfo} isLoggedIn={isLoggedIn} />
+		</div>*/

@@ -23,7 +23,7 @@ const App = () => {
 				_id: user
 			})
 		} else {
-			return undefined;
+			return updateIsLoggedIn(null);
 		}
 	}, [])
 
