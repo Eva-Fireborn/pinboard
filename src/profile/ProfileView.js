@@ -23,8 +23,10 @@ class ProfileView extends React.Component {
 			.then(
 				(result) => {
 					this.setState({ profileData: result })
+					if (this.props.isLoggedIn) {
 					if (this.state.profileData._id === this.props.isLoggedIn._id)
 						this.setState({ owner: true })
+					}
 				}, (error) => console.log(error)
 			)
 
@@ -45,7 +47,7 @@ class ProfileView extends React.Component {
 					<img src={this.state.profileData.imgUrl} alt="profile img" />
 					<section>
 						<h1>{this.state.profileData.name}</h1>
-						<h5>Medlem på Pinboard sedan {typeof this.state.profileData.memberSince} --> change to .getFullYear().</h5>
+						<h5>Medlem på Pinboard sedan {this.state.profileData.memberSince}.</h5>
 						<ProfileSideList
 							reviewScroll={reviewScroll}
 							profileData={this.state.profileData}

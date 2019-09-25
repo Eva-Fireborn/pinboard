@@ -14,7 +14,7 @@ const SingleAdCard = ({ adObject, isLoggedIn }) => {
 	const shortText = fullText.split(' ').splice(0, 25).join(' ');
 
 	useEffect( () => {
-
+			console.log('loggedIn singleAdCard: ', isLoggedIn)
 			fetch('http://localhost:4000/ApiGetUserForAd/'+ adObject.userId)
 			.then((response) => {
 				return response.json();
@@ -69,6 +69,9 @@ const SingleAdCard = ({ adObject, isLoggedIn }) => {
 						{userInfo.rating} <FontAwesomeIcon icon={faStar} />({userInfo.totalOfRatings})
 					</Link>) : null}
 				</div>
+				<div>
+					<FirstMessageToAd userInfo={userInfo} isLoggedIn={isLoggedIn._id} />
+				</div>
 			</div>
 		
 		</li>
@@ -77,6 +80,4 @@ const SingleAdCard = ({ adObject, isLoggedIn }) => {
 };
 
 export default SingleAdCard;
-/*	<div>
-		<FirstMessageToAd userInfo={userInfo} isLoggedIn={isLoggedIn} />
-		</div>*/
+/*	*/

@@ -85,7 +85,6 @@ const CreateUserInputForm = ({activateCreateUser, userInformation, changeUserInf
                             <div>
                                 <button type="submit" onClick={()=>{console.log('verifiering?')}}>Skapa konto</button>
                             </div>
-                            <pre>{JSON.stringify(values, null, 2)}</pre>
                         </Form>
                     )}
                 />

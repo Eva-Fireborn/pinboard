@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-const FirstMessageToAd = ({isLoggedin, userInfo }) => {
+const FirstMessageToAd = ({ userInfo, isLoggedin }) => {
     //let [message, setMessage] = useState('');
     let messageInput = '';
     async function sendMessageToDatabase () {
@@ -26,7 +26,7 @@ const FirstMessageToAd = ({isLoggedin, userInfo }) => {
     }
     const onTextAreaChange = (value) => {
         messageInput = value;
-        console.log('isLoggedIn: ', isLoggedin)
+        console.log('isLoggedIn firstMessage: ', isLoggedin)
     }
     return(
         <div>

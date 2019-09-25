@@ -24,8 +24,6 @@ class API {
   }
 
   connectToUserCollection(callback) {
-
-
     // connect and fetch the collection for further usage
     if (this.userCollection) return callback(this.userCollection)
     this.makeConnection().then(() => {

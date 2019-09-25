@@ -11,7 +11,6 @@ class AdsView extends React.Component {
 	}
 
 	componentDidMount() {
-		console.log('isLoggedIn adsView: ',this.props.isLoggedIn)
 		fetch('http://localhost:4000/ApiGetAllAds')
 			.then(res => res.json())
 			.then((result) => {
@@ -20,7 +19,7 @@ class AdsView extends React.Component {
 				parsedResult.forEach(res => {
 					ads.push(res)
 				});
-				this.setState({
+				 return this.setState({
 					listOfAds: ads
 				});
 			},
