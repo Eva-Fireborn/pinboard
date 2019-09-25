@@ -167,26 +167,17 @@ expServer.post('/ApiPostNewMsg', (request, response) => {
 	})
 })
 
-//upDateMsg funktion för bef. konversation.
-
-
 
 expServer.use( express.static(__dirname + '/build/') );
 
-/*.all('*', ....)
-response.status(404)
-*/
+
 expServer.get('/', (request, response) => {
     console.log('Request: ', request.url)
     response.sendFile(__dirname + '/public/index.html')
 
 });
-//vilka är inloggade, socket objekt.
-//rout sendDirectMsg annons och person behöver hittas.
 
 
-
-//skapa en lista för inloggade i connect.
 let connectedUsers = [];
 io.on('connection', socket => {
 	const sessionID = socket.id;
@@ -198,11 +189,9 @@ io.on('connection', socket => {
 	})
 	socket.on('chat message', data => {
 		console.log(`Server received chat message from #${sessionID}: `, data);
-    io.to(sessionID).emit('chat message', data);
+		if( connectedUsers.find(id => data.receiverId) )
+			io.to(sessionID).emit('chat message', data);
 	})
-  socket.on('chat message', message => {
-    io.emit('chat message', message);
-  });
 
 })
 

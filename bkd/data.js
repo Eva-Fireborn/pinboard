@@ -225,7 +225,7 @@ class API {
     })
   }
 
-//upDateMsg för befintlig konversation.
+
 
 // functions for review collection
 

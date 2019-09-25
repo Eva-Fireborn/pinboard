@@ -24,7 +24,7 @@ export default class MsgView extends Component {
 
 	componentDidMount() {
 
-			fetch('http://localhost:4000/ApiGetAllMsgForUser?userId=' + this.state.userId)
+			fetch(`http://localhost:4000/ApiGetAllMsgForUser?userId=${this.state.userId}`)
 		.then(res => res.json())
 		.then( (result) => {
 			let parsedResult = JSON.stringify(result.body);
@@ -43,7 +43,8 @@ export default class MsgView extends Component {
 	)  // fetch
 	socket.on('chat message', data => {
 		console.log('Client received chat message: ', data);
-		alert(JSON.stringify(data))
+
+		alert(JSON.stringify(data.message))
 	});
 }
 
@@ -93,7 +94,7 @@ export default class MsgView extends Component {
 	};
 
 	getNewTime = (date) => {
-	  return `${date.getHours()}: ${("0" + date.getMinutes()).slice(-2)} `
+	  return `${date.getHours()}: ${("0" + date.getMinutes()).slice(-2)}  ${date.getDate()} / ${date.getMonth()} `
 	}
 	//todo if conversation is choosen show messages.
 
