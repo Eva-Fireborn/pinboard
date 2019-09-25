@@ -13,21 +13,17 @@ const ProfileSideList = ({ reviewScroll, profileData, editProfile, isLoggedIn })
 			<li>
 				<Link to="#">
 					<FontAwesomeIcon icon={faMapMarkerAlt} />
-					{isLoggedIn? isLoggedIn.city : profileData.location}
+					{profileData.city}
 				</Link>
 			</li>
 			<li>
 				<FontAwesomeIcon icon={faChalkboardTeacher} />
-				Språk: {
-					editProfile ?
-						(<input type="text" placeholder={profileData.language.map((s) => s + ' ')} />)
-						: profileData.language.map((s) => s + ' ')
-				}
+				Språk: waiting for backend stuff...
 			</li>
 			<li>
 				<Link to="#" onClick={reviewScroll}>
 					<FontAwesomeIcon icon={faComment} />
-					{isLoggedIn? isLoggedIn.totalOfRatings + ' recensioner' : '3 Recensioner'}
+					{profileData.totalOfRatings} Recensioner
 				</Link>
 			</li>
 		</ul>
