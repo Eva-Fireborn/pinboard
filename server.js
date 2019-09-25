@@ -100,6 +100,7 @@ expServer.get('/ApiGetUserForAd/:id', (request, response) => {
 		response.send(
 			JSON.stringify(res)
 		)
+		api.disconnect();
 	})
 })
 
