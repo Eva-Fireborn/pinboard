@@ -51,7 +51,7 @@ const SingleAdCard = ({ adObject }) => {
 				</button>
 			</div>
 			<div className="adInformation">
-				<h2>{adObject.title}</h2>
+				<h2>{adObject.header}</h2>
 				<a href="map.html">
 					<FontAwesomeIcon icon={faMapMarkerAlt} />
 					{adObject.city}

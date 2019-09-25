@@ -7,6 +7,7 @@ import CreateAdd from './createAdd/CreateAdd';
 import ProfileView from './profile/ProfileView';
 import MsgView from './msg/MsgView';
 import HelpPage from "./fos/HelpPage";
+import Error404 from "./Error404";
 
 
 
@@ -37,7 +38,7 @@ const ContentRouting = ({ isLoggedIn, logOff }) => {
 		/>
 	));
 
-	return <Switch>{Routes}</Switch>;
+	return <Switch>{Routes}<Route component={Error404} /></Switch>;
 };
 
 export default ContentRouting;
