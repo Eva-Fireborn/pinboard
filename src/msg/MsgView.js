@@ -13,7 +13,7 @@ export default class MsgView extends Component {
 		super(props);
 
 		this.state = {
-			userId: this.props.isLoggedIn.user._id,
+			userId: this.props.isLoggedIn._id,
 			message: "",
 			recieverId: '5d8357516ba6fb424c221ca5',
 			messageHistory: []

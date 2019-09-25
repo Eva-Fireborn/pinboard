@@ -18,19 +18,10 @@ const App = () => {
 
 	useEffect(() => {
 		let user = JSON.parse(localStorage.getItem('user'));
+		console.log(user)
 		if (user) {
 			return updateIsLoggedIn({
-				name: user.name,
-				address: user.address,
-				email: user.email,
-				imgUrl: user.imgUrl,
-				memeberSince: user.memeberSince,
-				phone: user.phone,
-				postalcode: user.postalcode,
-				rating: user.rating,
-				totalOfRatings: user.totalOfRatings,
-				_id: user._id,
-				description: user.description
+				_id: user
 			})
 		} else {
 			return undefined;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik, Field, FieldArray, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import ReviewAd from './ReviewAd';
@@ -8,14 +8,24 @@ import ErrorMsg from './ErrorMsg';
 const CreateAdd = ({ isLoggedIn }) => {
 	const [visibility, setVisibility] = useState(false);
 	const [valid, setIsValid] = useState(false);
-	const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const [userID, setUserID] = useState(null);
+
+    console.log('user id: ', userID);
+    useEffect(() => {
+        if(isLoggedIn)
+            setUserID(isLoggedIn._id);
+        else
+            setUserID(null)
+    }, [isLoggedIn]);
 
 	let categories = [{ id: 1, name: 'Sökes' }, { id: 2, name: 'Finnes' }];
 
 	async function sendNewAd(fields) {
+        let ad = {...fields, userId: userID};
 		const serverResponse = await fetch('http://localhost:4000/ApiPostNewAd', {
 			method: 'POST',
-			body: JSON.stringify(fields, null, 4),
+			body: JSON.stringify(ad),
 			headers: {
 				"Content-type": "application/json; charset=UTF-8"
 			}
@@ -55,7 +65,7 @@ const CreateAdd = ({ isLoggedIn }) => {
                         street: '',
                         zip: '',
                         price: '',
-                        userId: isLoggedIn ? isLoggedIn._id : null
+                        //userId: userID
                     }}
                     validationSchema={Yup.object().shape({
                         addType: Yup.array()
