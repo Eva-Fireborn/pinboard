@@ -143,6 +143,7 @@ class API {
 	createAd(ad, callback) {
 		this.connectToAdCollection(collection => {
 			ad.createdAt = new Date()
+			ad.userId = ObjectId(ad.userId);
 			collection.insertOne(ad, (error, result) => {
 				if (error) throw error
 				callback(result.insertedId)
@@ -164,10 +165,39 @@ class API {
 	// Eva's fun
 	getAllAds(callback) {
 		this.connectToAdCollection(collection => {
-			collection.find({}).toArray((error, result) => {
+			console.log('getAllAds..')
+			/* collection.find({}).toArray((error, result) => {
 				if (error) throw error
 				callback(JSON.stringify(result))
+			}) */
+
+			collection.aggregate(
+				[
+					{
+						"$lookup": {
+							"from": "Users",
+							"localField": "userId",			// if this
+							"foreignField": "_id",			// matches this 
+							"as": "userData"				// we return any matching object in a array object property
+						}
+					},
+				]
+			).toArray((error, result) => {
+				if (error) throw error
+				callback(JSON.stringify(result));
 			})
+
+			/* 			collection.aggregate(
+							{
+								"$lookup": {
+									"from": "User",
+									"localField": "userId",			// if this
+									"foreignField": "_id",			// matches this 
+									"as": "userData"				// we return any matching object in a array object property
+								}
+							}
+						) */
+
 		})
 	}
 
@@ -252,17 +282,17 @@ class API {
 		})
 	  })
 	}*/
-  getAllMessagesForUser(userId, callback) {
-    this.connectToMessagesCollection(collection => {
-      const query = {$or: [{senderId: userId },{recieverId: userId}]};
-      console.log('data.getAllMessagesForUser, userId=', userId, query);
-      collection.find(query).toArray((error, result) => {
-        console.log('data.getAllMessagesForUser, found: ', result);
-        if(error) throw error;
-        callback(result)
-      })
-    })
-  }
+	getAllMessagesForUser(userId, callback) {
+		this.connectToMessagesCollection(collection => {
+			const query = { $or: [{ senderId: userId }, { recieverId: userId }] };
+			console.log('data.getAllMessagesForUser, userId=', userId, query);
+			collection.find(query).toArray((error, result) => {
+				console.log('data.getAllMessagesForUser, found: ', result);
+				if (error) throw error;
+				callback(result)
+			})
+		})
+	}
 
 	// Fetches all messages from the database for one ad (TODO)
 	getMessagesForAd(adId, userId, callback) {

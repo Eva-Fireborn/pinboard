@@ -74,10 +74,10 @@ const SingleAdCard = ({ adObject }) => {
 				}
 
 				<div>
-					<Link to="#">
-						<img src={require('../img/tempProfile.jpg')} alt="profile img" />
-						Fredrika Lycke<br />
-						4.24 <FontAwesomeIcon icon={faStar} />(3)
+					<Link to={'/profil/' + adObject.userData[0]._id}>
+						<img src={adObject.userData[0].imgUrl} alt="profile img" />
+						{adObject.userData[0].name}<br />
+						{adObject.userData[0].rating} <FontAwesomeIcon icon={faStar} />({adObject.userData[0].totalOfRatings})
 					</Link>
 				</div>
 			</div>
