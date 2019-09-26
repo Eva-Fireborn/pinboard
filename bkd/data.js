@@ -143,6 +143,7 @@ class API {
 	createAd(ad, callback) {
 		this.connectToAdCollection(collection => {
 			ad.createdAt = new Date()
+			ad.userId = ObjectId(ad.userId);
 			collection.insertOne(ad, (error, result) => {
 				if (error) throw error
 				callback(result.insertedId)
@@ -161,12 +162,22 @@ class API {
 
 	}
 
-	// Eva's fun
 	getAllAds(callback) {
 		this.connectToAdCollection(collection => {
-			collection.find({}).toArray((error, result) => {
+			collection.aggregate(
+				[
+					{
+						"$lookup": {
+							"from": "Users",
+							"localField": "userId",			// if this
+							"foreignField": "_id",			// matches this
+							"as": "userData"				// we return any matching object in a array object property
+						}
+					},
+				]
+			).toArray((error, result) => {
 				if (error) throw error
-				callback(JSON.stringify(result))
+				callback(JSON.stringify(result));
 			})
 		})
 	}
@@ -188,10 +199,30 @@ class API {
 
 	getTwentyNewestAds(callback) {
 		this.connectToAdCollection(collection => {
-			collection.find({}, (error, cursor) => {
-				cursor.sort({ createdAt: -1 }).limit(5).toArray()
-					.then(ads => callback(ads))
-					.catch(err => console.log('error in cursor about 20 ads:', err))
+			/*
+					collection.find({}, (error, cursor) => {
+							cursor.sort({ createdAt: -1 }).limit(5).toArray()
+								.then(ads => callback(ads))
+								.catch(err => console.log('error in cursor about 20 ads:', err))
+						})
+					})
+			 */
+			collection.aggregate(
+				[
+					{ "$sort": { createdAt: -1 } },
+					{ "$limit": 20 },
+					{
+						"$lookup": {
+							"from": "Users",
+							"localField": "userId",			// if this
+							"foreignField": "_id",			// matches this
+							"as": "userData"				// we return any matching object in a array object property
+						}
+					},
+				]
+			).toArray((error, result) => {
+				if (error) throw error
+				callback(JSON.stringify(result));
 			})
 		})
 	}
