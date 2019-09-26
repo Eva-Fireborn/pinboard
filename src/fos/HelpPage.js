@@ -71,7 +71,7 @@ const HelpPage = () => {
                                 ) : null}
                             </li>
                             <li>
-                                <Link to="/frågorochsvar">FAQ</Link>
+                                <Link to="/frågorochsvar"><h4>FAQ</h4></Link>
                             </li>
                         </ul>
                     </div>

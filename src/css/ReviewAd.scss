@@ -27,12 +27,12 @@
     height: 38px;
     font-weight: bold;
     align-self: flex-end;
-    background-color: rgba(0, 0, 0, 0.12);
+    background-color: $purple;
     transition: background-color 0.3s;
 }
 
 .dialogExitButton:hover {
-    background-color: $purple;
+    background-color: $green;
 }
 
 .dialogBackground {

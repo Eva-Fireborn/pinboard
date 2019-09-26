@@ -11,7 +11,6 @@ const CreateAdd = ({ isLoggedIn }) => {
     const [errorMessage, setErrorMessage] = useState('');
     const [userID, setUserID] = useState(null);
 
-    console.log('user id: ', userID);
     useEffect(() => {
         if(isLoggedIn)
             setUserID(isLoggedIn._id);
@@ -19,9 +18,9 @@ const CreateAdd = ({ isLoggedIn }) => {
             setUserID(null)
     }, [isLoggedIn]);
 
-	let categories = [{ id: 1, name: 'Sökes' }, { id: 2, name: 'Finnes' }];
+	let categories = [{ id: 1, name: 'Söker' }, { id: 2, name: ' Säljer' }];
 
-	async function sendNewAd(fields) {
+	async function sendNewAd(fields, resetForm) {
         let ad = {...fields, userId: userID};
 		const serverResponse = await fetch('http://localhost:4000/ApiPostNewAd', {
 			method: 'POST',
@@ -32,6 +31,12 @@ const CreateAdd = ({ isLoggedIn }) => {
 		});
 		const res = await serverResponse.json();
 		console.log('Ad created successfuly! Response status: ', res.status);
+		if (res.status === 200) {
+			console.log('yay');
+			Formik.resetForm();
+			//resetForm({}); //add object so it works
+			//value={values.short || ''} // <= Suggested change
+		}
 	}
 
 	const UserInformation = (isValid) => {
@@ -64,35 +69,34 @@ const CreateAdd = ({ isLoggedIn }) => {
                         city: '',
                         street: '',
                         zip: '',
-                        price: '',
-                        //userId: userID
+                        price: ''
                     }}
                     validationSchema={Yup.object().shape({
                         addType: Yup.array()
                             .required('Välj typ av annons'),
                         header: Yup.string()
-                            .required('Skriv en rubrik'),
+							.required('Skriv en rubrik')
+							.max(80, 'Rubrik kan inte vara längre än 80 tecken lång'),
                         category: Yup.string()
                             .required('Välj en kategori'),
                         description: Yup.string()
                             .min(20, 'Annonstext måste vara åtminstone 20 tecken lång')
                             .required('Skriv en annonstext'),
-                        city:  Yup.string()
+                        city: Yup.string()
                             .required('Skriv en stad'),
                         zip: Yup.string()
                             .matches(/^[0-9]{5}$/, 'Postnumret måste vara 5 tecken lång')
                             .required('Skriv ett postnummer'),
-                        price: Yup.number()
-                            .positive('Pris måste vara högre än 0')
+                        price: Yup.string()
+                            //.min(-1, 'Pris kan inte vara negativ')
                             .required('Skriv ett pris')
                     })}
-                    onSubmit={fields => {
+                    onSubmit={(fields, resetForm) => {
                         if (isLoggedIn) {
-                            sendNewAd(fields);
+                            sendNewAd(fields, resetForm);
                         } else {
                             console.log('trying to submit without login in');
                         }
-                        //alert('SUCCESS!! \n\n' + JSON.stringify(fields, null, 4))
                     }}
                     render={({ errors, touched, values, isValid }) => (
                         <Form>
@@ -101,9 +105,9 @@ const CreateAdd = ({ isLoggedIn }) => {
                             <FieldArray
                                 name="addType"
                                 render={arrayHelpers => (
-                                <div className={'checkboxes' + (typeof errors.addType === 'string' ? ' is-invalid' : '')}>
+                                <div className={'checkboxes'}>
                                     {categories.map(category => (
-                                        <div key={category.id} className="checkbox">
+                                        <div key={category.id} className="checkbox customcheck">
                                             <label>
                                             {category.name}
                                                 <input
@@ -119,7 +123,8 @@ const CreateAdd = ({ isLoggedIn }) => {
                                                             arrayHelpers.remove(idx);
                                                         }
                                                     }}
-                                                />{" "}
+												/>{" "}
+												<span className={"checkmark" + (typeof errors.addType === 'string' ? ' is-invalid' : '')}></span>
                                             </label>
                                         </div>
                                     ))}
@@ -140,11 +145,14 @@ const CreateAdd = ({ isLoggedIn }) => {
 								<label htmlFor="category">Kategori*</label>
 								<Field component="select" name="category" type="select" className={'form-control select' + (errors.category && touched.category ? ' is-invalid' : '')}>
 									<option value=""></option>
-									<option value="musik">musik</option>
-									<option value="mat">mat</option>
-									<option value="transport">transport</option>
-									<option value="hem">hem</option>
-									<option value="städning">städning</option>
+									<option value="djur">Djur</option>
+									<option value="fritid">Fritid/hobby</option>
+									<option value="hustjänster">Hushållsnära tjänster</option>
+									<option value="musik">Musik</option>
+									<option value="transport">Transport</option>
+									<option value="trädgård">Trädgård</option>
+									<option value="undervisning">Undervisning</option>
+									<option value="övrigt">Övrigt</option>
 								</Field>
 								<ErrorMessage name="category" component="div" className="invalid-feedback" />
 							</div>
@@ -178,10 +186,10 @@ const CreateAdd = ({ isLoggedIn }) => {
 									<ErrorMessage name="price" component="div" className="invalid-feedback" />
 								</div>
 							</div>
-							<div>*obligatorisk</div>
+							<div className="obligatorisk">*obligatorisk</div>
 							<div className="form-group">
-								<button type="submit" className="formButton" onClick={() => UserInformation(isValid)}>Publicera</button>
-								<button type="reset" className="resetButton" onClick={() => setIsValid(false)}>Återställ</button>
+								<button type="submit" className="formButton call" onClick={() => UserInformation(isValid)}>Publicera</button>
+								{/* <button type="reset" className="resetButton" onClick={() => setIsValid(false)}>Återställ</button> */}
 								<button type="button" onClick={() => setVisibility(!visibility)}>Förhandsgranska annons</button>
 							</div>
 							{/* <pre>{JSON.stringify(values, null, 2)}</pre> */}

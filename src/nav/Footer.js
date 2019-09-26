@@ -36,13 +36,13 @@ const Footer = () => {
 					<h4>Kontakta oss</h4>
 				</li>
 				<li>
-					<Link to='/'>info@pinboard.com</Link>
+					<a href="mailto:info@pinboard.com">info@pinboard.com</a>
 				</li>
 				<li>
-					<Link to='/'><FontAwesomeIcon icon={faInstagram} className="socialMediaButtons" /></Link>
-					<Link to='/'><FontAwesomeIcon icon={faFacebookSquare} className="socialMediaButtons"/></Link>
-					<Link to='/'><FontAwesomeIcon icon={faTwitter} className="socialMediaButtons"/></Link>
-					<Link to='/'><FontAwesomeIcon icon={faLinkedin} className="socialMediaButtons" /></Link>
+					<a href="https://www.instagram.com/" target="blank" rel="noopener"><FontAwesomeIcon icon={faInstagram} className="socialMediaButtons" /></a>
+					<a href="https://www.facebook.com/" target="blank" rel="noopener"><FontAwesomeIcon icon={faFacebookSquare} className="socialMediaButtons"/></a>
+					<a href="https://twitter.com/" target="blank" rel="noopener"><FontAwesomeIcon icon={faTwitter} className="socialMediaButtons"/></a>
+					<a href="https://www.linkedin.com/" target="blank" rel="noopener"><FontAwesomeIcon icon={faLinkedin} className="socialMediaButtons" /></a>
 				</li>
 			</ul>
 		</footer>
