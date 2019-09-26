@@ -9,13 +9,13 @@ import FirstMessageToAd from './FirstMessageToAd';
 
 const SingleAdCard = ({ adObject, isLoggedIn }) => {
 	const [readAll, setReadAll] = useState(false);
-	let [userInfo, updateUserInfo] = useState(null);
+	//let [userInfo, updateUserInfo] = useState(null);
 	const fullText = adObject.description;
 	const shortText = fullText.split(' ').splice(0, 25).join(' ');
 
 	useEffect( () => {
 			console.log('loggedIn singleAdCard: ', isLoggedIn)
-			fetch('http://localhost:4000/ApiGetUserForAd/'+ adObject.userId)
+			/*fetch('http://localhost:4000/ApiGetUserForAd/'+ adObject.userId)
 			.then((response) => {
 				return response.json();
 			})
@@ -28,7 +28,7 @@ const SingleAdCard = ({ adObject, isLoggedIn }) => {
 					rating: res.rating,
 					userId: res._id
 				})
-			})
+			})*/
 	}, [])
 
 	return (
@@ -70,7 +70,7 @@ const SingleAdCard = ({ adObject, isLoggedIn }) => {
 					</Link>
 				</div>
 			</div>
-		
+		<FirstMessageToAd adObject={adObject} isLoggedin={isLoggedIn}/>
 		</li>
 		
 	);

@@ -270,6 +270,7 @@ class API {
 
 
 	createMsg(msg, callback) {
+		console.log('msg: ', msg)
 		this.connectToMessagesCollection(collection => {
 			collection.insertOne(msg, (error, result) => {
 				if (error) throw error
@@ -296,6 +297,15 @@ class API {
 				console.log('data.getAllMessagesForUser, found: ', result);
 				if (error) throw error;
 				callback(result)
+			})
+		})
+	}
+
+	updateMessage(id, message, callback) {
+		this.connectToMessagesCollection(collection => {
+			collection.updateOne({ _id: id }, { $set: message }, null, (error, result) => {
+				if (error) throw error
+				callback(true)
 			})
 		})
 	}

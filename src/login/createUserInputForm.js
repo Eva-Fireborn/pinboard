@@ -16,10 +16,15 @@ const CreateUserInputForm = ({activateCreateUser, userInformation, changeUserInf
         });
         const res = await serverResponse.json();
         updateIsLoggedIn({
-            _id: res.body.res
+            _id: res.body.res,
+            name: userInformation.name
         })
+        let user = {
+            _id: res.body.res,
+            name: userInformation.name
+        }
         activateCreateUser();
-        localStorage.setItem('user', JSON.stringify(res.body.res));
+        localStorage.setItem('user', JSON.stringify(user));
     }
     return (
         <div id="createUserWindow">
