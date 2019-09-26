@@ -8,21 +8,21 @@ import ErrorMsg from './ErrorMsg';
 const CreateAdd = ({ isLoggedIn }) => {
 	const [visibility, setVisibility] = useState(false);
 	const [valid, setIsValid] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
-    const [userID, setUserID] = useState(null);
+	const [errorMessage, setErrorMessage] = useState('');
+	const [userID, setUserID] = useState(null);
 
-    //console.log('user id: ', userID);
-    useEffect(() => {
-        if(isLoggedIn)
-            setUserID(isLoggedIn._id);
-        else
-            setUserID(null)
-    }, [isLoggedIn]);
+	//console.log('user id: ', userID);
+	useEffect(() => {
+		if (isLoggedIn)
+			setUserID(isLoggedIn._id);
+		else
+			setUserID(null)
+	}, [isLoggedIn]);
 
 	let categories = [{ id: 1, name: 'Sökes' }, { id: 2, name: 'Finnes' }];
 
 	async function sendNewAd(fields) {
-        let ad = {...fields, userId: userID};
+		let ad = { ...fields, userId: userID };
 		const serverResponse = await fetch('http://localhost:4000/ApiPostNewAd', {
 			method: 'POST',
 			body: JSON.stringify(ad),
@@ -50,86 +50,86 @@ const CreateAdd = ({ isLoggedIn }) => {
 		}
 	}
 
-    return (
-        <div id="wrapper">
-            <main className="formContainer">
-                <h3 className="rubrik">Skapa annons</h3>
-                <Formik 
-                    initialValues={{
-                        addType: '',
-                        header: '',
-                        category: '',
-                        description: '',
-                        specialRequirements: '',
-                        city: '',
-                        street: '',
-                        zip: '',
-                        price: '',
-                        //userId: userID
-                    }}
-                    validationSchema={Yup.object().shape({
-                        addType: Yup.array()
-                            .required('Välj typ av annons'),
-                        header: Yup.string()
-                            .required('Skriv en rubrik'),
-                        category: Yup.string()
-                            .required('Välj en kategori'),
-                        description: Yup.string()
-                            .min(20, 'Annonstext måste vara åtminstone 20 tecken lång')
-                            .required('Skriv en annonstext'),
-                        city:  Yup.string()
-                            .required('Skriv en stad'),
-                        zip: Yup.string()
-                            .matches(/^[0-9]{5}$/, 'Postnumret måste vara 5 tecken lång')
-                            .required('Skriv ett postnummer'),
-                        price: Yup.number()
-                            .positive('Pris måste vara högre än 0')
-                            .required('Skriv ett pris')
-                    })}
-                    onSubmit={fields => {
-                        if (isLoggedIn) {
-                            sendNewAd(fields);
-                        } else {
-                            console.log('trying to submit without login in');
-                        }
-                        //alert('SUCCESS!! \n\n' + JSON.stringify(fields, null, 4))
-                    }}
-                    render={({ errors, touched, values, isValid }) => (
-                        <Form>
-                            <div>
-                            <label htmlFor="type">Annons typ*</label>
-                            <FieldArray
-                                name="addType"
-                                render={arrayHelpers => (
-                                <div className={'checkboxes' + (typeof errors.addType === 'string' ? ' is-invalid' : '')}>
-                                    {categories.map(category => (
-                                        <div key={category.id} className="checkbox">
-                                            <label>
-                                            {category.name}
-                                                <input
-                                                    name="addType"
-                                                    type="checkbox"
-                                                    value={category.name}
-                                                    checked={values.addType.includes(category.name)}
-                                                    onChange={e => {
-                                                        if (e.target.checked) {
-                                                            arrayHelpers.push(category.name);
-                                                        } else {
-                                                            const idx = values.addType.indexOf(category.name);
-                                                            arrayHelpers.remove(idx);
-                                                        }
-                                                    }}
-                                                />{" "}
-                                            </label>
-                                        </div>
-                                    ))}
-                                </div>
-                                )}
-                            />
-                            <div>
-                                { typeof errors.addType === 'string' ? <ErrorMessage name="addType" component="div" className="invalid-feedback" /> : null} 
-                            </div>
-                            </div>
+	return (
+		<div id="wrapper">
+			<main className="formContainer">
+				<h3 className="rubrik">Skapa annons</h3>
+				<Formik
+					initialValues={{
+						addType: '',
+						header: '',
+						category: '',
+						description: '',
+						specialRequirements: '',
+						city: '',
+						street: '',
+						zip: '',
+						price: '',
+						//userId: userID
+					}}
+					validationSchema={Yup.object().shape({
+						addType: Yup.array()
+							.required('Välj typ av annons'),
+						header: Yup.string()
+							.required('Skriv en rubrik'),
+						category: Yup.string()
+							.required('Välj en kategori'),
+						description: Yup.string()
+							.min(20, 'Annonstext måste vara åtminstone 20 tecken lång')
+							.required('Skriv en annonstext'),
+						city: Yup.string()
+							.required('Skriv en stad'),
+						zip: Yup.string()
+							.matches(/^[0-9]{5}$/, 'Postnumret måste vara 5 tecken lång')
+							.required('Skriv ett postnummer'),
+						price: Yup.number()
+							.positive('Pris måste vara högre än 0')
+							.required('Skriv ett pris')
+					})}
+					onSubmit={fields => {
+						if (isLoggedIn) {
+							sendNewAd(fields);
+						} else {
+							console.log('trying to submit without login in');
+						}
+						//alert('SUCCESS!! \n\n' + JSON.stringify(fields, null, 4))
+					}}
+					render={({ errors, touched, values, isValid }) => (
+						<Form>
+							<div>
+								<label htmlFor="type">Annons typ*</label>
+								<FieldArray
+									name="addType"
+									render={arrayHelpers => (
+										<div className={'checkboxes' + (typeof errors.addType === 'string' ? ' is-invalid' : '')}>
+											{categories.map(category => (
+												<div key={category.id} className="checkbox">
+													<label>
+														{category.name}
+														<input
+															name="addType"
+															type="checkbox"
+															value={category.name}
+															checked={values.addType.includes(category.name)}
+															onChange={e => {
+																if (e.target.checked) {
+																	arrayHelpers.push(category.name);
+																} else {
+																	const idx = values.addType.indexOf(category.name);
+																	arrayHelpers.remove(idx);
+																}
+															}}
+														/>{" "}
+													</label>
+												</div>
+											))}
+										</div>
+									)}
+								/>
+								<div>
+									{typeof errors.addType === 'string' ? <ErrorMessage name="addType" component="div" className="invalid-feedback" /> : null}
+								</div>
+							</div>
 
 							<div className="form-group">
 								<label htmlFor="header">Rubrik*</label>

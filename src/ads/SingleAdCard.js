@@ -63,14 +63,11 @@ const SingleAdCard = ({ adObject, isLoggedIn }) => {
 				}
 
 				<div>
-					{userInfo ? (<Link to={"/profil/" + userInfo.userId}>
-						<img src={userInfo.imgUrl} alt="profile img" />
-						{userInfo.name}<br />
-						{userInfo.rating} <FontAwesomeIcon icon={faStar} />({userInfo.totalOfRatings})
-					</Link>) : null}
-				</div>
-				<div>
-					<FirstMessageToAd userInfo={userInfo} isLoggedIn={isLoggedIn._id} />
+					<Link to={'/profil/' + adObject.userData[0]._id}>
+						<img src={adObject.userData[0].imgUrl} alt="profile img" />
+						{adObject.userData[0].name}<br />
+						{adObject.userData[0].rating} <FontAwesomeIcon icon={faStar} />({adObject.userData[0].totalOfRatings})
+					</Link>
 				</div>
 			</div>
 		
@@ -80,4 +77,3 @@ const SingleAdCard = ({ adObject, isLoggedIn }) => {
 };
 
 export default SingleAdCard;
-/*	*/
