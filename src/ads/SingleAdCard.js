@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from "react-router-dom";
 import {
@@ -9,33 +9,15 @@ import FirstMessageToAd from './FirstMessageToAd';
 
 const SingleAdCard = ({ adObject, isLoggedIn }) => {
 	const [readAll, setReadAll] = useState(false);
-	//let [userInfo, updateUserInfo] = useState(null);
+	let [messageToUserVisibility, updateMessageToUserVisibility] = useState(false);
 	const fullText = adObject.description;
 	const shortText = fullText.split(' ').splice(0, 25).join(' ');
-
-	useEffect( () => {
-			console.log('loggedIn singleAdCard: ', isLoggedIn)
-			/*fetch('http://localhost:4000/ApiGetUserForAd/'+ adObject.userId)
-			.then((response) => {
-				return response.json();
-			})
-			.then(function (myJson){
-				let res = myJson;
-				return updateUserInfo({
-					name: res.name,
-					imgUrl: res.imgUrl,
-					totalOfRatings: res.totalOfRatings,
-					rating: res.rating,
-					userId: res._id
-				})
-			})*/
-	}, [])
 
 	return (
 		<li className="adCard">
 			<div>
 				<img src={require('../img/tempCourse.jpg')} alt="ads img" />
-				<button className="price call">
+				<button className="price call" onClick={()=> updateMessageToUserVisibility(!messageToUserVisibility)}>
 					Svara på annonsen
 				</button>
 			</div>
@@ -61,7 +43,7 @@ const SingleAdCard = ({ adObject, isLoggedIn }) => {
 						) :
 						null
 				}
-
+				
 				<div>
 					<Link to={'/profil/' + adObject.userData[0]._id}>
 						<img src={adObject.userData[0].imgUrl} alt="profile img" />
@@ -69,8 +51,10 @@ const SingleAdCard = ({ adObject, isLoggedIn }) => {
 						{adObject.userData[0].rating} <FontAwesomeIcon icon={faStar} />({adObject.userData[0].totalOfRatings})
 					</Link>
 				</div>
+				<div>
+					{messageToUserVisibility? <FirstMessageToAd adObject={adObject} isLoggedin={isLoggedIn}/> : null}
+				</div>
 			</div>
-		<FirstMessageToAd adObject={adObject} isLoggedin={isLoggedIn}/>
 		</li>
 		
 	);

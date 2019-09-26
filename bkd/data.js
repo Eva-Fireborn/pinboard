@@ -292,14 +292,13 @@ class API {
   }
 
 	updateMessage(id, message, callback) {
-		let changes = {$set: {messsage: message, timeStamp: new Date()}};
+		let changes = {$set: {message: message, timeStamp: new Date()}};
 		let objId = new ObjectId(id);
-
 		this.connectToMessagesCollection(collection => {
-				collection.updateOne({ _id: objId}, changes, (error, result) => {
-					console.log('update result: ', result);
+				collection.updateOne({_id: objId}, changes, (error, result) => {
+					console.log('update result: ', result.modifiedCount);
 						if (error) throw error
-						callback(true)
+						callback(result.modifiedCount)
 				})
 		})
 	}

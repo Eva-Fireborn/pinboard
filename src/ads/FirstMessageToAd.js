@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const FirstMessageToAd = ({ adObject, isLoggedin }) => {
-    //let [message, setMessage] = useState('');
-    let messageInput = '';
+    let [messageInput, updateMessageInput ]= useState('');
+    let [messageToUser, updateMessageToUser] = useState('');
+    let [buttonDisabled, updateButtonDisabled] = useState(false);
     function prepare () {
+        updateButtonDisabled(true);
         let messageToDb = {
             message: [{
                 msg: messageInput,
@@ -21,9 +23,7 @@ const FirstMessageToAd = ({ adObject, isLoggedin }) => {
     }
     async function sendMessageToDatabase (messageToDb) {
         if (isLoggedin._id){
-            console.log('messageToDb :' , messageToDb)
             let parsed = JSON.stringify(messageToDb, null)
-            console.log('parsed: ', parsed)
             const serverResponse = await fetch('http://localhost:4000/ApiPostNewMsg', {
                 method: 'POST',
                 body: parsed,
@@ -33,16 +33,23 @@ const FirstMessageToAd = ({ adObject, isLoggedin }) => {
             });
             const res = await serverResponse.json();
             console.log('response : ', res)
+            return notifyUser();
         }
     }
+    const notifyUser = () => {
+        updateMessageToUser('Ditt meddelande har skickats!');
+        updateMessageInput('');
+        updateButtonDisabled(false);
+    }
     const onTextAreaChange = (value) => {
-        messageInput = value;
+        updateMessageInput(value);
     }
     return(
         <div>
             <p>Skriv ditt meddelande till annonsören</p>
             <textarea id="firstMessageTextarea" onChange={ (e) =>onTextAreaChange(e.target.value) }></textarea>
-            <button onClick={prepare}>Skicka meddelande</button>
+            <button disabled={buttonDisabled} onClick={prepare}>Skicka meddelande</button>
+            <p>{messageToUser}</p>
         </div>
     )
 }

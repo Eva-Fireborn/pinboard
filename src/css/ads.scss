@@ -35,6 +35,7 @@
 }
 .adInformation {
 	flex: 1 1 auto;
+	justify-content: flex-start;
 	margin-left: 1em;
 	> button {
 		float: left;
