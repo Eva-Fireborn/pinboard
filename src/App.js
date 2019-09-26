@@ -21,7 +21,8 @@ const App = () => {
 		console.log(user)
 		if (user) {
 			return updateIsLoggedIn({
-				_id: user
+				_id: user._id,
+				name: user.name
 			})
 		} else {
 			return undefined;

@@ -59,12 +59,17 @@ const Login = ({ visibility, activateLogin, updateIsLoggedIn, activateCreateUser
 			}
 			else {
 				updateIsLoggedIn({
-					_id: res.body.res._id
+					_id: res.body.res._id,
+					name: res.body.res.name
 				})
+				let user = {
+					_id: res.body.res._id,
+					name: res.body.res.name
+				}
 				activateLogin();
-				localStorage.setItem('user', JSON.stringify(res.body.res._id));
+				localStorage.setItem('user', JSON.stringify(user));
 			}
-			
+
 		}
 	}
 
@@ -89,10 +94,15 @@ const Login = ({ visibility, activateLogin, updateIsLoggedIn, activateCreateUser
 			}
 			else {
 				updateIsLoggedIn({
-					_id: res.body.res._id
+					_id: res.body.res._id,
+					name: res.body.res.name
 				})
+				let user = {
+					_id: res.body.res._id,
+					name: res.body.res.name
+				}
 				activateLogin();
-				localStorage.setItem('user', JSON.stringify(res.body.res._id));
+				localStorage.setItem('user', JSON.stringify(user));
 			}
 		}
 	}

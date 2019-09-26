@@ -159,12 +159,12 @@ expServer.post('/ApiPostNewAd', (request, response) => {
 	})
 })
 
-expServer.get('/ApiGetAllMsgForUser', (request, response) => {
-	let userId = request.query.userId;
-	console.log('server /ApiGetAllMsgForUser', request.query);
+expServer.get('/ApiGetAllMsgForUser/:userId', (request, response) => {
+	let userId = request.params.userId;
+	console.log('server /ApiGetAllMsgForUser', request.params.userId);
 	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
 	api.getAllMessagesForUser(userId, res => {
-	//	console.log('server /ApiGetAllMsgForUser send response', res);
+		console.log('server /ApiGetAllMsgForUser send response', res);
 		response.send({
 			status: 200,
 			body: res
@@ -178,8 +178,8 @@ expServer.get('/ApiGetAllMsgForUser', (request, response) => {
 
 //getting and saving messeges to db
 expServer.get('/ApiGetMessagesForAd/:adId/:userId', (request, response) => {
-	let userId = request.query.userId;
-	let adId = request.query.adId;
+	let userId = request.params.userId;
+	let adId = request.params.adId;
 	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
 	// TODO: fixa ad id - bör skickas med querystring
 	api.getMessagesForAd(adId, userId, res => {
@@ -199,6 +199,19 @@ expServer.post('/ApiPostNewMsg', (request, response) => {
 		})
 		api.disconnect()
 	})
+})
+
+expServer.post('/ApiUpdateMsg', (request, response) => {
+    let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
+    console.log('requestbody: ', request.body.id);
+		console.log('body.msg: ', request.body.messages);
+    api.updateMessage(request.body.id, request.body.messages, res => {
+        response.send({
+            status: 200,
+            body: res
+        })
+        api.disconnect()
+    })
 })
 
 

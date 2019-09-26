@@ -242,16 +242,6 @@ class API {
 		})
 	}
 
-	// TODO:
-	// hämta ad id Ads
-	/*getAdsWithMyDiscussions() {
-	  this.connectToAdCollection(collection => {
-		collection.find({userId: id}, (error, result) => {
-		  if(error) throw console.error
-		  callback(result)
-		})
-	  })
-	}*/
   getAllMessagesForUser(userId, callback) {
     this.connectToMessagesCollection(collection => {
       const query = {$or: [{senderId: userId },{recieverId: userId}]};
@@ -264,6 +254,19 @@ class API {
     })
   }
 
+	updateMessage(id, message, callback) {
+		let changes = {$set: {messsage: message, timeStamp: new Date()}};
+		let objId = new ObjectId(id);
+
+		this.connectToMessagesCollection(collection => {
+				collection.updateOne({ _id: objId}, changes, (error, result) => {
+					console.log('update result: ', result);
+						if (error) throw error
+						callback(true)
+				})
+		})
+	}
+
 	// Fetches all messages from the database for one ad (TODO)
 	getMessagesForAd(adId, userId, callback) {
 		this.connectToMessagesCollection(collection => {
@@ -274,7 +277,6 @@ class API {
 		})
 	}
 
-	//upDateMsg för befintlig konversation.
 
 	// functions for review collection
 

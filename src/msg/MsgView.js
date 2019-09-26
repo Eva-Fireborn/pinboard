@@ -8,23 +8,25 @@ const socket = openSocket('http://localhost:4000');
 
 export default class MsgView extends Component {
 
-//userId & receiverId via props
 
 	constructor(props) {
 		super(props);
 
 		this.state = {
 			userId: this.props.isLoggedIn._id,
+			conversationId: "",
 			message: "",
-			recieverId: '5d8357516ba6fb424c221ca5',
-			messageHistory: [],
-			adId: ""
+			conversationHistory: null,
+			selectedConversation: null
 		};
 	}
 
 	componentDidMount() {
+		console.log('userId compdid: ',this.props.isLoggedIn._id );
+		console.log('userId compdid: ',this.props.isLoggedIn.name );
 
-			fetch(`http://localhost:4000/ApiGetAllMsgForUser?userId=${this.state.userId}`)
+			fetch(`http://localhost:4000/ApiGetAllMsgForUser
+				/${this.state.userId}`)
 		.then(res => res.json())
 		.then( (result) => {
 			let parsedResult = JSON.stringify(result.body);
@@ -34,26 +36,29 @@ export default class MsgView extends Component {
 
 			});
 			this.setState({
-				messageHistory: msg
+				conversationHistory: msg
 			});
 		},
 		(error) => {
 			console.log(error)
 		}
 	)  // fetch
+	//console.log('innan socket alert');
 	socket.on('chat message', data => {
 		console.log('Client received chat message: ', data);
-
 		alert(JSON.stringify(data.message))
 	});
 }
 
-
-	async	postNewMsg(msg) {
-		const serverResponse = await fetch('http://localhost:4000/ApiPostNewMsg',
+	async	postNewMsg(msg, id) {
+		let obj = {
+			id: id,
+			messages: msg
+		}
+		const serverResponse = await fetch('http://localhost:4000/ApiUpdateMsg',
 				{
 					method: 'POST',
-					body: JSON.stringify(msg, null),
+					body: JSON.stringify(obj, null),
 					headers: {
 							"Content-type": "application/json; charset=UTF-8"
 					}
@@ -70,74 +75,102 @@ export default class MsgView extends Component {
 	};
 
 	addMessageButton = e => {
-		console.log('Körs addMessageButton?');
+		let newMessages = this.state.selectedConversation.message;
+		let obj = {
+			msg: this.state.message,
+			msgId: this.state.userId
+		}
+		newMessages.push(obj)
+		/*
 		let messageObj = {
 			message: this.state.message,
 			senderId: this.state.userId,
 			recieverId: this.state.recieverId,
-			timeStamp: this.getNewTime(new Date()),
+			timeStamp: new Date(),
 			adId: this.state.adId
 			};
 
 		this.setState({
-			messageHistory: [...this.state.messageHistory, messageObj]
+			conversationHistory: [...this.state.conversationHistory, messageObj]
 		})
-		this.postNewMsg(messageObj)
 
-		socket.emit('chat message', messageObj)
+		*/
+		this.postNewMsg(newMessages, this.state.selectedConversation._id)
+		console.log('test', newMessages);
+		socket.emit('chat message', this.state.message)
 
-		console.log('front end msg: ', messageObj);
 		this.setState({
 			message: ""
 		})
-
 	};
-
+	/*
 	getNewTime = (date) => {
 	  return `${date.getHours()}: ${("0" + date.getMinutes()).slice(-2)}  ${date.getDate()} / ${date.getMonth()} `
 	}
-	//todo if conversation is choosen show messages.
+	*/
+
+	onClickGetConversations = (msg) => {
+		console.log('msg in click:', msg);
+		this.setState({
+			selectedConversation: msg
+		})
+	};
 
 	render(){
-
-		const allMessages = this.state.messageHistory.map((m, index)	 => {
+		let allMessages;
+		if(this.state.selectedConversation){
+		allMessages = this.state.selectedConversation.message.map((m, index)	 => {
+			console.log('selconv?: ', this.state.selectedConversation);
 			let className;
-			//console.log('vad händer? ', m);
-			if(this.state.userId === m.senderId){
+			if(m.msgId === this.state.userId){
 				className = "msgSelf";
+				return (
+					<div className={className} key={index} >
+					{m.msg}
+					</div>
+				)
 			}
 			else{
 				className = "msgOther";
-			}
-			return (
-				<div className={className} key={m.timeStamp} >
-				{m.message}
-				{m.timeStamp}
-				</div>
-			)
+				return(
+					<div className={className} key={index} >
+					{m.msg}
+					</div>
+				)
+			};
 		});
-		// _id, message, senderId, receiverId, timeStamp, adId
-		// TODO: sortera efter timestamp och eliminera dubbletter
-		const ads = this.state.messageHistory.
-			map(m => m.adId)
-			console.log('vad finns här då?',this.state.messageHistory);
+	}else{
+		let	allMessages = null;
+	}
 
 	return (
-		<div id="wrapper">
-			<MsgConversations ads={ads} />
-			<main id="msg">
-			{allMessages}
-				<textarea id="textMessage" type="text"
-							value={this.state.message}
-							onChange={this.handleChangeMessage}
-							placeholder="Skriv ditt meddelande här" />
 
-				<button className="call"
-								onClick={this.addMessageButton}>
-					Skicka
-				</button>
-			</main>
-		</div>
-	);
+				<div id="wrapper">
+				<aside>
+				{this.state.conversationHistory ?
+					this.state.conversationHistory.map((msg, key) =>
+						<MsgConversations
+						onClickGetConversations={this.onClickGetConversations}
+						ads={msg}
+						key={key}
+						/> )
+
+				:
+				 null}
+					</aside>
+					<main id="msg">
+						{allMessages}
+						<textarea id="textMessage" type="text"
+									value={this.state.message}
+									onChange={this.handleChangeMessage}
+									placeholder="Skriv ditt meddelande här" />
+
+						<button className="call"
+										onClick={this.addMessageButton}>
+							Skicka
+						</button>
+					</main>
+				</div>
+			)
 	};
 };
