@@ -109,11 +109,4 @@ const Login = ({ visibility, activateLogin, updateIsLoggedIn, activateCreateUser
 
 }
 
-//clientID google: 285513444438-31ksr33o72j9p5rsvg21jpftqmre5s6f.apps.googleusercontent.com
-//client Secret google: GP5K1P4neN4lu5y48Is_FzYQ
-
-//<input id="usernameInput" type="text" placeholder="E-mail" />
-//<input id="passwordInput" type="password" placeholder="Lösenord" />
-//<button id="loginWithEmailButton">Logga in</button>
-
 export default Login;

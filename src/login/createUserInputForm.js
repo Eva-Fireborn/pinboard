@@ -21,11 +21,11 @@ const CreateUserInputForm = ({activateCreateUser, userInformation, changeUserInf
             name: userInformation.name
         })
         let user = {
-          _id: res.body.res,
-          name: userInformation.name
+            _id: res.body.res,
+            name: userInformation.name
         }
         activateCreateUser();
-        localStorage.setItem('user', JSON.stringify(res.body.res));
+        localStorage.setItem('user', JSON.stringify(user));
     }
     return (
         <div id="createUserWindow">
@@ -91,7 +91,6 @@ const CreateUserInputForm = ({activateCreateUser, userInformation, changeUserInf
                             <div>
                                 <button type="submit" onClick={()=>{console.log('verifiering?')}}>Skapa konto</button>
                             </div>
-                            <pre>{JSON.stringify(values, null, 2)}</pre>
                         </Form>
                     )}
                 />

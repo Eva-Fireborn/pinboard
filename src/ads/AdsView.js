@@ -19,7 +19,7 @@ class AdsView extends React.Component {
 				parsedResult.forEach(res => {
 					ads.push(res)
 				});
-				this.setState({
+				 return this.setState({
 					listOfAds: ads
 				});
 			},
@@ -43,7 +43,7 @@ class AdsView extends React.Component {
 					<ul>
 						{this.state.listOfAds && this.state.listOfAds.length ?
 							this.state.listOfAds.map((ad, key) =>
-								<SingleAdCard key={key} adObject={ad} />)
+								<SingleAdCard key={key} adObject={ad} isLoggedIn={this.props.isLoggedIn}/>)
 							:
 							null}
 					</ul>

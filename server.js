@@ -194,9 +194,22 @@ expServer.get('/ApiGetMessagesForAd/:adId/:userId', (request, response) => {
 
 expServer.post('/ApiPostNewMsg', (request, response) => {
 	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
+	console.log('requestbody: ', request.body)
 	api.createMsg(request.body, res => {
 		response.send({
-			status: 200
+			status: 200,
+			body: res
+		})
+		api.disconnect()
+	})
+})
+
+expServer.post('/ApiUpdateMsg', (request, response) => {
+	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
+	api.updateMessage(request.body.id, request.body.messages, res => {
+		response.send({
+			status: 200,
+			body: res
 		})
 		api.disconnect()
 	})

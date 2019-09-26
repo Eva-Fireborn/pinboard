@@ -11,7 +11,7 @@ const CreateAdd = ({ isLoggedIn }) => {
 	const [errorMessage, setErrorMessage] = useState('');
 	const [userID, setUserID] = useState(null);
 
-	console.log('user id: ', userID);
+	//console.log('user id: ', userID);
 	useEffect(() => {
 		if (isLoggedIn)
 			setUserID(isLoggedIn._id);

@@ -25,7 +25,6 @@ class API {
 
 	connectToUserCollection(callback) {
 
-
 		// connect and fetch the collection for further usage
 		if (this.userCollection) return callback(this.userCollection)
 		this.makeConnection().then(() => {
@@ -86,59 +85,59 @@ class API {
 		})
 	}
 
-	getUserForAd(user, callback) {
+	getUserForAd (user, callback) {
 		this.connectToUserCollection(collection => {
-			let o_id = new ObjectId(user);
-			let projection = {
-				email: false,
-				memberSince: false,
-				address: false,
-				postalcode: false,
-				city: false,
-				phone: false,
-				description: false
-			}
-			collection.findOne({ _id: o_id }, { projection }).then(result => {
-				callback(result)
-			})
+		  let o_id = new ObjectId(user);
+		  let projection = {
+			email: false,
+			memberSince: false,
+			address: false,
+			postalcode: false,
+			city: false,
+			phone: false,
+			description: false
+		  }
+		  collection.findOne({_id : o_id}, {projection}).then(result => {
+			callback(result)
+		  })
 		})
-	}
+	  }
 
-	updateUser(user, callback) {
-		this.connectToUserCollection(collection => {
-			collection.updateOne({ _id: user.id }, { $set: user }, null, (error, result) => {
-				if (error) throw error
-				callback(true)
-			})
+
+	updateUser (user, callback) {
+		this.connectToUserCollection( collection => {
+		  collection.updateOne({_id: user.id}, {$set: user}, null, (error, result) => {
+			if( error ) throw error
+			callback(true)
+		  })
 		})
-	}
-
-	deleteUser(id, callback) {
+	  }
+	
+	  deleteUser (id, callback) {
 		console.log(id)
 		this.connectToUserCollection(collection => {
-			collection.deleteOne({ _id: id }, null, (error, result) => {
-				if (error) throw error
-				// this.client.close()
-				callback(result)
-			})
+		  collection.deleteOne({_id: id}, null, (error, result) => {
+			if( error ) throw error
+			// this.client.close()
+			callback(result)
+		  })
 		})
-	}
+	  }
 
-	// repeat functions for another collection
-
-	connectToAdCollection(callback) {
+	  // repeat functions for another collection
+	  connectToAdCollection(callback) {
 		if (this.adCollection) return callback(this.adCollection)
-
+	
 		this.makeConnection().then(() => {
-			console.log('we connected to the ad collection')
-			this.adCollection = this.client.db("Pinboard").collection("Ads")
-			callback(this.adCollection)
+		  console.log('we connected to the ad collection')
+		  this.adCollection = this.client.db("Pinboard").collection("Ads")
+		  callback(this.adCollection)
 		})
-			.catch(error => {
-				console.log('failed to connect to ads collection', error)
-			})
+		.catch(error => {
+		  console.log('failed to connect to ads collection', error)
+		})
 		console.log('connecting to uri', this.uri)
-	}
+	  }
 
 	createAd(ad, callback) {
 		this.connectToAdCollection(collection => {
@@ -151,16 +150,17 @@ class API {
 		})
 
 	}
-
-	getAd(ad, callback) {
+	
+	  getAd (ad, callback) {
 		this.connectToAdCollection(collection => {
-			collection.findOne(ad, (error, result) => {
-				if (error) throw error
-				callback(result)
-			})
+		  collection.findOne(ad, (error, result) => {
+			if( error ) throw error
+			callback(result)
+		  })
 		})
+	
+	  }
 
-	}
 
 	getAllAds(callback) {
 		this.connectToAdCollection(collection => {
@@ -181,6 +181,7 @@ class API {
 			})
 		})
 	}
+	
 
 	getAllAdsByUser(userId, callback) {
 		this.connectToAdCollection(collection => {
@@ -196,6 +197,7 @@ class API {
 			})
 		})
 	}
+
 
 	getTwentyNewestAds(callback) {
 		this.connectToAdCollection(collection => {
@@ -236,16 +238,18 @@ class API {
 		})
 	}
 
-	deleteAd(id, callback) {
+	
+	  deleteAd (id, callback) {
 		this.connectToAdCollection(collection => {
-			collection.deleteOne({ _id: id }, null, (error, result) => {
-				if (error) throw error
-				console.log(id)
-				console.log(result.result)
-				callback(result)
-			})
+		  collection.deleteOne({_id: id}, null, (error, result) => {
+			if( error ) throw error
+			console.log(id)
+			console.log(result.result)
+			callback(result)
+		  })
 		})
-	}
+	  }
+
 
 
 	// functions for Messages collection
@@ -264,7 +268,9 @@ class API {
 		console.log('connecting to uri', this.uri)
 	}
 
+
 	createMsg(msg, callback) {
+		console.log('msg: ', msg)
 		this.connectToMessagesCollection(collection => {
 			collection.insertOne(msg, (error, result) => {
 				if (error) throw error
@@ -286,28 +292,28 @@ class API {
   }
 
 	updateMessage(id, message, callback) {
-		let changes = {$set: {messsage: message, timeStamp: new Date()}};
+		let changes = {$set: {message: message, timeStamp: new Date()}};
 		let objId = new ObjectId(id);
-
 		this.connectToMessagesCollection(collection => {
-				collection.updateOne({ _id: objId}, changes, (error, result) => {
-					console.log('update result: ', result);
+				collection.updateOne({_id: objId}, changes, (error, result) => {
+					console.log('update result: ', result.modifiedCount);
 						if (error) throw error
-						callback(true)
+						callback(result.modifiedCount)
 				})
 		})
 	}
 
 	// Fetches all messages from the database for one ad (TODO)
-	getMessagesForAd(adId, userId, callback) {
+	getMessagesForAd (adId, userId, callback) {
 		this.connectToMessagesCollection(collection => {
-			collection.group({ _id: adId, userId: userId }.sort({ timeStamp: -1 }), (error, result) => {
-				if (error) throw error
-				callback(result)//funktion
-			})
+		  collection.group({_id:adId, userId: userId }.sort({timeStamp: -1}), (error, result) => {
+			if( error ) throw error
+			callback(result)//funktion
+		  })
 		})
-	}
+	  }
 
+	//upDateMsg för befintlig konversation.
 
 	// functions for review collection
 
