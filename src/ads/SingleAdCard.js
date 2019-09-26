@@ -21,7 +21,7 @@ const SingleAdCard = ({ adObject, isLoggedIn }) => {
 			})
 			.then(function (myJson){
 				let res = myJson;
-				updateUserInfo({
+				return updateUserInfo({
 					name: res.name,
 					imgUrl: res.imgUrl,
 					totalOfRatings: res.totalOfRatings,
