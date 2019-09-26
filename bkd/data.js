@@ -4,24 +4,24 @@ const ObjectId = require('mongodb').ObjectId;
 //const uri = "mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority"
 //const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 class API {
-  //the same as mongo client, its a class
-  constructor(uri) {
-    // save uri to itself on this instance for later
-    this.uri = uri
-    // to connect once for all the further functions
-    this.client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+	//the same as mongo client, its a class
+	constructor(uri) {
+		// save uri to itself on this instance for later
+		this.uri = uri
+		// to connect once for all the further functions
+		this.client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 
-  }
-  // this is a condition for the connection to db, if it's conneted, return existing one and don't make a second connection
-  makeConnection(){
-    if(!this.connection) {
-      this.connection = this.client.connect()
-    }
-    this.connection.catch(error => {
-      console.log('failed to connect', error)
-    })
-    return this.connection
-  }
+	}
+	// this is a condition for the connection to db, if it's conneted, return existing one and don't make a second connection
+	makeConnection() {
+		if (!this.connection) {
+			this.connection = this.client.connect()
+		}
+		this.connection.catch(error => {
+			console.log('failed to connect', error)
+		})
+		return this.connection
+	}
 
 	connectToUserCollection(callback) {
 
@@ -170,7 +170,7 @@ class API {
 						"$lookup": {
 							"from": "Users",
 							"localField": "userId",			// if this
-							"foreignField": "_id",			// matches this 
+							"foreignField": "_id",			// matches this
 							"as": "userData"				// we return any matching object in a array object property
 						}
 					},
@@ -217,7 +217,7 @@ class API {
 						"$lookup": {
 							"from": "Users",
 							"localField": "userId",			// if this
-							"foreignField": "_id",			// matches this 
+							"foreignField": "_id",			// matches this
 							"as": "userData"				// we return any matching object in a array object property
 						}
 					},
@@ -279,34 +279,28 @@ class API {
 		})
 	}
 
-	// TODO:
-	// hämta ad id Ads
-	/*getAdsWithMyDiscussions() {
-	  this.connectToAdCollection(collection => {
-		collection.find({userId: id}, (error, result) => {
-		  if(error) throw console.error
-		  callback(result)
-		})
-	  })
-	}*/
-	getAllMessagesForUser(userId, callback) {
-		this.connectToMessagesCollection(collection => {
-			const query = { $or: [{ senderId: userId }, { recieverId: userId }] };
-			console.log('data.getAllMessagesForUser, userId=', userId, query);
-			collection.find(query).toArray((error, result) => {
-				console.log('data.getAllMessagesForUser, found: ', result);
-				if (error) throw error;
-				callback(result)
-			})
-		})
-	}
+  getAllMessagesForUser(userId, callback) {
+    this.connectToMessagesCollection(collection => {
+      const query = {$or: [{senderId: userId },{recieverId: userId}]};
+      console.log('data.getAllMessagesForUser, userId=', userId, query);
+      collection.find(query).toArray((error, result) => {
+        console.log('data.getAllMessagesForUser, found: ', result);
+        if(error) throw error;
+        callback(result)
+      })
+    })
+  }
 
 	updateMessage(id, message, callback) {
+		let changes = {$set: {messsage: message, timeStamp: new Date()}};
+		let objId = new ObjectId(id);
+
 		this.connectToMessagesCollection(collection => {
-			collection.updateOne({ _id: id }, { $set: message }, null, (error, result) => {
-				if (error) throw error
-				callback(true)
-			})
+				collection.updateOne({ _id: objId}, changes, (error, result) => {
+					console.log('update result: ', result);
+						if (error) throw error
+						callback(true)
+				})
 		})
 	}
 
@@ -355,10 +349,10 @@ class API {
 			})
 		})
 	}
-  
-  disconnect(callback) {
-    this.client.close(callback)
-  }
+
+	disconnect(callback) {
+		this.client.close(callback)
+	}
 }
 
 module.exports = API

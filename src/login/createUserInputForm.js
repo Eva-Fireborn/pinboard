@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 
 const CreateUserInputForm = ({activateCreateUser, userInformation, changeUserInformation, updateIsLoggedIn}) => {
-      
+
       async function connectNewUser (value) {
         const serverResponse = await fetch('http://localhost:4000/ApiLogInNewUser', {
             method: 'POST',
@@ -15,6 +15,7 @@ const CreateUserInputForm = ({activateCreateUser, userInformation, changeUserInf
             }
         });
         const res = await serverResponse.json();
+
         updateIsLoggedIn({
             _id: res.body.res,
             name: userInformation.name
@@ -29,7 +30,7 @@ const CreateUserInputForm = ({activateCreateUser, userInformation, changeUserInf
     return (
         <div id="createUserWindow">
             <button className="close" onClick={activateCreateUser}>X</button>
-            <Formik 
+            <Formik
                     initialValues={{
                         name: userInformation.name,
                         email: userInformation.email,
@@ -86,7 +87,7 @@ const CreateUserInputForm = ({activateCreateUser, userInformation, changeUserInf
                                 <Field component="textarea" name="description" type="textarea" className={errors.description && touched.description ? ' is-invalid' : ''} />
                                 <ErrorMessage name="description" component="div" className="invalid-feedback" />
                             </div>
-                            <div>*obligatorisk</div> 
+                            <div>*obligatorisk</div>
                             <div>
                                 <button type="submit" onClick={()=>{console.log('verifiering?')}}>Skapa konto</button>
                             </div>
@@ -95,6 +96,6 @@ const CreateUserInputForm = ({activateCreateUser, userInformation, changeUserInf
                 />
         </div>
     )
-    
+
 }
 export default CreateUserInputForm;

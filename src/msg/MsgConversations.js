@@ -1,21 +1,15 @@
 import React from "react";
 
-const MsgConversations =  ({ads}) => {
+const MsgConversations =  ({ads, onClickGetConversations}) => {
   console.log('vad är ads?', ads);
 
-  let mappedAds = ads.map((a, i) => (
-    <div key={i}>{a}</div>
-  ))
+  //{ mappedAds }
+  //<div className="arrow"></div>
     return(
-      <aside>
-        <div className="adUserName selected">
-          <div>
-          {mappedAds}
-          </div>
-          <div className="arrow"></div>
 
+      <div className="adUserName selected" onClick= {() => onClickGetConversations(ads)}>
+        {ads.adHeader}
         </div>
-      </aside>
     );
 };
 export default MsgConversations;

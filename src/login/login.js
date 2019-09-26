@@ -69,7 +69,7 @@ const Login = ({ visibility, activateLogin, updateIsLoggedIn, activateCreateUser
 				activateLogin();
 				localStorage.setItem('user', JSON.stringify(user));
 			}
-			
+
 		}
 	}
 
