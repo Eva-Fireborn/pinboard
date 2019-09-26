@@ -13,8 +13,9 @@ class PinboardView extends React.Component {
 		fetch('http://localhost:4000/ApiGetLatest')
 			.then(res => res.json())
 			.then((result) => {
+				let parsedResult = JSON.parse(result.body);
 				let ads = [];
-				result.body.forEach(res => {
+				parsedResult.forEach(res => {
 					ads.push(res)
 				});
 				this.setState({

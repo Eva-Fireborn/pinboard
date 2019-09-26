@@ -1,9 +1,9 @@
 @mixin shared-large-sizing {
-	padding: 1rem 5rem;
-	width: calc(100% - 10rem);
+	padding: 0em 5em;
+	width: calc(100% - 10em);
 	flex-shrink: 0;
 	@media (max-width: $breakpoint-tablet) {
-		padding: 1rem 1rem;
+		padding: 1em 1em;
 	}
 }
 @mixin shared-large-flex {
@@ -12,7 +12,6 @@
 	background-color: $white;
 }
 @mixin shared-fixed-menu {
-	height: 60px;
 	@media (max-width: $breakpoint-tablet) {
 		position: fixed;
 		top: auto;
@@ -45,17 +44,20 @@
 			height: 60px;
 			width: auto;
 		}
+		a {
+			display: block;
+		}
 	}
 	nav {
 		font-size: 1.2rem;
 		flex: 0 0 auto;
 		display: flex;
 		align-items: center;
-		> * {
-			margin-left: 2rem;
+		> a {
+			margin-left: 2em;
 			cursor: pointer;
 		}
-		> *:hover {
+		> a:hover {
 			color: $green;
 		}
 	}
@@ -78,7 +80,7 @@
 			width: 100%;
 			> * {
 				font-size: 0.7rem;
-				margin: 0 0.2rem;
+				margin: 1em 0.2em;
 			}
 		}
 		.svg-inline--fa {
@@ -95,15 +97,15 @@ footer {
 	ul {
 		list-style: none;
 		margin: 0;
-		padding: 0;
+		padding: 1em 0;
 	}
-	ul > li { margin: 0.3rem 0; }
+	ul > li { margin: 0.3em 0; }
 	@media (max-width: $breakpoint-tablet) {
 		flex-direction: column;
 		padding-bottom: 120px;
 		text-align: center;
-		width: calc(100% - 2rem);
-		ul { margin: 1rem 0; }
+		width: calc(100% - 2em);
+		ul { margin: 1em 0; }
 	}
 }
 

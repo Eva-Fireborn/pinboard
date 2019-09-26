@@ -59,12 +59,17 @@ const Login = ({ visibility, activateLogin, updateIsLoggedIn, activateCreateUser
 			}
 			else {
 				updateIsLoggedIn({
-					_id: res.body.res._id
+					_id: res.body.res._id,
+					name: res.body.res.name
 				})
+				let user = {
+					_id: res.body.res._id,
+					name: res.body.res.name
+				}
 				activateLogin();
-				localStorage.setItem('user', JSON.stringify(res.body.res._id));
+				localStorage.setItem('user', JSON.stringify(user));
 			}
-			
+
 		}
 	}
 
@@ -89,21 +94,19 @@ const Login = ({ visibility, activateLogin, updateIsLoggedIn, activateCreateUser
 			}
 			else {
 				updateIsLoggedIn({
-					_id: res.body.res._id
+					_id: res.body.res._id,
+					name: res.body.res.name
 				})
+				let user = {
+					_id: res.body.res._id,
+					name: res.body.res.name
+				}
 				activateLogin();
-				localStorage.setItem('user', JSON.stringify(res.body.res._id));
+				localStorage.setItem('user', JSON.stringify(user));
 			}
 		}
 	}
 
 }
-
-//clientID google: 285513444438-31ksr33o72j9p5rsvg21jpftqmre5s6f.apps.googleusercontent.com
-//client Secret google: GP5K1P4neN4lu5y48Is_FzYQ
-
-//<input id="usernameInput" type="text" placeholder="E-mail" />
-//<input id="passwordInput" type="password" placeholder="Lösenord" />
-//<button id="loginWithEmailButton">Logga in</button>
 
 export default Login;

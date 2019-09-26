@@ -8,11 +8,11 @@ import ErrorMsg from './ErrorMsg';
 const CreateAdd = ({ isLoggedIn }) => {
 	const [visibility, setVisibility] = useState(false);
 	const [valid, setIsValid] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
-    const [userID, setUserID] = useState(null);
+	const [errorMessage, setErrorMessage] = useState('');
+	const [userID, setUserID] = useState(null);
 
     useEffect(() => {
-        if(isLoggedIn)
+        if (isLoggedIn)
             setUserID(isLoggedIn._id);
         else
             setUserID(null)
