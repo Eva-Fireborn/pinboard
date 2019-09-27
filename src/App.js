@@ -5,6 +5,8 @@ import Footer from "./nav/Footer.js";
 import ContentRouting from './contentRouting';
 import Login from './login/login';
 import CreateUser from './login/createUser'
+import openSocket from 'socket.io-client';
+const socket = openSocket('http://localhost:4000');
 
 
 const App = () => {
@@ -19,6 +21,7 @@ const App = () => {
 	useEffect(() => {
 		let user = JSON.parse(localStorage.getItem('user'));
 		if (user) {
+			socket.emit('userID', user._id);
 			return updateIsLoggedIn({
 				_id: user._id,
 				name: user.name

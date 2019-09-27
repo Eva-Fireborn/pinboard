@@ -216,16 +216,16 @@ expServer.post('/ApiUpdateMsg', (request, response) => {
 })
 
 expServer.post('/ApiUpdateMsg', (request, response) => {
-    let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
-    console.log('requestbody: ', request.body.id);
-		console.log('body.msg: ', request.body.messages);
-    api.updateMessage(request.body.id, request.body.messages, res => {
-        response.send({
-            status: 200,
-            body: res
-        })
-        api.disconnect()
-    })
+	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
+	console.log('requestbody: ', request.body.id);
+	console.log('body.msg: ', request.body.messages);
+	api.updateMessage(request.body.id, request.body.messages, res => {
+		response.send({
+			status: 200,
+			body: res
+		})
+		api.disconnect()
+	})
 })
 
 
@@ -242,18 +242,22 @@ expServer.get('/', (request, response) => {
 let connectedUsers = [];
 io.on('connection', socket => {
 	const sessionID = socket.id;
-	connectedUsers.push(sessionID);
-	console.log('Server received new client connection: #' + sessionID);
-	console.log('number connected: ', connectedUsers);
+	console.log('connectedUsers: ', connectedUsers);
+
+
+	socket.on('userID', id => {
+		console.log('socket.id: ', socket.id, 'id for user: ', id)
+		connectedUsers.push({ sessionID, userID: id });
+	})
+	/*
+	socket.on('chat message', data => {
+		if (connectedUsers.find(user => user.userID === ))
+			io.to(sessionID).emit('chat message', data);
+	})
+	*/
 	socket.on('disconnect', () => {
 		console.log(`Client #${sessionID} disconnected from server`);
 	})
-	socket.on('chat message', data => {
-		console.log(`Server received chat message from #${sessionID}: `, data);
-		if( connectedUsers.find(id => data.receiverId) )
-			io.to(sessionID).emit('chat message', data);
-	})
-
 })
 
 // OBS! Starta httpServer i stället för expServer.

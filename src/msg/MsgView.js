@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import openSocket from 'socket.io-client';
 import MsgConversations from './MsgConversations';
+import openSocket from 'socket.io-client';
 const socket = openSocket('http://localhost:4000');
 
 
@@ -22,33 +22,33 @@ export default class MsgView extends Component {
 	}
 
 	componentDidMount() {
-		console.log('userId compdid: ',this.props.isLoggedIn._id );
-		console.log('userId compdid: ',this.props.isLoggedIn.name );
+		console.log('userId compdid: ', this.props.isLoggedIn._id);
+		console.log('userId compdid: ', this.props.isLoggedIn.name);
 
-			fetch(`http://localhost:4000/ApiGetAllMsgForUser
+		fetch(`http://localhost:4000/ApiGetAllMsgForUser
 				/${this.state.userId}`)
-		.then(res => res.json())
-		.then( (result) => {
-			let parsedResult = JSON.stringify(result.body);
-			let msg = [];
-			JSON.parse(parsedResult).forEach(res => {
-				msg.push(res)
+			.then(res => res.json())
+			.then((result) => {
+				let parsedResult = JSON.stringify(result.body);
+				let msg = [];
+				JSON.parse(parsedResult).forEach(res => {
+					msg.push(res)
 
-			});
-			this.setState({
-				conversationHistory: msg
-			});
-		},
-		(error) => {
-			console.log(error)
-		}
-	)  // fetch
-	//console.log('innan socket alert');
-	socket.on('chat message', data => {
-		console.log('Client received chat message: ', data);
-		alert(JSON.stringify(data.message))
-	});
-}
+				});
+				this.setState({
+					conversationHistory: msg
+				});
+			},
+				(error) => {
+					console.log(error)
+				}
+			)  // fetch
+		//console.log('innan socket alert');
+		socket.on('chat message', data => {
+			console.log('Client received chat message: ', data);
+			alert(JSON.stringify(data.message))
+		});
+	}
 
 	async	postNewMsg(msg, id) {
 		let obj = {
@@ -56,15 +56,15 @@ export default class MsgView extends Component {
 			messages: msg
 		}
 		const serverResponse = await fetch('http://localhost:4000/ApiUpdateMsg',
-				{
-					method: 'POST',
-					body: JSON.stringify(obj, null),
-					headers: {
-							"Content-type": "application/json; charset=UTF-8"
-					}
+			{
+				method: 'POST',
+				body: JSON.stringify(obj, null),
+				headers: {
+					"Content-type": "application/json; charset=UTF-8"
+				}
 			});
-			const res = await serverResponse.json();
-			console.log('response: ', res.status);
+		const res = await serverResponse.json();
+		console.log('response: ', res.status);
 	};
 
 	handleChangeMessage = e => {
@@ -116,61 +116,61 @@ export default class MsgView extends Component {
 		})
 	};
 
-	render(){
+	render() {
 		let allMessages;
-		if(this.state.selectedConversation){
-		allMessages = this.state.selectedConversation.message.map((m, index)	 => {
-			console.log('selconv?: ', this.state.selectedConversation);
-			let className;
-			if(m.msgId === this.state.userId){
-				className = "msgSelf";
-				return (
-					<div className={className} key={index} >
-					{m.msg}
-					</div>
-				)
-			}
-			else{
-				className = "msgOther";
-				return(
-					<div className={className} key={index} >
-					{m.msg}
-					</div>
-				)
-			};
-		});
-	}else{
-		let	allMessages = null;
-	}
+		if (this.state.selectedConversation) {
+			allMessages = this.state.selectedConversation.message.map((m, index) => {
+				console.log('selconv?: ', this.state.selectedConversation);
+				let className;
+				if (m.msgId === this.state.userId) {
+					className = "msgSelf";
+					return (
+						<div className={className} key={index} >
+							{m.msg}
+						</div>
+					)
+				}
+				else {
+					className = "msgOther";
+					return (
+						<div className={className} key={index} >
+							{m.msg}
+						</div>
+					)
+				};
+			});
+		} else {
+			let allMessages = null;
+		}
 
-	return (
+		return (
 
-				<div id="wrapper">
+			<div id="wrapper">
 				<aside>
-				{this.state.conversationHistory ?
-					this.state.conversationHistory.map((msg, key) =>
-						<MsgConversations
-						onClickGetConversations={this.onClickGetConversations}
-						ads={msg}
-						key={key}
-						/> )
+					{this.state.conversationHistory ?
+						this.state.conversationHistory.map((msg, key) =>
+							<MsgConversations
+								onClickGetConversations={this.onClickGetConversations}
+								ads={msg}
+								key={key}
+							/>)
 
-				:
-				 null}
-					</aside>
-					<main id="msg">
-						{allMessages}
-						<textarea id="textMessage" type="text"
-									value={this.state.message}
-									onChange={this.handleChangeMessage}
-									placeholder="Skriv ditt meddelande här" />
+						:
+						null}
+				</aside>
+				<main id="msg">
+					{allMessages}
+					<textarea id="textMessage" type="text"
+						value={this.state.message}
+						onChange={this.handleChangeMessage}
+						placeholder="Skriv ditt meddelande här" />
 
-						<button className="call"
-										onClick={this.addMessageButton}>
-							Skicka
+					<button className="call"
+						onClick={this.addMessageButton}>
+						Skicka
 						</button>
-					</main>
-				</div>
-			)
+				</main>
+			</div>
+		)
 	};
 };
