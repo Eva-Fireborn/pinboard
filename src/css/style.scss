@@ -32,10 +32,11 @@ body, html {
 	display: flex;
 	flex-direction: column;
 }
-p { margin: 0 0 2em 0; }
+p { margin: 0 0 2em 0; word-wrap: break-word; }
 h1, h2, h3, h4, h5 {
 	font-weight: 300;
 	margin: 0;
+	word-wrap: break-word;
 }
 h1 { font-size: 2rem; }
 h2 { font-size: 1.8rem; }
@@ -77,7 +78,7 @@ input, select, textarea {
 	}
 }
 
-main { flex-grow: 1; }
+main { flex-grow: 1; overflow: hidden; }
 $aside-width: 175px;
 aside {
 	flex: 0 0 $aside-width;
