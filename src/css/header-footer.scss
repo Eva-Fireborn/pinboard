@@ -12,6 +12,8 @@
 	background-color: $white;
 }
 @mixin shared-fixed-menu {
+	padding: 0em 5em;
+	height: 65px;
 	@media (max-width: $breakpoint-tablet) {
 		position: fixed;
 		top: auto;
@@ -26,7 +28,7 @@
 #header {
 	@include shared-large-sizing;
 	@include shared-fixed-menu;
-	z-index: 9000;
+	z-index: 500;
 }
 #fixedMenu {
 	@include shared-large-sizing;
