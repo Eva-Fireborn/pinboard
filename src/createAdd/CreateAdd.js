@@ -148,8 +148,8 @@ const CreateAdd = ({ isLoggedIn }) => {
 								<Field component="select" name="category" type="select" className={'select' + (errors.category && touched.category ? ' is-invalid' : '')} >
 									<option value=""></option>
 									<option value="djur">Djur</option>
-									<option value="fritid">Fritid/hobby</option>
-									<option value="hustjänster">Hushållsnära tjänster</option>
+									<option value="fritid">Fritid</option>
+									<option value="hushållshjälp">Hushållsnära tjänster</option>
 									<option value="musik">Musik</option>
 									<option value="transport">Transport</option>
 									<option value="trädgård">Trädgård</option>

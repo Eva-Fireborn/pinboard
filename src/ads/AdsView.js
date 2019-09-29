@@ -1,5 +1,4 @@
 import React from "react";
-//import CategoryList from "./CategoryList.js";
 import SingleAdCard from "./SingleAdCard.js";
 import SearchView from "./SearchView.js";
 
@@ -11,7 +10,8 @@ class AdsView extends React.Component {
 			selectedCategory: '',
 			filteredByCategoryList: [],
 			searchWord: '',
-			filteredBySearchWord: []
+            filteredBySearchWord: [],
+            filterType: ''
         };
     }
 
@@ -41,8 +41,8 @@ class AdsView extends React.Component {
     render() {
         const category = [
             { title: "Djur" },
-            { title: "Fritid & hobby" },
-            { title: "Hushållsnära tjänster" },
+            { title: "Fritid" },
+            { title: "Hushållshjälp" },
             { title: "Musik" },
             { title: "Transport" },
             { title: "Trädgård" },
@@ -56,38 +56,39 @@ class AdsView extends React.Component {
                 ad => ad.category.toUpperCase() === category.toUpperCase()
             );
             this.setState({filteredByCategoryList: filteredByCategoryList});
+            this.setState({filterType: 'category'});
         };
-
-		let ads;
-
-		if (this.state.selectedCategory === '' && this.state.listOfAds && this.state.listOfAds.length) {
-			ads = this.state.listOfAds.map((ad, key) => (
-				<SingleAdCard key={key} adObject={ad} isLoggedIn={this.props.isLoggedIn}/> ))
-		} else if (this.state.selectedCategory !== '' && this.state.filteredByCategoryList && this.state.filteredByCategoryList.length) {
-			ads = this.state.filteredByCategoryList.map( (ad, key) => (
-				<SingleAdCard key={key} adObject={ad} isLoggedIn={this.props.isLoggedIn}/> ))
-		} else if (this.state.selectedCategory !== '' && this.state.filteredByCategoryList.length === 0) {
-			ads = `Kunde inte hitta annonser med kategori ${this.state.selectedCategory}`;
-		}  else {
-			ads = null;
-		}
-
-		// else if (this.state.searchWord === '' && this.state.listOfAds && this.state.listOfAds.length) {
-		// 	ads = this.state.listOfAds.map((ad, key) => (
-		// 		<SingleAdCard key={key} adObject={ad} isLoggedIn={this.props.isLoggedIn}/> ))
-		// }
-		// else if (this.state.searchWord !== '' && this.state.filteredBySearchWord && this.state.filteredBySearchWord.length) {
-		// 	ads = this.state.filteredBySearchWord.map((ad, key) => (
-		// 		<SingleAdCard key={key} adObject={ad} isLoggedIn={this.props.isLoggedIn}/> ))
-		// }
-		// else if (this.state.searchWord !== '' && this.state.filteredBySearchWord.length === 0) {
-		// 	ads = `Kunde inte hitta annonser med rubrik ${this.state.searchWord}`;
-		// }
-		const searchRubrik = (searchWord) => {
+        const searchRubrik = (searchWord) => {
 			this.setState({searchWord: searchWord});
 			let filteredByRubrik = this.state.listOfAds.filter(ad => ad.header.toUpperCase().includes(searchWord.toUpperCase()));
-			this.setState({filteredBySearchWord: filteredByRubrik});
-		}
+            this.setState({filteredBySearchWord: filteredByRubrik});
+            this.setState({filterType: 'rubrik'});
+		};
+
+		let ads;
+        
+        if (this.state.selectedCategory === '' && this.state.searchWord === '' && this.state.listOfAds && this.state.listOfAds.length) {
+			ads = this.state.listOfAds.map((ad, key) => (
+				<SingleAdCard key={key} adObject={ad} isLoggedIn={this.props.isLoggedIn} category={this.state.selectedCategory} /> ))
+        } 
+        
+        if (this.state.selectedCategory !== '' && this.state.filterType === 'category') {
+            if (this.state.filteredByCategoryList && this.state.filteredByCategoryList.length) {
+			    ads = this.state.filteredByCategoryList.map( (ad, key) => (
+                    <SingleAdCard key={key} adObject={ad} isLoggedIn={this.props.isLoggedIn}/> ))
+                } else if (this.state.filteredByCategoryList.length === 0) {
+			        ads = `Kunde inte hitta annonser med kategori ${this.state.selectedCategory}`;
+                };
+        } 
+        
+        if (this.state.searchWord !== '' && this.state.filterType === 'rubrik') {
+            if (this.state.filteredBySearchWord && this.state.filteredBySearchWord.length) {
+			        ads = this.state.filteredBySearchWord.map((ad, key) => (
+                        <SingleAdCard key={key} adObject={ad} isLoggedIn={this.props.isLoggedIn}/> ))
+                } else if (this.state.filteredBySearchWord.length === 0) {
+                    ads = `Kunde inte hitta annonser med rubrik ${this.state.searchWord}`;
+                }
+        } 
 
         return (
             <div id="wrapper">
@@ -105,11 +106,10 @@ class AdsView extends React.Component {
                             ))}
                         </ul>
                     </div>
-                    {/* <CategoryList filterCategories={filterCategories} /> */}
                 </aside>
                 <main id="ads">
                     <ul>
-						{this.state.listOfAds.length === 0 ?  <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div> : ads}
+						{!ads ?  <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div> : ads}
 						{/* {ads} */}
                     </ul>
                 </main>

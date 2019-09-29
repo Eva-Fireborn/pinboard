@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from "react-router-dom";
 import {
 	faMapMarkerAlt,
 	faStar
+	// , faPaw, faPalette, faMusic, faSeedling, faRoute, faChalkboardTeacher, faFolderPlus, faHome
 } from '@fortawesome/free-solid-svg-icons';
 import FirstMessageToAd from './FirstMessageToAd';
 
@@ -16,7 +17,7 @@ const SingleAdCard = ({ adObject, isLoggedIn }) => {
 	return (
 		<li className="adCard">
 			<div>
-				<img src={require('../img/tempCourse.jpg')} alt="ads img" />
+				<img src={require(`../img/categories/${adObject.category}.png`)} alt="ads img" />
 				<button className="price call" onClick={()=> updateMessageToUserVisibility(!messageToUserVisibility)}>
 					Svara på annonsen
 				</button>
