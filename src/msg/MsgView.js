@@ -1,77 +1,83 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import MsgConversations from './MsgConversations';
 import openSocket from 'socket.io-client';
 const socket = openSocket('http://localhost:4000');
 
-export default class MsgView extends Component {
-	constructor(props) {
-		super(props);
+const MsgView = ({ isLoggedIn }) => {
+	const [message, setMessage] = useState('');
+	const [conversationHistory, setConversationHistory] = useState(null);
+	const [selectedConversation, setSelectedConversation] = useState(null);
+	const [receiverID, setReceiverID] = useState(null);
 
-		this.state = {
-			message: "",
-			conversationHistory: null,
-			selectedConversation: null
-		};
-	}
+	console.log('Viktor test #1..');
 
-	componentDidMount() {
-		// socket.on('getHistory', this.props.isLoggedIn._id)
-	}
+	useEffect(() => {
+		console.log('Viktor test #2..');
 
-	addMessageButton = e => {
+		if (isLoggedIn) {
+			socket.emit('userID', isLoggedIn._id);
+			socket.emit('initHistory');
+			socket.on('getHistory', history => setConversationHistory(history));
+		}
+	}, [isLoggedIn])
+
+	const addMessageButton = e => {
 		let msgObject = {
-			msg: this.state.message,
-			senderID: this.props.isLoggedIn._id,
-			ReceiverID: this.state.ReceiverID
+			message: message,
+			senderID: isLoggedIn._id,
+			ReceiverID: receiverID
 		}
 
-		this.state.selectedConversation.push(msgObject);
+		setMessage("");
+		//setSelectedConversation([...selectedConversation, msgObject])
 		socket.emit('sendMessage', msgObject);
-
-		this.setState({ message: "" })
 	};
 
-	onClickGetConversations = (msg) => this.setState({ selectedConversation: msg });
-	handleChangeMessage = e => this.setState({ message: e.target.value });
+	const getConversations = msg => setSelectedConversation(msg);
+	const handleChangeMessage = e => setMessage(e.target.value);
 
-	render() {
-		let allMessages;
-		if (this.state.selectedConversation) {
-			allMessages = this.state.selectedConversation.message.map((m, index) => {
-				if (m.msgId === this.state.userId)
-					return (<div className="msgSelf" key={index}>{m.msg}</div>);
-				else
-					return (<div className="msgOther" key={index}>{m.msg}</div>);
-			});
-		}
+	let allMessages;
+	if (selectedConversation) {
+		allMessages = selectedConversation.message.map((m, index) => {
+			if (m.msgId === isLoggedIn._id)
+				return (<div className="msgSelf" key={index}>{m.msg}</div>);
+			else
+				return (<div className="msgOther" key={index}>{m.msg}</div>);
+		});
+	}
 
-		return (
-			<div id="wrapper">
-				<aside>
-					{
-						this.state.conversationHistory ?
-							this.state.conversationHistory.map((msg, key) =>
-								<MsgConversations
-									onClickGetConversations={this.onClickGetConversations}
-									ads={msg}
-									key={key}
-								/>
-							) : null
-					}
-				</aside>
+	let history;
+	if (conversationHistory) {
+		history = conversationHistory.map((msg, key) => {
+			console.log('msg: ', msg);
 
-				<main id="msg">
-					{allMessages}
-					<textarea id="textMessage" type="text"
-						value={this.state.message}
-						onChange={this.handleChangeMessage}
-						placeholder="Skriv ditt meddelande här" />
+			return (<MsgConversations
+				ads={msg} key={key}
+				getConversations={getConversations}
+			/>)
+		})
+	}
 
-					<button className="call" onClick={this.addMessageButton}>
-						Skicka
-					</button>
-				</main>
-			</div>
-		)
-	};
+	return (
+		<div id="wrapper">
+			<aside>
+				{history}
+			</aside>
+
+			<main id="msg">
+				{allMessages}
+
+				<textarea id="textMessage" type="text"
+					value={message}
+					onChange={handleChangeMessage}
+					placeholder="Skriv ditt meddelande här" />
+
+				<button className="call" onClick={addMessageButton}>
+					Skicka
+				</button>
+			</main>
+		</div>
+	)
 };
+
+export default MsgView;

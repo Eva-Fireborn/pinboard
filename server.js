@@ -168,71 +168,40 @@ expServer.get('/', (request, response) => {
 
 });
 
-
-
-
-
 let onlineUsers = [];
 // onlineUsers [{sessionID: socketID, userID: dbId}, {sessionID: socketID, userID: dbId}]
 io.on('connection', socket => {
 	const sessionID = socket.id;
-	console.log('connectedUsers: ', onlineUsers);
 
-
-	socket.on('userID', id => {
-		console.log('socket.id: ', socket.id, 'with userID: ', id)
-		onlineUsers.push({ sessionID, userID: id });
+	socket.on('userID', userID => {
+		if (onlineUsers.filter(user => user.sessionID === sessionID).length === 0)
+			onlineUsers.push({ sessionID, userID });
 	})
 
-	socket.on('getHistory', id => {
-		// to-do:
-		// get history from database (coming from react componentDidMount)
-		// return history for react to render inside MsgView
+	socket.on('initHistory', () => {
+		let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
+		let currentUser = onlineUsers.filter(user => user.sessionID === sessionID);
 
-		/*
-		expServer.get('/ApiGetAllMsgForUser/:userId', (request, response) => {
-			let userId = request.params.userId;
-			let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
-			api.getAllMessagesForUser(userId, res => {
-				response.send({
-					status: 200,
-					body: res
-				})
+		if (currentUser.length > 0) {
+			api.getAllMessagesForUser(currentUser[0].userID, res => {
+				socket.emit('getHistory', res);
 				api.disconnect()
 			})
-		});
-
-		expServer.get('/ApiGetMessagesForAd/:adId/:userId', (request, response) => {
-			let userId = request.params.userId;
-			let adId = request.params.adId;
-			let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
-			// TODO: fixa ad id - bör skickas med querystring
-			api.getMessagesForAd(adId, userId, res => {
-				response.send({
-					status: 200,
-					body: res
-				})
-				api.disconnect()
-			})
-		})
-		*/
+		}
 	});
 
 	socket.on('sendMessage', msgObj => {
+		console.log('sendMessage new incoming msg: ', msgObj);
+
 		// to-do:
 		// handle incoming msgObject (containing: senderID(a userID), ReceiverID(a userID), msg(string))
 		// check if user that the messages is for is logged in
 		// send message with socket (and save to database)
 		// else save message to database
 
-		if (onlineUsers.find(user => user.userID === msgObj.ReceiverID)) {
-			io.to(user.sessionID).emit('chat message', msgObj.msg);
-			// send msg to user..
-		} else {
-			// save to db...
-		}
 
-		/*
+
+		/* Old api request used to get save msg?:
 		expServer.post('/ApiUpdateMsg', (request, response) => {
 			let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
 			api.updateMessage(request.body.id, request.body.messages, res => {
