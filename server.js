@@ -3,6 +3,7 @@ const expServer = express();
 const httpServer = require('http').createServer(expServer);
 const io = require('socket.io')(httpServer);
 const port = 4000;
+const ip = '127.0.0.1';
 const API = require('./bkd/data');
 const bodyParser = require('body-parser')
 expServer.use(
@@ -160,38 +161,6 @@ expServer.post('/ApiPostNewAd', (request, response) => {
 	})
 })
 
-expServer.get('/ApiGetAllMsgForUser/:userId', (request, response) => {
-	let userId = request.params.userId;
-	console.log('server /ApiGetAllMsgForUser', request.params.userId);
-	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
-	api.getAllMessagesForUser(userId, res => {
-		console.log('server /ApiGetAllMsgForUser send response', res);
-		response.send({
-			status: 200,
-			body: res
-		})
-		api.disconnect()
-	})
-	// query db: alla meddelanden som har userId som sender eller reciever
-	// response.send
-});
-
-
-//getting and saving messeges to db
-expServer.get('/ApiGetMessagesForAd/:adId/:userId', (request, response) => {
-	let userId = request.params.userId;
-	let adId = request.params.adId;
-	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
-	// TODO: fixa ad id - bör skickas med querystring
-	api.getMessagesForAd(adId, userId, res => {
-		response.send({
-			status: 200,
-			body: res
-		})
-		api.disconnect()
-	})
-})
-
 expServer.post('/ApiPostNewMsg', (request, response) => {
 	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
 	console.log('requestbody: ', request.body)
@@ -204,33 +173,7 @@ expServer.post('/ApiPostNewMsg', (request, response) => {
 	})
 })
 
-expServer.post('/ApiUpdateMsg', (request, response) => {
-	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
-	api.updateMessage(request.body.id, request.body.messages, res => {
-		response.send({
-			status: 200,
-			body: res
-		})
-		api.disconnect()
-	})
-})
-
-expServer.post('/ApiUpdateMsg', (request, response) => {
-    let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
-    console.log('requestbody: ', request.body.id);
-		console.log('body.msg: ', request.body.messages);
-    api.updateMessage(request.body.id, request.body.messages, res => {
-        response.send({
-            status: 200,
-            body: res
-        })
-        api.disconnect()
-    })
-})
-
-
 expServer.use(express.static(__dirname + '/build/'));
-
 
 expServer.get('/', (request, response) => {
 	console.log('Request: ', request.url)
@@ -238,25 +181,68 @@ expServer.get('/', (request, response) => {
 
 });
 
-
-let connectedUsers = [];
+let onlineUsers = [];
 io.on('connection', socket => {
 	const sessionID = socket.id;
-	connectedUsers.push(sessionID);
-	console.log('Server received new client connection: #' + sessionID);
-	console.log('number connected: ', connectedUsers);
-	socket.on('disconnect', () => {
-		console.log(`Client #${sessionID} disconnected from server`);
-	})
-	socket.on('chat message', data => {
-		console.log(`Server received chat message from #${sessionID}: `, data);
-		if( connectedUsers.find(id => data.receiverId) )
-			io.to(sessionID).emit('chat message', data);
+
+	socket.on('initHistory', userID => {
+		if (onlineUsers.filter(user => user.userID === userID).length === 0) {
+			onlineUsers.push({ sessionID, userID });
+		}
+
+		let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
+		let currentUser = onlineUsers.filter(user => user.sessionID === sessionID);
+
+		if (currentUser.length > 0) {
+			api.getAllMessagesForUser(currentUser[0].userID, res => {
+				socket.emit('getHistory', res);
+				api.disconnect()
+			})
+		}
+	});
+
+	socket.on('sendMessage', msgObj => {
+		console.log('sendMessage new incoming msg: ', msgObj);
+		let online = onlineUsers.filter(user => user.userID === msgObj.receiverID)
+
+		if (online.length > 0) {
+			console.log('user is online! ', online);
+			socket.to(online.sessionID).emit('getMsg', { msg: msgObj.message })
+			//socket.emit('getMsg', { msg: msgObj.message })
+		} else {
+			console.log('save msg to db');
+		}
+
+		// to-do:
+		// check if user that the messages is for is logged in
+		// send message with socket (and save to database)
+		// else save message to database
+
+
+
+		/* Old api request used to get save msg?:
+		expServer.post('/ApiUpdateMsg', (request, response) => {
+			let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
+			api.updateMessage(request.body.id, request.body.messages, res => {
+				response.send({
+					status: 200,
+					body: res
+				})
+				api.disconnect()
+			})
+		})
+		
+
+		*/
 	})
 
+	socket.on('disconnect', () => {
+		onlineUsers.splice(onlineUsers.findIndex(user => user.sessionID === sessionID), 1);
+		console.log(`Client #${sessionID} disconnected from server.. And got removed from onlineUsers.`);
+	})
 })
 
 // OBS! Starta httpServer i stället för expServer.
-httpServer.listen(port, '127.0.0.1', () => {
-	console.log(`Server is listening on port ${port}...`);
+httpServer.listen(port, ip, () => {
+	console.log(`Server is listening on ip: ${ip} and port ${port}...`);
 });

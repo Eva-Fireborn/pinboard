@@ -2,7 +2,6 @@
 	padding: 0 0 2em 0;
 	margin: 0 0 2em 0;
 	display: flex;
-	border-bottom: 2px solid $white;
 	p {
 		margin: 1em 0;
 	}
@@ -10,6 +9,8 @@
 		border-radius: $rounding-large;
 		display: block;
 		margin: 0 auto;
+		width: 200px;
+		height: auto;
 	}
 	div:first-child {
 		text-align: center;
@@ -34,6 +35,7 @@
 	border-bottom: 0px;
 }
 .adInformation {
+	overflow: hidden;
 	flex: 1 1 auto;
 	justify-content: flex-start;
 	margin-left: 1em;
@@ -54,7 +56,7 @@
 	}
 	@media (max-width: $breakpoint-mobile) {
 		margin-left: 0;
-		> p {
+		p {
 			text-align: left;
 		}
 	}

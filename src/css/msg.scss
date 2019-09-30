@@ -4,7 +4,7 @@ aside .adUserName {
 	justify-content: flex-start;
 }
 aside .selected { background-color: $green; }
-main#msg > textarea {
+#textMessage {
 	width: 100%;
 }
 .msgSelf, .msgOther {
