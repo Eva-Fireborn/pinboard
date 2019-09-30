@@ -163,7 +163,11 @@ expServer.post('/ApiPostNewAd', (request, response) => {
 
 expServer.post('/ApiPostNewMsg', (request, response) => {
 	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
-	console.log('requestbody: ', request.body)
+
+	request.body = { ...request.body, timeStamp: new Date() }
+	request.body.message[0] = { ...request.body.message[0], timeStamp: new Date() }
+	console.log('requestbody: ', request.body);
+
 	api.createMsg(request.body, res => {
 		response.send({
 			status: 200,
@@ -205,19 +209,16 @@ io.on('connection', socket => {
 		console.log('sendMessage new incoming msg: ', msgObj);
 		let online = onlineUsers.filter(user => user.userID === msgObj.receiverID)
 
-		if (online.length > 0) {
-			console.log('user is online! ', online);
-			socket.to(online.sessionID).emit('getMsg', { msg: msgObj.message })
-			//socket.emit('getMsg', { msg: msgObj.message })
-		} else {
-			console.log('save msg to db');
-		}
-
-		// to-do:
-		// check if user that the messages is for is logged in
-		// send message with socket (and save to database)
-		// else save message to database
-
+		let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
+		api.updateMessage(msgObj.objId, msgObj.newMessage, msgObj.senderId, res => {
+			if (online.length > 0) {
+				// this should run after backend saved... and api.updateMessage res => should return with date
+				// send a functional object so react can handle it
+				// {msg: msgObj.newMessage, senderId: msgObj.senderId, timestamp: ?}
+				socket.to(online.sessionID).emit({ msg: msgObj.newMessage })
+			}
+			api.disconnect()
+		})
 
 
 		/* Old api request used to get save msg?:
