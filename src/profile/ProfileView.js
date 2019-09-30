@@ -1,7 +1,7 @@
 import React from "react";
 import OwnersMenu from "./OwnersMenu.js";
 import SingleAdCard from "../ads/SingleAdCard.js";
-import SingleReview from "./SingleReview.js";
+//import SingleReview from "./SingleReview.js";
 import ProfileSideList from "./ProfileSideList.js";
 import RemoveAccount from './RemoveAccount';
 import moment from 'moment'
@@ -17,7 +17,12 @@ class ProfileView extends React.Component {
 			removeAccountVisibility: false,
 			noUserFound: false,
 			name: '',
-			changeName: false
+			changeName: false,
+			city: '',
+			changeCity: false,
+			description: '',
+			changeDescription: false,
+			changeUserInfoVisibility: true
 		}
 	}
 
@@ -52,17 +57,31 @@ class ProfileView extends React.Component {
 	}
 
 	render() {
-		async function updateUser() {
-				//let user = {_id: this.props.isLoggedIn._id, city, name, description};
+		const changeEditProfile = (state) => {
+			this.setState({editProfile: state, changeUserInfoVisibility: true});
+		}
+
+		const validateUpdates = () => {
+			let user = {};
+			let name = this.state.name === '' ? this.state.profileData.name : this.state.name;
+			let city = this.state.city === '' ? this.state.profileData.city : this.state.city;
+			let description = this.state.description === '' ? this.state.profileData.description : this.state.description;
+
+			user = {_id: this.props.isLoggedIn._id, city, name, description};
+			console.log(user);
+			//updateUser(user);
+		}
+		
+		async function updateUser(user) {
 				const serverResponse = await fetch('http://localhost:4000/ApiUpdateUser', {
 					method: 'POST',
-					//body: JSON.stringify(user),
+					body: JSON.stringify(user),
 					headers: {
 						"Content-type": "application/json; charset=UTF-8"
 					}
 				});
 				const res = await serverResponse.json();
-				console.log('user updated: ', res.status);
+				console.log('user updated: ', res.status, 'med user: ', user);
 		}
 
 		const reviewScroll = () => document.getElementById("reviews").scrollIntoView({ behavior: "smooth" });
@@ -100,11 +119,7 @@ class ProfileView extends React.Component {
 							<section>
 								{this.state.owner ?
 									<OwnersMenu
-										SetEditProfile={
-											() => this.setState({
-												editProfile: !this.state.editProfile
-											})
-										}
+										SetEditProfile={changeEditProfile}
 										logOff={this.props.logOff}
 										changeRemoveAccountVisibility={this.changeRemoveAccountVisibility}
 									/>
@@ -141,43 +156,66 @@ class ProfileView extends React.Component {
 								<SingleReview />
 							</ul>
 						</section> */}
-						{/* {this.state.editProfile ?  */}
+						{this.state.editProfile && this.state.changeUserInfoVisibility ? 
 						<div id="loginPopup">
 							<div id="loginWindow">
+							<button className="close" onClick={() => this.setState({changeUserInfoVisibility: !this.state.changeUserInfoVisibility, editProfile: false})}>X</button>
 								<div>
 									{this.state.changeName ? 
 										<div>
-											<label htmlFor="name">Name
+											<label htmlFor="name">New name: 
 												<input type="text" value={this.state.name} onChange={(e) => this.setState({name: e.target.value})} /> 
 											</label>
 											<button onClick={() => this.setState({changeName: false})}>Save</button>
 										</div>
 									: 
 									<div>
-										<p>{this.state.name === '' ? this.state.profileData.name : this.state.name}</p> 
-										<button onClick={() => this.setState({changeName: true})}>Edit name</button>
+										<div>
+											<div>{this.state.name === '' ? <div>Name: {this.state.profileData.name} </div> :  <div>Name: {this.state.name} </div>}</div>
+											<button onClick={() => this.setState({changeName: true})}>Edit name</button>
+										</div> 
 									</div>
 									}
-								
-								
-								</div>
-								{/* <div>
-								<label htmlFor="city">City
-									<input type="text" value="city" /> 
-								</label>
-								<button>Update</button>
 								</div>
 								<div>
-								<label htmlFor="description">Description
-									<input type="text" value="description" /> 
-								</label>
-								<button>Update</button>
-								</div> */}
-								<button>Send updates</button>
+									{this.state.changeCity ? 
+										<div>
+											<label htmlFor="city">New city: 
+												<input type="text" value={this.state.city} onChange={(e) => this.setState({city: e.target.value})} /> 
+											</label>
+											<button onClick={() => this.setState({changeCity: false})}>Save</button>
+										</div>
+									: 
+									<div>
+										<div>
+											<div>{this.state.city === '' ? <div>City: {this.state.profileData.city} </div> :  <div>City: {this.state.city} </div>}</div>
+											<button onClick={() => this.setState({changeCity: true})}>Edit city</button>
+										</div> 
+									</div>
+									}
+								</div>
+								<div>
+									{this.state.changeDescription ? 
+										<div>
+											<label htmlFor="description">New description: 
+												<input type="text" value={this.state.description} onChange={(e) => this.setState({description: e.target.value})} /> 
+											</label>
+											<button onClick={() => this.setState({changeDescription: false})}>Save</button>
+										</div>
+									: 
+									<div>
+										<div>
+											<div>{this.state.description === '' ? <div>Description: {this.state.profileData.description} </div> :  <div>Description: {this.state.description} </div>}</div>
+											<button onClick={() => this.setState({changeDescription: true})}>Edit description</button>
+										</div> 
+									</div>
+									}
+								</div>
+								<button onClick={validateUpdates}>Send updates</button>
 							</div>
 							<div className="darkness"></div>
 						</div>
-						{/* : null }  */}
+						 : null }
 						</main>
 					</div >
 				)
