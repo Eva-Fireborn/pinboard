@@ -12,7 +12,9 @@ class ProfileView extends React.Component {
 			owner: false,
 			editProfile: false,
 			userAds: [],
-			profileData: {}
+			profileData: {},
+			name: '',
+			changeName: false
 		}
 	}
 
@@ -39,8 +41,25 @@ class ProfileView extends React.Component {
 			)
 	}
 
+	
+
 	render() {
+		async function updateUser() {
+				//let user = {_id: this.props.isLoggedIn._id, city, name, description};
+				const serverResponse = await fetch('http://localhost:4000/ApiUpdateUser', {
+					method: 'POST',
+					//body: JSON.stringify(user),
+					headers: {
+						"Content-type": "application/json; charset=UTF-8"
+					}
+				});
+				const res = await serverResponse.json();
+				console.log('user updated: ', res.status);
+		}
+
 		const reviewScroll = () => document.getElementById("reviews").scrollIntoView({ behavior: "smooth" });
+
+		console.log('name is: ', this.state.name);
 		return (
 			<div id="wrapper">
 				<aside className="profile">
@@ -79,7 +98,7 @@ class ProfileView extends React.Component {
 					</section>
 
 					<section>
-						<h2>Min tjänster:</h2>
+						<h2>Mina tjänster:</h2>
 						<ul>
 							{
 								this.state.userAds && this.state.userAds.length ?
@@ -90,7 +109,7 @@ class ProfileView extends React.Component {
 						</ul>
 					</section>
 
-					<section id="reviews">
+					{/* <section id="reviews">
 						<h2>Betyg:</h2>
 						<ul>
 							waiting for backend stuff...
@@ -98,7 +117,45 @@ class ProfileView extends React.Component {
 							<SingleReview />
 							<SingleReview />
 						</ul>
-					</section>
+					</section> */}
+					{/* {this.state.editProfile ?  */}
+					<div id="loginPopup">
+						<div id="loginWindow">
+							<div>
+								{this.state.changeName ? 
+									<div>
+										<label htmlFor="name">Name
+											<input type="text" value={this.state.name} onChange={(e) => this.setState({name: e.target.value})} /> 
+										</label>
+										<button onClick={() => this.setState({changeName: false})}>Save</button>
+									</div>
+								: 
+								<div>
+									<p>{this.state.name === '' ? this.state.profileData.name : this.state.name}</p> 
+									<button onClick={() => this.setState({changeName: true})}>Edit name</button>
+								</div>
+								}
+							
+							
+							</div>
+							{/* <div>
+							<label htmlFor="city">City
+								<input type="text" value="city" /> 
+							</label>
+							<button>Update</button>
+							</div>
+							<div>
+							<label htmlFor="description">Description
+								<input type="text" value="description" /> 
+							</label>
+							<button>Update</button>
+							</div> */}
+							<button>Send updates</button>
+						</div>
+						<div className="darkness"></div>
+					</div>
+					{/* : null }  */}
+					
 				</main>
 			</div >
 		)

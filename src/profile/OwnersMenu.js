@@ -12,17 +12,17 @@ const OwnersMenu = ({ SetEditProfile, logOff }) => {
 	return (
 		<ul>
 			<li>
-				<Link to="#" onClick={() => SetEditProfile()}>
+				<Link to="#" onClick={() => SetEditProfile(true)}>
 					<FontAwesomeIcon icon={faIdCard} />
-					Ändra publik profil
+					Ändra profil
 				</Link>
 			</li>
-			<li>
+			{/* <li>
 				<Link to="#">
 					<FontAwesomeIcon icon={faCog} />
 					Ändra konto Inställningar
 				</Link>
-			</li>
+			</li> */}
 			<li>
 				<Link to="/frågorochsvar#konto">
 					<FontAwesomeIcon icon={faQuestionCircle} />
