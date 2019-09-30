@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import {
 	faMapMarkerAlt,
 	faComment,
-	faChalkboardTeacher,
 } from '@fortawesome/free-solid-svg-icons';
 
 const ProfileSideList = ({ reviewScroll, profileData, editProfile, isLoggedIn }) => {
@@ -15,10 +14,6 @@ const ProfileSideList = ({ reviewScroll, profileData, editProfile, isLoggedIn })
 					<FontAwesomeIcon icon={faMapMarkerAlt} />
 					{profileData.city}
 				</Link>
-			</li>
-			<li>
-				<FontAwesomeIcon icon={faChalkboardTeacher} />
-				Språk: waiting for backend stuff...
 			</li>
 			<li>
 				<Link to="#" onClick={reviewScroll}>

@@ -11,6 +11,7 @@ class AdsView extends React.Component {
 	}
 
 	componentDidMount() {
+		console.log('loggedIn: ', this.state.isLoggedIn)
 		fetch('http://localhost:4000/ApiGetAllAds')
 			.then(res => res.json())
 			.then((result) => {
@@ -31,6 +32,13 @@ class AdsView extends React.Component {
 				}
 			)
 	}
+	/*componentDidUpdate() {
+		console.log('didUpdate: ', this.state.isLoggedIn)
+		// Typical usage (don't forget to compare props):
+		if (this.props.isLoggedIn !== this.state.isLoggedIn) {
+		  this.fetchData(this.props.isLoggedIn);
+		}
+	  }*/
 
 
 	render() {

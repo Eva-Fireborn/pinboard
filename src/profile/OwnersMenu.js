@@ -6,9 +6,10 @@ import {
 	faSignOutAlt,
 	faQuestionCircle,
 	faIdCard,
+	faTrash
 } from '@fortawesome/free-solid-svg-icons';
 
-const OwnersMenu = ({ SetEditProfile, logOff }) => {
+const OwnersMenu = ({ SetEditProfile, logOff, changeRemoveAccountVisibility }) => {
 	return (
 		<ul>
 			<li>
@@ -37,6 +38,10 @@ const OwnersMenu = ({ SetEditProfile, logOff }) => {
 					<FontAwesomeIcon icon={faSignOutAlt} />
 					Logga ut
 				</Link>
+			</li>
+			<li onClick={changeRemoveAccountVisibility}>
+				<FontAwesomeIcon icon={faTrash} />
+				Radera mitt konto
 			</li>
 		</ul>
 	);

@@ -30,7 +30,6 @@ const SingleAdCard = ({ adObject, isLoggedIn }) => {
 	} else {
 		img = <img src={require('../img/adsImg/övrigt.jpg')} alt="ads img" />
 	}
-	
 
 	return (
 		<li className="adCard">
