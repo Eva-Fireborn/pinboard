@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import openSocket from 'socket.io-client';
 import MsgConversations from './MsgConversations';
+
 const socket = openSocket('http://localhost:4000');
 
 
@@ -22,9 +23,6 @@ export default class MsgView extends Component {
 	}
 
 	componentDidMount() {
-		console.log('userId compdid: ',this.props.isLoggedIn._id );
-		console.log('userId compdid: ',this.props.isLoggedIn.name );
-
 			fetch(`http://localhost:4000/ApiGetAllMsgForUser
 				/${this.state.userId}`)
 		.then(res => res.json())
@@ -43,11 +41,7 @@ export default class MsgView extends Component {
 			console.log(error)
 		}
 	)  // fetch
-	//console.log('innan socket alert');
-	socket.on('chat message', data => {
-		console.log('Client received chat message: ', data);
-		alert(JSON.stringify(data.message))
-	});
+
 }
 
 	async	postNewMsg(msg, id) {
@@ -68,7 +62,6 @@ export default class MsgView extends Component {
 	};
 
 	handleChangeMessage = e => {
-		console.log('Körs handleChangeMessage?');
 		this.setState({
 			message: e.target.value
 		})
@@ -81,46 +74,36 @@ export default class MsgView extends Component {
 			msgId: this.state.userId
 		}
 		newMessages.push(obj)
-		/*
-		let messageObj = {
-			message: this.state.message,
-			senderId: this.state.userId,
-			recieverId: this.state.recieverId,
-			timeStamp: new Date(),
-			adId: this.state.adId
-			};
-
-		this.setState({
-			conversationHistory: [...this.state.conversationHistory, messageObj]
-		})
-
-		*/
 		this.postNewMsg(newMessages, this.state.selectedConversation._id)
-		console.log('test', newMessages);
 		socket.emit('chat message', this.state.message)
 
 		this.setState({
 			message: ""
 		})
 	};
-	/*
-	getNewTime = (date) => {
-	  return `${date.getHours()}: ${("0" + date.getMinutes()).slice(-2)}  ${date.getDate()} / ${date.getMonth()} `
-	}
-	*/
+
+	socketOnMessage = () => {
+		socket.on('chat message', data => {
+			console.log('Client received chat message: ', data.message);
+			//alert(JSON.stringify(data.message))
+		});
+	};
+
+	//socketOnMessage();
+
 
 	onClickGetConversations = (msg) => {
-		console.log('msg in click:', msg);
 		this.setState({
 			selectedConversation: msg
 		})
 	};
 
 	render(){
+
+
 		let allMessages;
 		if(this.state.selectedConversation){
 		allMessages = this.state.selectedConversation.message.map((m, index)	 => {
-			console.log('selconv?: ', this.state.selectedConversation);
 			let className;
 			if(m.msgId === this.state.userId){
 				className = "msgSelf";
@@ -142,7 +125,6 @@ export default class MsgView extends Component {
 	}else{
 		let	allMessages = null;
 	}
-
 	return (
 
 				<div id="wrapper">
