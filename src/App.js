@@ -18,7 +18,7 @@ const App = () => {
 
 	useEffect(() => {
 		let user = JSON.parse(localStorage.getItem('user'));
-		if (user) updateIsLoggedIn({ _id: user })
+		if (user) updateIsLoggedIn({ _id: user._id })
 	}, [])
 
 	return (

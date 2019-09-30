@@ -160,6 +160,18 @@ expServer.post('/ApiPostNewAd', (request, response) => {
 	})
 })
 
+expServer.post('/ApiPostNewMsg', (request, response) => {
+	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
+	console.log('requestbody: ', request.body)
+	api.createMsg(request.body, res => {
+		response.send({
+			status: 200,
+			body: res
+		})
+		api.disconnect()
+	})
+})
+
 expServer.use(express.static(__dirname + '/build/'));
 
 expServer.get('/', (request, response) => {
@@ -169,16 +181,14 @@ expServer.get('/', (request, response) => {
 });
 
 let onlineUsers = [];
-// onlineUsers [{sessionID: socketID, userID: dbId}, {sessionID: socketID, userID: dbId}]
 io.on('connection', socket => {
 	const sessionID = socket.id;
 
-	socket.on('userID', userID => {
-		if (onlineUsers.filter(user => user.sessionID === sessionID).length === 0)
+	socket.on('initHistory', userID => {
+		if (onlineUsers.filter(user => user.userID === userID).length === 0) {
 			onlineUsers.push({ sessionID, userID });
-	})
+		}
 
-	socket.on('initHistory', () => {
 		let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
 		let currentUser = onlineUsers.filter(user => user.sessionID === sessionID);
 
@@ -192,9 +202,17 @@ io.on('connection', socket => {
 
 	socket.on('sendMessage', msgObj => {
 		console.log('sendMessage new incoming msg: ', msgObj);
+		let online = onlineUsers.filter(user => user.userID === msgObj.receiverID)
+
+		if (online.length > 0) {
+			console.log('user is online! ', online);
+			socket.to(online.sessionID).emit('getMsg', { msg: msgObj.message })
+			//socket.emit('getMsg', { msg: msgObj.message })
+		} else {
+			console.log('save msg to db');
+		}
 
 		// to-do:
-		// handle incoming msgObject (containing: senderID(a userID), ReceiverID(a userID), msg(string))
 		// check if user that the messages is for is logged in
 		// send message with socket (and save to database)
 		// else save message to database
@@ -213,17 +231,7 @@ io.on('connection', socket => {
 			})
 		})
 		
-		expServer.post('/ApiPostNewMsg', (request, response) => {
-			let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
-			console.log('requestbody: ', request.body)
-			api.createMsg(request.body, res => {
-				response.send({
-					status: 200,
-					body: res
-				})
-				api.disconnect()
-			})
-		})
+
 		*/
 	})
 

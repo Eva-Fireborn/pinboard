@@ -1,9 +1,9 @@
 import React from "react";
 
-const MsgConversations = ({ ads, getConversations }) => {
+const MsgConversations = ({ msg, getConversations }) => {
 	return (
-		<div className="adUserName selected" onClick={() => getConversations(ads)}>
-			{ads.adHeader}
+		<div className="adUserName selected" onClick={() => getConversations(msg)}>
+			{msg.adHeader}
 		</div>
 	);
 };

@@ -15,8 +15,7 @@ const MsgView = ({ isLoggedIn }) => {
 		console.log('Viktor test #2..');
 
 		if (isLoggedIn) {
-			socket.emit('userID', isLoggedIn._id);
-			socket.emit('initHistory');
+			socket.emit('initHistory', isLoggedIn._id);
 			socket.on('getHistory', history => setConversationHistory(history));
 		}
 	}, [isLoggedIn])
@@ -25,20 +24,29 @@ const MsgView = ({ isLoggedIn }) => {
 		let msgObject = {
 			message: message,
 			senderID: isLoggedIn._id,
-			ReceiverID: receiverID
+			receiverID: receiverID
 		}
 
 		setMessage("");
-		//setSelectedConversation([...selectedConversation, msgObject])
 		socket.emit('sendMessage', msgObject);
+		socket.on('getMsg', msg => setSelectedConversation([...selectedConversation, msg]));
 	};
 
-	const getConversations = msg => setSelectedConversation(msg);
+	const getConversations = msg => {
+		setSelectedConversation(msg.message)
+		console.log(msg.message);
+
+		if (msg.senderId === isLoggedIn._id)
+			setReceiverID(msg.recieverId)
+		else
+			setReceiverID(msg.senderId)
+		// console.log('getConversations - recieverId: ', msg.recieverId, 'senderId: ', msg.senderId);
+	};
 	const handleChangeMessage = e => setMessage(e.target.value);
 
 	let allMessages;
 	if (selectedConversation) {
-		allMessages = selectedConversation.message.map((m, index) => {
+		allMessages = selectedConversation.map((m, index) => {
 			if (m.msgId === isLoggedIn._id)
 				return (<div className="msgSelf" key={index}>{m.msg}</div>);
 			else
@@ -49,10 +57,10 @@ const MsgView = ({ isLoggedIn }) => {
 	let history;
 	if (conversationHistory) {
 		history = conversationHistory.map((msg, key) => {
-			console.log('msg: ', msg);
+			//console.log('Message - recieverId: ', msg.recieverId, 'senderId: ', msg.senderId);
 
 			return (<MsgConversations
-				ads={msg} key={key}
+				msg={msg} key={key}
 				getConversations={getConversations}
 			/>)
 		})
@@ -67,14 +75,18 @@ const MsgView = ({ isLoggedIn }) => {
 			<main id="msg">
 				{allMessages}
 
-				<textarea id="textMessage" type="text"
-					value={message}
-					onChange={handleChangeMessage}
-					placeholder="Skriv ditt meddelande här" />
+				{allMessages ? (
+					<span>
+						<textarea id="textMessage" type="text"
+							value={message}
+							onChange={handleChangeMessage}
+							placeholder="Skriv ditt meddelande här" />
 
-				<button className="call" onClick={addMessageButton}>
-					Skicka
-				</button>
+						<button className="call" onClick={addMessageButton}>
+							Skicka
+						</button>
+					</span>
+				) : null}
 			</main>
 		</div>
 	)
