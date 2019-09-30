@@ -1,33 +1,43 @@
-import React from "react";
-import SearchView from "./SearchView.js";
-import SingleCategory from "./SingleCategory.js";
+// import React, { useState } from "react";
+// import SearchView from "./SearchView.js";
 
-const CategoryList = () => {
-	const category = [
-		{
-			title: 'Musik',
-			subCat: ['Gitarr', 'Piano', 'Fiol', 'Flöjt']
-		},
-		{
-			title: 'Mat',
-			subCat: ['Laga mat', 'Mat provning', 'Vin provning', 'Öl provning', 'Munching']
-		},
-		{
-			title: 'Lek',
-			subCat: ['Magic', 's...', 'Slut på idéer']
-		}
-	]
+// const CategoryList = ({filterCategories}) => {
 
-	return (
-		<div className="fixed">
-			<SearchView />
+//     const category = [
+//         { title: "Djur" },
+//         { title: "Fritid & hobby" },
+//         { title: "Hushållsnära tjänster" },
+//         { title: "Musik" },
+//         { title: "Transport" },
+//         { title: "Trädgård" },
+//         { title: "Undervisning" },
+//         { title: "Övrigt" }
+//     ];
 
-			<h3>Kategorier:</h3>
-			<ul>
-				{category.map((s) => <SingleCategory category={s} key={s.title} />)}
-			</ul>
-		</div>
-	)
-};
+//     const [selectedCategory, setSelectedCategory] = useState('');
+// 	console.log('child: ', selectedCategory);
 
-export default CategoryList;
+// 	const selectCategory = (category) => {
+// 		setSelectedCategory('');
+//         setSelectedCategory(category);
+//         filterCategories(selectedCategory);
+// 	}
+    
+    
+
+//     return (
+//         <div className="fixed">
+//             <SearchView />
+//             <h3>Kategorier:</h3>
+//             <ul>
+//                 {category.map((category, index) => (
+//                     <li key={index}>
+//                         <h4 onClick={(e) => selectCategory(e.currentTarget.innerText)}>{category.title}</h4>
+//                     </li>
+//                 ))}
+//             </ul>
+//         </div>
+//     );
+// };
+
+// export default CategoryList;

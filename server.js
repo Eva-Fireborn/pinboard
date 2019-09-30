@@ -126,6 +126,19 @@ expServer.get('/removeUserByID/:id', (request, response) => {
 	})
 })
 
+expServer.post('/ApiUpdateUser', (request, response) => {
+	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
+	api.updateUser(request.body, res => {
+		response.send({
+			status: 200,
+			body: {
+				res
+			}
+		})
+		api.disconnect()
+	})
+})
+
 expServer.get('/ApiGetAllAds', (request, response) => {
 	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
 	api.getAllAds(res => {
