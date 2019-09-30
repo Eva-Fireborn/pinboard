@@ -3,6 +3,7 @@ const expServer = express();
 const httpServer = require('http').createServer(expServer);
 const io = require('socket.io')(httpServer);
 const port = 4000;
+const ip = '127.0.0.1';
 const API = require('./bkd/data');
 const bodyParser = require('body-parser')
 expServer.use(
@@ -242,6 +243,6 @@ io.on('connection', socket => {
 })
 
 // OBS! Starta httpServer i stället för expServer.
-httpServer.listen(port, '127.0.0.1', () => {
-	console.log(`Server is listening on port ${port}...`);
+httpServer.listen(port, ip, () => {
+	console.log(`Server is listening on ip: ${ip} and port ${port}...`);
 });

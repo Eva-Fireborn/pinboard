@@ -9,11 +9,7 @@ const MsgView = ({ isLoggedIn }) => {
 	const [selectedConversation, setSelectedConversation] = useState(null);
 	const [receiverID, setReceiverID] = useState(null);
 
-	console.log('Viktor test #1..');
-
 	useEffect(() => {
-		console.log('Viktor test #2..');
-
 		if (isLoggedIn) {
 			socket.emit('initHistory', isLoggedIn._id);
 			socket.on('getHistory', history => setConversationHistory(history));
@@ -34,13 +30,10 @@ const MsgView = ({ isLoggedIn }) => {
 
 	const getConversations = msg => {
 		setSelectedConversation(msg.message)
-		console.log(msg.message);
-
 		if (msg.senderId === isLoggedIn._id)
 			setReceiverID(msg.recieverId)
 		else
 			setReceiverID(msg.senderId)
-		// console.log('getConversations - recieverId: ', msg.recieverId, 'senderId: ', msg.senderId);
 	};
 	const handleChangeMessage = e => setMessage(e.target.value);
 
@@ -57,8 +50,6 @@ const MsgView = ({ isLoggedIn }) => {
 	let history;
 	if (conversationHistory) {
 		history = conversationHistory.map((msg, key) => {
-			//console.log('Message - recieverId: ', msg.recieverId, 'senderId: ', msg.senderId);
-
 			return (<MsgConversations
 				msg={msg} key={key}
 				getConversations={getConversations}
