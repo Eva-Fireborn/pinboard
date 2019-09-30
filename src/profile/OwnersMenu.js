@@ -6,23 +6,24 @@ import {
 	faSignOutAlt,
 	faQuestionCircle,
 	faIdCard,
+	faTrash
 } from '@fortawesome/free-solid-svg-icons';
 
-const OwnersMenu = ({ SetEditProfile, logOff }) => {
+const OwnersMenu = ({ SetEditProfile, logOff, changeRemoveAccountVisibility }) => {
 	return (
 		<ul>
 			<li>
-				<Link to="#" onClick={() => SetEditProfile()}>
+				<Link to="#" onClick={() => SetEditProfile(true)}>
 					<FontAwesomeIcon icon={faIdCard} />
-					Ändra publik profil
+					Ändra profil
 				</Link>
 			</li>
-			<li>
+			{/* <li>
 				<Link to="#">
 					<FontAwesomeIcon icon={faCog} />
 					Ändra konto Inställningar
 				</Link>
-			</li>
+			</li> */}
 			<li>
 				<Link to="/frågorochsvar#konto">
 					<FontAwesomeIcon icon={faQuestionCircle} />
@@ -37,6 +38,10 @@ const OwnersMenu = ({ SetEditProfile, logOff }) => {
 					<FontAwesomeIcon icon={faSignOutAlt} />
 					Logga ut
 				</Link>
+			</li>
+			<li onClick={changeRemoveAccountVisibility}>
+				<FontAwesomeIcon icon={faTrash} />
+				Radera mitt konto
 			</li>
 		</ul>
 	);
