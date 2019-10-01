@@ -3,7 +3,7 @@ const expServer = express();
 const httpServer = require('http').createServer(expServer);
 const io = require('socket.io')(httpServer);
 const port = 4000;
-const ip = '127.0.0.1';
+const ip = '172.26.16.239';
 const API = require('./bkd/data');
 const bodyParser = require('body-parser')
 expServer.use(
@@ -228,16 +228,12 @@ io.on('connection', socket => {
 	socket.on('initHistory', userID => {
 		if (onlineUsers.filter(user => user.userID === userID).length === 0) {
 			onlineUsers.push({ sessionID, userID });
-		}
 
-		let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
-		let currentUser = onlineUsers.filter(user => user.sessionID === sessionID);
-
-		if (currentUser.length > 0) {
-			api.getAllMessagesForUser(currentUser[0].userID, res => {
+			let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
+			api.getAllMessagesForUser(userID, res => {
 				socket.emit('getHistory', res);
 				api.disconnect()
-			})
+			});
 		}
 	});
 
@@ -248,11 +244,9 @@ io.on('connection', socket => {
 		let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
 		api.updateMessage(msgObj.objId, msgObj.newMessage, msgObj.senderId, res => {
 			if (online.length > 0) {
-				// this should run after backend saved... and api.updateMessage res => should return with date
-				// send a functional object so react can handle it
-				// {msg: msgObj.newMessage, senderId: msgObj.senderId, timestamp: ?}
-				socket.to(online.sessionID).emit({ msg: msgObj.newMessage })
+				socket.to(online.sessionID).emit('messageResponse', res)
 			}
+			socket.to(sessionID).emit('messageResponse', res)
 			api.disconnect()
 		})
 	})
@@ -264,6 +258,6 @@ io.on('connection', socket => {
 })
 
 // OBS! Starta httpServer i stället för expServer.
-httpServer.listen(port, ip, () => {
+httpServer.listen(port, () => {
 	console.log(`Server is listening on ip: ${ip} and port ${port}...`);
 });

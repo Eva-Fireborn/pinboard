@@ -16,9 +16,13 @@ const App = () => {
 	let activateCreateUser = () => changeCreateUserVisibility(!createUserVisibility)
 	let logOff = () => updateIsLoggedIn(null)
 
+	console.log(isLoggedIn);
+	console.log('hej kristina');
+
+
 	useEffect(() => {
 		let user = JSON.parse(localStorage.getItem('user'));
-		if (user) updateIsLoggedIn({ _id: user._id })
+		if (user) updateIsLoggedIn(user)
 	}, [])
 
 	return (

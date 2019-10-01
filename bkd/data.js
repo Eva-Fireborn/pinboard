@@ -293,23 +293,21 @@ class API {
 
 	updateMessage(objId, msg, senderId, callback) {
 		this.connectToMessagesCollection(collection => {
+			let newMsg = {
+				msg: msg,
+				senderId: senderId,
+				timeStamp: new Date()
+			}
+
 			collection.updateOne(
 				{ _id: ObjectId(objId) },
-				{
-					$push:
-					{
-						message: {
-							msg: msg,
-							senderId: senderId,
-							timeStamp: new Date()
-						}
-					}
-				}, (error, result) => {
+				{ $push: { message: newMsg } },
+				(error, result) => {
 					console.log('update result: ', result.modifiedCount);
 					if (error) throw error
-					callback(result.modifiedCount)
-				})
-		})
+					callback(newMsg);
+				});
+		});
 	}
 
 	// Fetches all messages from the database for one ad (TODO)

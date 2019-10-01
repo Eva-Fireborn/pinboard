@@ -8,13 +8,12 @@ const MsgView = ({ isLoggedIn }) => {
 	const [conversationHistory, setConversationHistory] = useState(null);
 	const [selectedConversation, setSelectedConversation] = useState(null);
 	const [receiverId, setReceiverId] = useState(null);
-	console.log(`
+	/*
 	Todo:
-	> hämta timestamp efter sparad i db och skicka till användare
 	> vissa ditt egna skickade medelande
 	> fixa notification numer grej.
 	> styling
-	`)
+	*/
 
 	useEffect(() => {
 		if (isLoggedIn) {
@@ -29,17 +28,17 @@ const MsgView = ({ isLoggedIn }) => {
 			senderId: isLoggedIn._id,
 			receiverId: receiverId,
 			objId: selectedConversation._id,
-			msgHistory: selectedConversation.message
 		}
 
 
 		setMessage("");
 		socket.emit('sendMessage', msgObject);
-		/*
-		socket.on('getMsg', msg => setSelectedConversation({
-			message: [...selectedConversation.message, msg]
-		}));
-		*/
+		socket.on('messageResponse', msg => {
+			console.log(msg);
+			setSelectedConversation({
+				message: [...selectedConversation.message, msg]
+			});
+		});
 	};
 
 	const getConversations = msg => {
