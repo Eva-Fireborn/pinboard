@@ -221,41 +221,32 @@ expServer.get('/', (request, response) => {
 });
 
 let onlineUsers = [];
-io.on('connection', socket => {
+io.on("connection", async (socket) => {
 	const sessionID = socket.id;
+	const api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
+	console.log('user connected: ', sessionID);
 
-	socket.on('initHistory', userId => {
-		if (onlineUsers.filter(user => user.userID === userId).length === 0) {
-			onlineUsers.push({ sessionID, userId });
-
-			let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
-			api.getAllMessagesForUser(userId, res => {
+	socket.on('initUser', userID => {
+		if (onlineUsers.filter(user => user.userID === userID).length === 0) {
+			onlineUsers.push({ sessionID, userID });
+			api.getAllMessagesForUser(userID, res => {
+				res.forEach(s => socket.join(s._id));
 				socket.emit('getHistory', res);
 				api.disconnect()
 			});
 		}
-	});
+		console.log('added new user to onlineUsers! ', onlineUsers);
+	})
 
-	socket.on('message', msgObj => {
-		console.log('online: ', onlineUsers);
-
-		let online = onlineUsers.filter(user => user.userId === msgObj.receiverId)
-		let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
-		api.updateMessage(msgObj.objId, msgObj.newMessage, msgObj.senderId, res => {
-			if (online.length > 0) {
-				console.log('Sending to ', online[0].sessionID, 'msg: ', res);
-				socket.to(online[0].sessionID).emit('message', res)
-			}
-			api.disconnect()
-			socket.emit('message', res)
-		})
+	socket.on('sendMsg', payload => {
+		socket.to(payload.objId).emit('chat', payload.newMessage); // only to self
 	})
 
 	socket.on('disconnect', () => {
 		onlineUsers.splice(onlineUsers.findIndex(user => user.sessionID === sessionID), 1);
-		console.log(`Client #${sessionID} disconnected from server.. And got removed from onlineUsers.`);
+		console.log(`Client #${sessionID} disconnected. Still online: `, onlineUsers);
 	})
-})
+});
 
 // OBS! Starta httpServer i stället för expServer.
 httpServer.listen(port, () => {

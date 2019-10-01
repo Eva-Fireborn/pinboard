@@ -1,26 +1,29 @@
 import React, { useState, useEffect } from "react";
 import MsgConversations from './MsgConversations';
-import openSocket from 'socket.io-client';
-const socket = openSocket('http://localhost:4000');
+import { chat, sendMsg, initUser, getHistory } from "../socket/api";
 
 const MsgView = ({ isLoggedIn }) => {
-	const [message, setMessage] = useState('');
-	const [allUserHistory, setAllUserHistory] = useState(null);
+	const [message, setMessage] = useState([])
+	const [history, setHistory] = useState();
 	const [selectedConversation, setSelectedConversation] = useState(null);
 	const [receiverId, setReceiverId] = useState(null);
 	const [selectedConversationId, setSelectedConversationId] = useState(null);
 
 	useEffect(() => {
 		if (isLoggedIn) {
-			socket.emit('initHistory', isLoggedIn._id);
-			socket.on('getHistory', history => setAllUserHistory(history));
+			// this shit make everything loop... one extra time for each render...
+			initUser(isLoggedIn._id);
+			getHistory(dbHistory => {
+				setHistory(dbHistory)
+			})
 		}
-		socket.on('message', msg => {
-			console.log(msg);
-			//setSelectedConversation(...selectedConversation, msg)
-		});
 	}, [isLoggedIn])
 
+	useEffect(() => {
+		chat(msg => {
+			console.log(msg);
+		});
+	}, [message])
 
 	const addMessageButton = e => {
 		let msgObject = {
@@ -28,15 +31,12 @@ const MsgView = ({ isLoggedIn }) => {
 			senderId: isLoggedIn._id,
 			receiverId: receiverId,
 			objId: selectedConversationId
-			//objId: selectedConversation._id
 		}
-
-
 		setMessage("");
-		socket.emit('message', msgObject);
+		sendMsg(msgObject);
 	};
 
-	const getConversations = msg => {
+	const showConversations = msg => {
 		setSelectedConversation(msg.message)
 		setSelectedConversationId(msg._id)
 		if (msg.senderId === isLoggedIn._id)
@@ -44,41 +44,39 @@ const MsgView = ({ isLoggedIn }) => {
 		else
 			setReceiverId(msg.senderId)
 	};
-	const handleChangeMessage = e => setMessage(e.target.value);
 
-	let allMessages;
+	let domAllMessages;
 	if (selectedConversation && selectedConversation.length > 0) {
-		allMessages = selectedConversation.map((m) => {
+		domAllMessages = selectedConversation.map((m) => {
 			if (m.senderId === isLoggedIn._id)
 				return (<div className="msgSelf" key={m.timeStamp}>{m.msg}</div>);
 			else
 				return (<div className="msgOther" key={m.timeStamp}>{m.msg}</div>);
 		});
 	}
-	let history;
-	if (allUserHistory) {
-		history = allUserHistory.map((msg) => {
+
+	let domHistory;
+	if (history) {
+		domHistory = history.map((msg) => {
 			return (<MsgConversations
 				msg={msg} key={msg.timeStamp}
-				getConversations={getConversations}
+				showConversations={showConversations}
 			/>)
 		})
 	}
 
 	return (
 		<div id="wrapper">
-			<aside>
-				{history}
-			</aside>
-
-			<main id="msg">
-				{allMessages}
-
-				{allMessages ? (
+			<main>
+				<aside>
+					{domHistory}
+				</aside>
+				{domAllMessages}
+				{domAllMessages ? (
 					<span>
 						<textarea id="textMessage" type="text"
 							value={message}
-							onChange={handleChangeMessage}
+							onChange={e => setMessage(e.target.value)}
 							placeholder="Skriv ditt meddelande här" />
 
 						<button className="call" onClick={addMessageButton}>

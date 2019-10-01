@@ -1,7 +1,6 @@
 import React from "react";
 import OwnersMenu from "./OwnersMenu.js";
 import SingleAdCard from "../ads/SingleAdCard.js";
-import SingleReview from "./SingleReview.js";
 import ProfileSideList from "./ProfileSideList.js";
 import RemoveAccount from './RemoveAccount';
 import moment from 'moment'
@@ -27,13 +26,13 @@ class ProfileView extends React.Component {
 			.then(
 				(result) => {
 					if (result === null) {
-						this.setState({noUserFound: true})
+						this.setState({ noUserFound: true })
 					} else {
 						this.setState({ profileData: result })
-					if (this.props.isLoggedIn) {
-					if (this.state.profileData._id === this.props.isLoggedIn._id)
-						this.setState({ owner: true })
-					}
+						if (this.props.isLoggedIn) {
+							if (this.state.profileData._id === this.props.isLoggedIn._id)
+								this.setState({ owner: true })
+						}
 					}
 				}, (error) => console.log(error)
 			)
@@ -48,37 +47,39 @@ class ProfileView extends React.Component {
 	}
 
 	changeRemoveAccountVisibility = () => {
-		this.setState({removeAccountVisibility: !this.state.removeAccountVisibility});
+		this.setState({ removeAccountVisibility: !this.state.removeAccountVisibility });
 	}
 
 	render() {
+		/*
 		async function updateUser() {
-				//let user = {_id: this.props.isLoggedIn._id, city, name, description};
-				const serverResponse = await fetch('http://localhost:4000/ApiUpdateUser', {
-					method: 'POST',
-					//body: JSON.stringify(user),
-					headers: {
-						"Content-type": "application/json; charset=UTF-8"
-					}
-				});
-				const res = await serverResponse.json();
-				console.log('user updated: ', res.status);
+			//let user = {_id: this.props.isLoggedIn._id, city, name, description};
+			const serverResponse = await fetch('http://localhost:4000/ApiUpdateUser', {
+				method: 'POST',
+				//body: JSON.stringify(user),
+				headers: {
+					"Content-type": "application/json; charset=UTF-8"
+				}
+			});
+			const res = await serverResponse.json();
+			console.log('user updated: ', res.status);
 		}
+		*/
 
 		const reviewScroll = () => document.getElementById("reviews").scrollIntoView({ behavior: "smooth" });
 		if (this.state.noUserFound) {
-			return(
+			return (
 				<div id="wrapper">
 					<p>Användaren finns inte.</p>
 				</div>
 			)
 		} else {
-			if (this.state.removeAccountVisibility){
-				return (<RemoveAccount 
-					changeRemoveAccountVisibility={this.changeRemoveAccountVisibility} 
-					isLoggedIn={this.props.isLoggedIn} 
+			if (this.state.removeAccountVisibility) {
+				return (<RemoveAccount
+					changeRemoveAccountVisibility={this.changeRemoveAccountVisibility}
+					isLoggedIn={this.props.isLoggedIn}
 					logOff={this.props.logOff}
-					/> )
+				/>)
 			} else {
 				const timestamp = this.state.profileData.memberSince;
 				const formattedDate = moment(timestamp).format('L');
@@ -96,7 +97,7 @@ class ProfileView extends React.Component {
 									isLoggedIn={this.props.isLoggedIn}
 								/>
 							</section>
-		
+
 							<section>
 								{this.state.owner ?
 									<OwnersMenu
@@ -119,7 +120,7 @@ class ProfileView extends React.Component {
 									{this.state.profileData.description}
 								</p>
 							</section>
-		
+
 							<section>
 								<h2>Mina annonser:</h2>
 								<ul>
@@ -131,8 +132,8 @@ class ProfileView extends React.Component {
 									}
 								</ul>
 							</section>
-		
-								{/* <section id="reviews">
+
+							{/* <section id="reviews">
 							<h2>Betyg:</h2>
 							<ul>
 								waiting for backend stuff...
@@ -141,27 +142,27 @@ class ProfileView extends React.Component {
 								<SingleReview />
 							</ul>
 						</section> */}
-						{/* {this.state.editProfile ?  */}
-						<div id="loginPopup">
-							<div id="loginWindow">
-								<div>
-									{this.state.changeName ? 
-										<div>
-											<label htmlFor="name">Name
-												<input type="text" value={this.state.name} onChange={(e) => this.setState({name: e.target.value})} /> 
-											</label>
-											<button onClick={() => this.setState({changeName: false})}>Save</button>
-										</div>
-									: 
+							{/* {this.state.editProfile ?  */}
+							<div id="loginPopup">
+								<div id="loginWindow">
 									<div>
-										<p>{this.state.name === '' ? this.state.profileData.name : this.state.name}</p> 
-										<button onClick={() => this.setState({changeName: true})}>Edit name</button>
+										{this.state.changeName ?
+											<div>
+												<label htmlFor="name">Name
+												<input type="text" value={this.state.name} onChange={(e) => this.setState({ name: e.target.value })} />
+												</label>
+												<button onClick={() => this.setState({ changeName: false })}>Save</button>
+											</div>
+											:
+											<div>
+												<p>{this.state.name === '' ? this.state.profileData.name : this.state.name}</p>
+												<button onClick={() => this.setState({ changeName: true })}>Edit name</button>
+											</div>
+										}
+
+
 									</div>
-									}
-								
-								
-								</div>
-								{/* <div>
+									{/* <div>
 								<label htmlFor="city">City
 									<input type="text" value="city" /> 
 								</label>
@@ -173,15 +174,15 @@ class ProfileView extends React.Component {
 								</label>
 								<button>Update</button>
 								</div> */}
-								<button>Send updates</button>
+									<button>Send updates</button>
+								</div>
+								<div className="darkness"></div>
 							</div>
-							<div className="darkness"></div>
-						</div>
-						{/* : null }  */}
+							{/* : null }  */}
 						</main>
 					</div >
 				)
-			}	
+			}
 		}
 	}
 };
