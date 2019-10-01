@@ -19,7 +19,7 @@ const Header = ({ isLoggedIn, loginVisibility, changeLoginVisibility }) => {
 			<div id="fixedMenu">
 				<div id="logo">
 					<Link to="/">
-						<img src={require('../img/pinboard.png')} alt="Pinboard" />
+						<img src={require('../img/pinboardGul.png')} alt="Pinboard" />
 					</Link>
 				</div>
 				<nav>
