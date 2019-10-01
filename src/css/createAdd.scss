@@ -38,7 +38,7 @@
 }
 
 .invalid-feedback {
-    color: red;
+    color: $maroon;
     font-size: 0.8em;
     margin-top: 0.2em;
 }
@@ -132,9 +132,19 @@
 }
 
 .is-invalid {
-    border-color: red;
+    border-color: $maroon;
 }
 
 .obligatorisk {
     margin: 1em;
 }
+
+.greenMessage {
+    color: white;
+    width: 100%; 
+    position: absolute;
+    text-align: center;
+    padding-top: 5%;
+    transform: translateY(-50%);
+}
+

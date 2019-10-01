@@ -47,9 +47,13 @@
 }
 
 .userErrorMessage {
-    color: red;
+    color: white;
     float: right;
-    background-color: white;
+    background-color: $maroon;
     padding: 1.2em;
     border-radius: $rounding-large;
+}
+
+.green {
+    background-color: $green;
 }

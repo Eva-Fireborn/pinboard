@@ -111,16 +111,16 @@ class API {
 				callback(true)
 			})
 		})
-	}
+	  }
 
-	deleteUser(id, callback) {
-		console.log(id)
+	  deleteUser (id, callback) {
+		let objId = new ObjectId(id)
 		this.connectToUserCollection(collection => {
-			collection.deleteOne({ _id: id }, null, (error, result) => {
-				if (error) throw error
-				// this.client.close()
-				callback(result)
-			})
+		  collection.deleteOne({_id: objId}, null, (error, result) => {
+			if( error ) throw error
+			// this.client.close()
+			callback(result.deletedCount)
+		  })
 		})
 	}
 
@@ -272,11 +272,19 @@ class API {
 	createMsg(msg, callback) {
 		console.log('msg: ', msg)
 		this.connectToMessagesCollection(collection => {
-			collection.insertOne(msg, (error, result) => {
-				if (error) throw error
-				callback(result.insertedId)
+			collection.findOne({ senderId: msg.senderId, recieverId: msg.recieverId, adId: msg.adId }).then(result =>{
+				console.log('result from create msg: ', result)
+				if (result === null){
+					collection.insertOne(msg, (error, result) => {
+						if (error) throw error
+						callback(result.insertedId)
+					})
+				} else {
+					callback(null)
+				}
 			})
 		})
+
 	}
 
 	getAllMessagesForUser(userId, callback) {

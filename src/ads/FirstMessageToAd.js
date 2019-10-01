@@ -4,25 +4,31 @@ const FirstMessageToAd = ({ adObject, isLoggedin }) => {
     let [messageInput, updateMessageInput ]= useState('');
     let [messageToUser, updateMessageToUser] = useState('');
     let [buttonDisabled, updateButtonDisabled] = useState(false);
+
     function prepare () {
         updateButtonDisabled(true);
-        let messageToDb = {
-            message: [{
-                msg: messageInput,
-                msgId: isLoggedin._id
-            }],
-            senderId: isLoggedin._id,
-            senderName: isLoggedin.name,
-            recieverId: adObject.userData[0]._id,
-            recieverName: adObject.userData[0].name,
-            adId: adObject._id,
-            adHeader: adObject.header,
-            timeStamp: new Date()
+        if (isLoggedin) {
+            let messageToDb = {
+                message: [{
+                    msg: messageInput,
+                    msgId: isLoggedin._id
+                }],
+                senderId: isLoggedin._id,
+                senderName: isLoggedin.name,
+                recieverId: adObject.userData[0]._id,
+                recieverName: adObject.userData[0].name,
+                adId: adObject._id,
+                adHeader: adObject.header,
+                timeStamp: new Date()
+            }
+            return sendMessageToDatabase(messageToDb)
+        } else {
+            updateMessageToUser('Du måste vara inloggad för att kunna skicka ett meddelande.');
+            updateButtonDisabled(false);
         }
-        return sendMessageToDatabase(messageToDb)
     }
     async function sendMessageToDatabase (messageToDb) {
-        if (isLoggedin._id){
+        if (isLoggedin._id && isLoggedin.name){
             let parsed = JSON.stringify(messageToDb, null)
             const serverResponse = await fetch('http://localhost:4000/ApiPostNewMsg', {
                 method: 'POST',
@@ -32,8 +38,16 @@ const FirstMessageToAd = ({ adObject, isLoggedin }) => {
                 }
             });
             const res = await serverResponse.json();
-            console.log('response : ', res)
-            return notifyUser();
+            if (res.body === null){
+                updateMessageToUser('Du har redan skickat ett meddelande till denna annonsen, konversationen finns i dina meddelanden.');
+            } else {
+                return notifyUser();
+            }
+            
+        }
+        else {
+            updateMessageToUser('Något verkar ha gått fel, försök igen om en stund.');
+            updateButtonDisabled(false);
         }
     }
     const notifyUser = () => {

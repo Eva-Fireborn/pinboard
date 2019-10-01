@@ -116,6 +116,30 @@ expServer.get('/getUserByID/:id', (request, response) => {
 	})
 })
 
+expServer.get('/removeUserByID/:id', (request, response) => {
+	let id = request.params.id
+	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
+	api.deleteUser(id, res => {
+		response.send(
+			JSON.stringify(res)
+		)
+		api.disconnect();
+	})
+})
+
+expServer.post('/ApiUpdateUser', (request, response) => {
+	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
+	api.updateUser(request.body, res => {
+		response.send({
+			status: 200,
+			body: {
+				res
+			}
+		})
+		api.disconnect()
+	})
+})
+
 expServer.get('/ApiGetAllAds', (request, response) => {
 	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
 	api.getAllAds(res => {
@@ -173,6 +197,21 @@ expServer.post('/ApiPostNewMsg', (request, response) => {
 	})
 })
 
+<<<<<<< HEAD
+=======
+expServer.post('/ApiUpdateMsg', (request, response) => {
+	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
+	api.updateMessage(request.body.id, request.body.messages, res => {
+		response.send({
+			status: 200,
+			body: res
+		})
+		api.disconnect()
+	})
+})
+
+
+>>>>>>> b44c4ca7ccc3dad46b5de620b1b5e9ac5d6a3ed3
 expServer.use(express.static(__dirname + '/build/'));
 
 expServer.get('/', (request, response) => {
