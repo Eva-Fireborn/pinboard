@@ -7,7 +7,13 @@ const MsgView = ({ isLoggedIn }) => {
 	const [message, setMessage] = useState('');
 	const [conversationHistory, setConversationHistory] = useState(null);
 	const [selectedConversation, setSelectedConversation] = useState(null);
-	const [receiverID, setReceiverID] = useState(null);
+	const [receiverId, setReceiverId] = useState(null);
+	/*
+	Todo:
+	> vissa ditt egna skickade medelande
+	> fixa notification numer grej.
+	> styling
+	*/
 
 	useEffect(() => {
 		if (isLoggedIn) {
@@ -18,40 +24,47 @@ const MsgView = ({ isLoggedIn }) => {
 
 	const addMessageButton = e => {
 		let msgObject = {
-			message: message,
-			senderID: isLoggedIn._id,
-			receiverID: receiverID
+			newMessage: message,
+			senderId: isLoggedIn._id,
+			receiverId: receiverId,
+			objId: selectedConversation._id,
 		}
+
 
 		setMessage("");
 		socket.emit('sendMessage', msgObject);
-		socket.on('getMsg', msg => setSelectedConversation([...selectedConversation, msg]));
+		socket.on('messageResponse', msg => {
+			console.log(msg);
+			setSelectedConversation({
+				message: [...selectedConversation.message, msg]
+			});
+		});
 	};
 
 	const getConversations = msg => {
-		setSelectedConversation(msg.message)
+		setSelectedConversation(msg)
 		if (msg.senderId === isLoggedIn._id)
-			setReceiverID(msg.recieverId)
+			setReceiverId(msg.recieverId)
 		else
-			setReceiverID(msg.senderId)
+			setReceiverId(msg.senderId)
 	};
 	const handleChangeMessage = e => setMessage(e.target.value);
 
 	let allMessages;
 	if (selectedConversation) {
-		allMessages = selectedConversation.map((m, index) => {
-			if (m.msgId === isLoggedIn._id)
-				return (<div className="msgSelf" key={index}>{m.msg}</div>);
+		allMessages = selectedConversation.message.map((m) => {
+			if (m.senderId === isLoggedIn._id)
+				return (<div className="msgSelf" key={m.timeStamp}>{m.msg}</div>);
 			else
-				return (<div className="msgOther" key={index}>{m.msg}</div>);
+				return (<div className="msgOther" key={m.timeStamp}>{m.msg}</div>);
 		});
 	}
 
 	let history;
 	if (conversationHistory) {
-		history = conversationHistory.map((msg, key) => {
+		history = conversationHistory.map((msg) => {
 			return (<MsgConversations
-				msg={msg} key={key}
+				msg={msg} key={msg.timeStamp}
 				getConversations={getConversations}
 			/>)
 		})

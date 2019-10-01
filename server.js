@@ -3,7 +3,7 @@ const expServer = express();
 const httpServer = require('http').createServer(expServer);
 const io = require('socket.io')(httpServer);
 const port = 4000;
-const ip = '127.0.0.1';
+const ip = '172.26.16.239';
 const API = require('./bkd/data');
 const bodyParser = require('body-parser')
 expServer.use(
@@ -187,7 +187,11 @@ expServer.post('/ApiPostNewAd', (request, response) => {
 
 expServer.post('/ApiPostNewMsg', (request, response) => {
 	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
-	console.log('requestbody: ', request.body)
+
+	request.body = { ...request.body, timeStamp: new Date() }
+	request.body.message[0] = { ...request.body.message[0], timeStamp: new Date() }
+	console.log('requestbody: ', request.body);
+
 	api.createMsg(request.body, res => {
 		response.send({
 			status: 200,
@@ -197,7 +201,6 @@ expServer.post('/ApiPostNewMsg', (request, response) => {
 	})
 })
 
-<<<<<<< HEAD
 =======
 expServer.post('/ApiUpdateMsg', (request, response) => {
 	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
@@ -211,7 +214,6 @@ expServer.post('/ApiUpdateMsg', (request, response) => {
 })
 
 
->>>>>>> b44c4ca7ccc3dad46b5de620b1b5e9ac5d6a3ed3
 expServer.use(express.static(__dirname + '/build/'));
 
 expServer.get('/', (request, response) => {
@@ -227,16 +229,12 @@ io.on('connection', socket => {
 	socket.on('initHistory', userID => {
 		if (onlineUsers.filter(user => user.userID === userID).length === 0) {
 			onlineUsers.push({ sessionID, userID });
-		}
 
-		let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
-		let currentUser = onlineUsers.filter(user => user.sessionID === sessionID);
-
-		if (currentUser.length > 0) {
-			api.getAllMessagesForUser(currentUser[0].userID, res => {
+			let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
+			api.getAllMessagesForUser(userID, res => {
 				socket.emit('getHistory', res);
 				api.disconnect()
-			})
+			});
 		}
 	});
 
@@ -244,35 +242,14 @@ io.on('connection', socket => {
 		console.log('sendMessage new incoming msg: ', msgObj);
 		let online = onlineUsers.filter(user => user.userID === msgObj.receiverID)
 
-		if (online.length > 0) {
-			console.log('user is online! ', online);
-			socket.to(online.sessionID).emit('getMsg', { msg: msgObj.message })
-			//socket.emit('getMsg', { msg: msgObj.message })
-		} else {
-			console.log('save msg to db');
-		}
-
-		// to-do:
-		// check if user that the messages is for is logged in
-		// send message with socket (and save to database)
-		// else save message to database
-
-
-
-		/* Old api request used to get save msg?:
-		expServer.post('/ApiUpdateMsg', (request, response) => {
-			let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
-			api.updateMessage(request.body.id, request.body.messages, res => {
-				response.send({
-					status: 200,
-					body: res
-				})
-				api.disconnect()
-			})
+		let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
+		api.updateMessage(msgObj.objId, msgObj.newMessage, msgObj.senderId, res => {
+			if (online.length > 0) {
+				socket.to(online.sessionID).emit('messageResponse', res)
+			}
+			socket.to(sessionID).emit('messageResponse', res)
+			api.disconnect()
 		})
-		
-
-		*/
 	})
 
 	socket.on('disconnect', () => {
@@ -282,6 +259,6 @@ io.on('connection', socket => {
 })
 
 // OBS! Starta httpServer i stället för expServer.
-httpServer.listen(port, ip, () => {
+httpServer.listen(port, () => {
 	console.log(`Server is listening on ip: ${ip} and port ${port}...`);
 });

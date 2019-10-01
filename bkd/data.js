@@ -111,16 +111,16 @@ class API {
 				callback(true)
 			})
 		})
-	  }
+	}
 
-	  deleteUser (id, callback) {
+	deleteUser(id, callback) {
 		let objId = new ObjectId(id)
 		this.connectToUserCollection(collection => {
-		  collection.deleteOne({_id: objId}, null, (error, result) => {
-			if( error ) throw error
-			// this.client.close()
-			callback(result.deletedCount)
-		  })
+			collection.deleteOne({ _id: objId }, null, (error, result) => {
+				if (error) throw error
+				// this.client.close()
+				callback(result.deletedCount)
+			})
 		})
 	}
 
@@ -201,14 +201,6 @@ class API {
 
 	getTwentyNewestAds(callback) {
 		this.connectToAdCollection(collection => {
-			/*
-					collection.find({}, (error, cursor) => {
-							cursor.sort({ createdAt: -1 }).limit(5).toArray()
-								.then(ads => callback(ads))
-								.catch(err => console.log('error in cursor about 20 ads:', err))
-						})
-					})
-			 */
 			collection.aggregate(
 				[
 					{ "$sort": { createdAt: -1 } },
@@ -272,9 +264,9 @@ class API {
 	createMsg(msg, callback) {
 		console.log('msg: ', msg)
 		this.connectToMessagesCollection(collection => {
-			collection.findOne({ senderId: msg.senderId, recieverId: msg.recieverId, adId: msg.adId }).then(result =>{
+			collection.findOne({ senderId: msg.senderId, recieverId: msg.recieverId, adId: msg.adId }).then(result => {
 				console.log('result from create msg: ', result)
-				if (result === null){
+				if (result === null) {
 					collection.insertOne(msg, (error, result) => {
 						if (error) throw error
 						callback(result.insertedId)
@@ -299,16 +291,23 @@ class API {
 		})
 	}
 
-	updateMessage(id, message, callback) {
-		let changes = { $set: { message: message, timeStamp: new Date() } };
-		let objId = new ObjectId(id);
+	updateMessage(objId, msg, senderId, callback) {
 		this.connectToMessagesCollection(collection => {
-			collection.updateOne({ _id: objId }, changes, (error, result) => {
-				console.log('update result: ', result.modifiedCount);
-				if (error) throw error
-				callback(result.modifiedCount)
-			})
-		})
+			let newMsg = {
+				msg: msg,
+				senderId: senderId,
+				timeStamp: new Date()
+			}
+
+			collection.updateOne(
+				{ _id: ObjectId(objId) },
+				{ $push: { message: newMsg } },
+				(error, result) => {
+					console.log('update result: ', result.modifiedCount);
+					if (error) throw error
+					callback(newMsg);
+				});
+		});
 	}
 
 	// Fetches all messages from the database for one ad (TODO)
