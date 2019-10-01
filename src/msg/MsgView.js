@@ -5,9 +5,14 @@ const socket = openSocket('http://localhost:4000');
 
 const MsgView = ({ isLoggedIn }) => {
 	const [message, setMessage] = useState('');
-	const [conversationHistory, setConversationHistory] = useState(null);
+	const [allUserHistory, setAllUserHistory] = useState(null);
 	const [selectedConversation, setSelectedConversation] = useState(null);
 	const [receiverId, setReceiverId] = useState(null);
+	const [selectedConversationId, setSelectedConversationId] = useState(null);
+
+	console.log('What is allUserHistory? ', allUserHistory);
+	console.log('What is selectedConversation? ', selectedConversation);
+
 	/*
 	Todo:
 	> vissa ditt egna skickade medelande
@@ -18,7 +23,7 @@ const MsgView = ({ isLoggedIn }) => {
 	useEffect(() => {
 		if (isLoggedIn) {
 			socket.emit('initHistory', isLoggedIn._id);
-			socket.on('getHistory', history => setConversationHistory(history));
+			socket.on('getHistory', history => setAllUserHistory(history));
 		}
 	}, [isLoggedIn])
 
@@ -27,7 +32,8 @@ const MsgView = ({ isLoggedIn }) => {
 			newMessage: message,
 			senderId: isLoggedIn._id,
 			receiverId: receiverId,
-			objId: selectedConversation._id,
+			objId: selectedConversationId
+			//objId: selectedConversation._id
 		}
 
 
@@ -35,14 +41,14 @@ const MsgView = ({ isLoggedIn }) => {
 		socket.emit('sendMessage', msgObject);
 		socket.on('messageResponse', msg => {
 			console.log(msg);
-			setSelectedConversation({
-				message: [...selectedConversation.message, msg]
-			});
+
+			setSelectedConversation(...selectedConversation, msg)
 		});
 	};
 
 	const getConversations = msg => {
-		setSelectedConversation(msg)
+		setSelectedConversation(msg.message)
+		setSelectedConversationId(msg._id)
 		if (msg.senderId === isLoggedIn._id)
 			setReceiverId(msg.recieverId)
 		else
@@ -51,18 +57,17 @@ const MsgView = ({ isLoggedIn }) => {
 	const handleChangeMessage = e => setMessage(e.target.value);
 
 	let allMessages;
-	if (selectedConversation) {
-		allMessages = selectedConversation.message.map((m) => {
+	if (selectedConversation && selectedConversation.length > 0) {
+		allMessages = selectedConversation.map((m) => {
 			if (m.senderId === isLoggedIn._id)
 				return (<div className="msgSelf" key={m.timeStamp}>{m.msg}</div>);
 			else
 				return (<div className="msgOther" key={m.timeStamp}>{m.msg}</div>);
 		});
 	}
-
 	let history;
-	if (conversationHistory) {
-		history = conversationHistory.map((msg) => {
+	if (allUserHistory) {
+		history = allUserHistory.map((msg) => {
 			return (<MsgConversations
 				msg={msg} key={msg.timeStamp}
 				getConversations={getConversations}
