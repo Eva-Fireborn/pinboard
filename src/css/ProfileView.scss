@@ -64,3 +64,32 @@ aside.profile {
 		}
 	}
 }
+.view-details, .changeDetails {
+	padding: 1em;
+}
+.view-details > button {
+	float: right;
+	width: 150px;
+}
+.view-details > *, .changeDetails > * {
+	display: inline-block;
+}
+.dialogBackground > .dialogWindow {
+	padding-bottom: 20px;
+}
+.bigButton {
+	margin-top: 20px;
+}
+.changeDetails > button {
+	float: right;
+	width: 100px;
+}
+.changeDetails {
+	label {
+		margin-left: 0.3em;
+	}
+}
+.warningText {
+	color: $maroon;
+}
+

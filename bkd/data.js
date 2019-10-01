@@ -105,10 +105,11 @@ class API {
 
 
 	updateUser (user, callback) {
+		let o_id = ObjectId(user.userId);
 		this.connectToUserCollection( collection => {
-		  collection.updateOne({_id: user.id}, {$set: user}, null, (error, result) => {
-			if( error ) throw error
-			callback(true)
+		 collection.updateOne({_id: o_id}, {$set: user}, null, (error, result) => {
+				if( error ) throw error
+				callback(true)
 		  })
 		})
 	  }
