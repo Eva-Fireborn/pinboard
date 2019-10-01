@@ -11,7 +11,7 @@ const MsgView = ({ isLoggedIn }) => {
 
 	useEffect(() => {
 		if (isLoggedIn) {
-			// this shit make everything loop... one extra time for each render...
+			// this shit make everything loop... one extra time for each render... or something
 			initUser(isLoggedIn._id);
 			getHistory(dbHistory => {
 				setHistory(dbHistory)
@@ -21,9 +21,22 @@ const MsgView = ({ isLoggedIn }) => {
 
 	useEffect(() => {
 		chat(msg => {
-			console.log(msg);
+			console.log(msg)
+			if (selectedConversation) {
+				setSelectedConversation([...selectedConversation, msg])
+			}
+
+			/*
+				shit keep geting rerender or something so selectedConversation so times is null and sometime not
+			*/
+			// setSelectedConversation(msg]); // < --this overwrite old msg but sort of work..
+			// setSelectedConversation([...selectedConversation, msg]); // < --this breaks react
+			/*
+			let newArray = selectedConversation; // this is all fine and the array is there..
+			newArray.push(msg) // but when I use push react fucking breaks again..
+			*/
 		});
-	}, [message])
+	}, [selectedConversation])
 
 	const addMessageButton = e => {
 		let msgObject = {
@@ -37,12 +50,14 @@ const MsgView = ({ isLoggedIn }) => {
 	};
 
 	const showConversations = msg => {
-		setSelectedConversation(msg.message)
-		setSelectedConversationId(msg._id)
-		if (msg.senderId === isLoggedIn._id)
-			setReceiverId(msg.recieverId)
-		else
-			setReceiverId(msg.senderId)
+		if (msg._id !== selectedConversationId) {
+			setSelectedConversation(msg.message)
+			setSelectedConversationId(msg._id)
+			if (msg.senderId === isLoggedIn._id)
+				setReceiverId(msg.receiverId)
+			else
+				setReceiverId(msg.senderId)
+		}
 	};
 
 	let domAllMessages;
@@ -67,10 +82,10 @@ const MsgView = ({ isLoggedIn }) => {
 
 	return (
 		<div id="wrapper">
+			<aside>
+				{domHistory}
+			</aside>
 			<main>
-				<aside>
-					{domHistory}
-				</aside>
 				{domAllMessages}
 				{domAllMessages ? (
 					<span>

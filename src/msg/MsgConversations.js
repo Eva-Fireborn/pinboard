@@ -2,8 +2,8 @@ import React from "react";
 
 const MsgConversations = ({ msg, showConversations }) => {
 	return (
-		<div className="adUserName selected" onClick={() => showConversations(msg)}>
-			{msg.adHeader}
+		<div className="msgRoom" onClick={() => showConversations(msg)}>
+			<h3>{msg.adHeader}</h3>
 		</div>
 	);
 };

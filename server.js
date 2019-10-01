@@ -239,7 +239,16 @@ io.on("connection", async (socket) => {
 	})
 
 	socket.on('sendMsg', payload => {
-		socket.to(payload.objId).emit('chat', payload.newMessage); // only to self
+		api.updateMessage(payload.objId, payload.newMessage, payload.senderId, res => {
+			api.disconnect()
+		})
+		let msg = {
+			msg: payload.newMessage,
+			senderId: payload.senderId,
+			timeStamp: new Date()
+		}
+		socket.to(payload.objId).emit('chat', msg); // to "all" in chatroom
+		socket.emit('chat', msg); // to self
 	})
 
 	socket.on('disconnect', () => {
