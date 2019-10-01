@@ -3,7 +3,6 @@ const expServer = express();
 const httpServer = require('http').createServer(expServer);
 const io = require('socket.io')(httpServer);
 const port = 4000;
-const ip = '172.26.16.239';
 const API = require('./bkd/data');
 const bodyParser = require('body-parser')
 expServer.use(
@@ -237,17 +236,18 @@ io.on('connection', socket => {
 		}
 	});
 
-	socket.on('sendMessage', msgObj => {
+	socket.on('message', msgObj => {
+		console.log('online: ', onlineUsers);
+
 		let online = onlineUsers.filter(user => user.userId === msgObj.receiverId)
 		let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
 		api.updateMessage(msgObj.objId, msgObj.newMessage, msgObj.senderId, res => {
 			if (online.length > 0) {
 				console.log('Sending to ', online[0].sessionID, 'msg: ', res);
-
-				socket.to(online[0].sessionID).emit('messageResponse', res)
+				socket.to(online[0].sessionID).emit('message', res)
 			}
-			socket.emit('messageResponse', res)
 			api.disconnect()
+			socket.emit('message', res)
 		})
 	})
 
@@ -259,5 +259,5 @@ io.on('connection', socket => {
 
 // OBS! Starta httpServer i stället för expServer.
 httpServer.listen(port, () => {
-	console.log(`Server is listening on ip: ${ip} and port ${port}...`);
+	console.log(`Server is listening on port ${port}...`);
 });

@@ -10,22 +10,17 @@ const MsgView = ({ isLoggedIn }) => {
 	const [receiverId, setReceiverId] = useState(null);
 	const [selectedConversationId, setSelectedConversationId] = useState(null);
 
-	console.log('What is allUserHistory? ', allUserHistory);
-	console.log('What is selectedConversation? ', selectedConversation);
-
-	/*
-	Todo:
-	> vissa ditt egna skickade medelande
-	> fixa notification numer grej.
-	> styling
-	*/
-
 	useEffect(() => {
 		if (isLoggedIn) {
 			socket.emit('initHistory', isLoggedIn._id);
 			socket.on('getHistory', history => setAllUserHistory(history));
 		}
+		socket.on('message', msg => {
+			console.log(msg);
+			//setSelectedConversation(...selectedConversation, msg)
+		});
 	}, [isLoggedIn])
+
 
 	const addMessageButton = e => {
 		let msgObject = {
@@ -38,12 +33,7 @@ const MsgView = ({ isLoggedIn }) => {
 
 
 		setMessage("");
-		socket.emit('sendMessage', msgObject);
-		socket.on('messageResponse', msg => {
-			console.log(msg);
-
-			setSelectedConversation(...selectedConversation, msg)
-		});
+		socket.emit('message', msgObject);
 	};
 
 	const getConversations = msg => {
