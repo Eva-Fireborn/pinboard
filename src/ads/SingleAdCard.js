@@ -14,6 +14,19 @@ const SingleAdCard = ({ adObject, isLoggedIn }) => {
 	const fullText = adObject.description;
 	const shortText = fullText.split(' ').splice(0, 25).join(' ');
 
+	const renderUserInfo = () => {
+		if (adObject.userData) {
+			return (
+				<Link to={'/profil/' + adObject.userData[0]._id}>
+				<img src={adObject.userData[0].imgUrl} alt="profile img" />
+				{adObject.userData[0].name}<br />
+				{adObject.userData[0].rating} <FontAwesomeIcon icon={faStar} />({adObject.userData[0].totalOfRatings})
+				</Link>
+			)
+		} else {
+			return ''
+		}
+	}
 
 	return (
 		<li className="adCard">
@@ -45,20 +58,16 @@ const SingleAdCard = ({ adObject, isLoggedIn }) => {
 						) :
 						null
 				}
-				
+
 				<div>
-					<Link to={'/profil/' + adObject.userData[0]._id}>
-						<img src={adObject.userData[0].imgUrl} alt="profile img" />
-						{adObject.userData[0].name}<br />
-						{adObject.userData[0].rating} <FontAwesomeIcon icon={faStar} />({adObject.userData[0].totalOfRatings})
-					</Link>
+					{renderUserInfo()}
 				</div>
 				<div>
 					{messageToUserVisibility? <FirstMessageToAd adObject={adObject} isLoggedin={isLoggedIn}/> : null}
 				</div>
 			</div>
 		</li>
-		
+
 	);
 };
 

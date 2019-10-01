@@ -42,6 +42,7 @@ class ProfileView extends React.Component {
 			.then(res => res.json())
 			.then(
 				(result) => {
+					console.log('ads retuned from bkd', result.body)
 					this.setState({ userAds: result.body })
 				}, (error) => console.log(error)
 			)
@@ -74,9 +75,9 @@ class ProfileView extends React.Component {
 			)
 		} else {
 			if (this.state.removeAccountVisibility){
-				return (<RemoveAccount 
-					changeRemoveAccountVisibility={this.changeRemoveAccountVisibility} 
-					isLoggedIn={this.props.isLoggedIn} 
+				return (<RemoveAccount
+					changeRemoveAccountVisibility={this.changeRemoveAccountVisibility}
+					isLoggedIn={this.props.isLoggedIn}
 					logOff={this.props.logOff}
 					/> )
 			} else {
@@ -96,7 +97,7 @@ class ProfileView extends React.Component {
 									isLoggedIn={this.props.isLoggedIn}
 								/>
 							</section>
-		
+
 							<section>
 								{this.state.owner ?
 									<OwnersMenu
@@ -119,7 +120,7 @@ class ProfileView extends React.Component {
 									{this.state.profileData.description}
 								</p>
 							</section>
-		
+
 							<section>
 								<h2>Mina annonser:</h2>
 								<ul>
@@ -131,57 +132,10 @@ class ProfileView extends React.Component {
 									}
 								</ul>
 							</section>
-		
-								{/* <section id="reviews">
-							<h2>Betyg:</h2>
-							<ul>
-								waiting for backend stuff...
-								<SingleReview />
-								<SingleReview />
-								<SingleReview />
-							</ul>
-						</section> */}
-						{/* {this.state.editProfile ?  */}
-						<div id="loginPopup">
-							<div id="loginWindow">
-								<div>
-									{this.state.changeName ? 
-										<div>
-											<label htmlFor="name">Name
-												<input type="text" value={this.state.name} onChange={(e) => this.setState({name: e.target.value})} /> 
-											</label>
-											<button onClick={() => this.setState({changeName: false})}>Save</button>
-										</div>
-									: 
-									<div>
-										<p>{this.state.name === '' ? this.state.profileData.name : this.state.name}</p> 
-										<button onClick={() => this.setState({changeName: true})}>Edit name</button>
-									</div>
-									}
-								
-								
-								</div>
-								{/* <div>
-								<label htmlFor="city">City
-									<input type="text" value="city" /> 
-								</label>
-								<button>Update</button>
-								</div>
-								<div>
-								<label htmlFor="description">Description
-									<input type="text" value="description" /> 
-								</label>
-								<button>Update</button>
-								</div> */}
-								<button>Send updates</button>
-							</div>
-							<div className="darkness"></div>
-						</div>
-						{/* : null }  */}
 						</main>
 					</div >
 				)
-			}	
+			}
 		}
 	}
 };
