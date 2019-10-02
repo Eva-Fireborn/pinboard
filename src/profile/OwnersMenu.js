@@ -5,7 +5,7 @@ import {
 	faSignOutAlt,
 	faQuestionCircle,
 	faIdCard,
-	// faTrash
+	faTrash
 } from '@fortawesome/free-solid-svg-icons';
 import RedMessage from "./RedMessage";
 
@@ -56,10 +56,12 @@ const OwnersMenu = ({ SetEditProfile, logOff, changeRemoveAccountVisibility, log
 					Logga ut
 				</Link>
 			</li>
-			{/* <li onClick={changeRemoveAccountVisibility}>
+			<Link to="#" >
+			<li onClick={changeRemoveAccountVisibility}>
 				<FontAwesomeIcon icon={faTrash} />
 				Radera mitt konto
-			</li> */}
+			</li>
+			</Link>
 		</ul>
 		{messageSent ? <RedMessage /> : null}
 		</div>
