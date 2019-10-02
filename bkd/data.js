@@ -113,7 +113,7 @@ class API {
 		  })
 		})
 	  }
-	
+
 	  deleteUser (id, callback) {
 		let objId = new ObjectId(id)
 		this.connectToUserCollection(collection => {
@@ -128,7 +128,7 @@ class API {
 	  // repeat functions for another collection
 	  connectToAdCollection(callback) {
 		if (this.adCollection) return callback(this.adCollection)
-	
+
 		this.makeConnection().then(() => {
 		  console.log('we connected to the ad collection')
 		  this.adCollection = this.client.db("Pinboard").collection("Ads")
@@ -151,7 +151,7 @@ class API {
 		})
 
 	}
-	
+
 	  getAd (ad, callback) {
 		this.connectToAdCollection(collection => {
 		  collection.findOne(ad, (error, result) => {
@@ -159,7 +159,7 @@ class API {
 			callback(result)
 		  })
 		})
-	
+
 	  }
 
 
@@ -182,12 +182,15 @@ class API {
 			})
 		})
 	}
-	
+
 
 	getAllAdsByUser(userId, callback) {
+		console.log(userId, 'this is our userId')
+		console.log(callback, 'that is the callback for get all ads by userId')
 		this.connectToAdCollection(collection => {
 			console.log(userId, 'finding ads by userId')
-			collection.find({ userId }, (error, cursor) => {
+			collection.find({ userId: new ObjectId(userId) }, (error, cursor) => {
+				console.log(userId)
 				if (error) throw error
 				cursor.toArray()
 					.then(ads => {
@@ -204,7 +207,7 @@ class API {
 		this.connectToAdCollection(collection => {
 			/*
 					collection.find({}, (error, cursor) => {
-							cursor.sort({ createdAt: -1 }).limit(5).toArray()
+							cursor.sort({ createdAt: -1 }).limit(20).toArray()
 								.then(ads => callback(ads))
 								.catch(err => console.log('error in cursor about 20 ads:', err))
 						})
@@ -239,7 +242,7 @@ class API {
 		})
 	}
 
-	
+
 	  deleteAd (id, callback) {
 		this.connectToAdCollection(collection => {
 		  collection.deleteOne({_id: id}, null, (error, result) => {
@@ -285,7 +288,7 @@ class API {
 				}
 			})
 		})
-		
+
 	}
 
   getAllMessagesForUser(userId, callback) {

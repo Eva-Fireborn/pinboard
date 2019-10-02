@@ -48,6 +48,7 @@ class ProfileView extends React.Component {
 			.then(res => res.json())
 			.then(
 				(result) => {
+					console.log('ads retuned from bkd', result.body)
 					this.setState({ userAds: result.body })
 				}, (error) => console.log(error)
 			)
@@ -77,7 +78,7 @@ class ProfileView extends React.Component {
 			}
 		}
 
-		
+
 		const updateUser = async user => {
 				const serverResponse = await fetch('http://localhost:4000/ApiUpdateUser', {
 					method: 'POST',
@@ -90,7 +91,7 @@ class ProfileView extends React.Component {
 				console.log('user updated: ', res.status, 'med user: ', user);
 				if (res.status === 200) {
 					this.setState({
-						changeUserInfoVisibility: !this.state.changeUserInfoVisibility, 
+						changeUserInfoVisibility: !this.state.changeUserInfoVisibility,
 						editProfile: false
 					});
 					// this.setState(this.state);
@@ -108,9 +109,9 @@ class ProfileView extends React.Component {
 			)
 		} else {
 			if (this.state.removeAccountVisibility){
-				return (<RemoveAccount 
-					changeRemoveAccountVisibility={this.changeRemoveAccountVisibility} 
-					isLoggedIn={this.props.isLoggedIn} 
+				return (<RemoveAccount
+					changeRemoveAccountVisibility={this.changeRemoveAccountVisibility}
+					isLoggedIn={this.props.isLoggedIn}
 					logOff={this.props.logOff}
 					/> )
 			} else {
@@ -130,7 +131,7 @@ class ProfileView extends React.Component {
 									isLoggedIn={this.props.isLoggedIn}
 								/>
 							</section>
-		
+
 							<section>
 								{this.state.owner ? 
 									<OwnersMenu
@@ -150,7 +151,7 @@ class ProfileView extends React.Component {
 									{this.state.profileData.description}
 								</p>
 							</section>
-		
+
 							<section>
 								<h2>Mina annonser:</h2>
 								<ul>
@@ -162,58 +163,58 @@ class ProfileView extends React.Component {
 									}
 								</ul>
 							</section>
-						{this.state.editProfile && this.state.changeUserInfoVisibility ? 
+						{this.state.editProfile && this.state.changeUserInfoVisibility ?
 						<div className="dialogBackground">
 							<div className="dialogWindow">
 							<button className="dialogExitButton" onClick={() => this.setState({changeUserInfoVisibility: !this.state.changeUserInfoVisibility, editProfile: false})}>X</button>
 								<div>
-									{this.state.changeName ? 
+									{this.state.changeName ?
 										<div className="changeDetails">
 											<label htmlFor="name">Nytt namn: {" "}
-												<input type="text" value={this.state.name} onChange={(e) => this.setState({name: e.target.value})} /> 
+												<input type="text" value={this.state.name} onChange={(e) => this.setState({name: e.target.value})} />
 											</label>
 											<button onClick={() => this.setState({changeName: false})}>Spara</button>
 										</div>
-									: 
+									:
 									<div>
 										<div className="view-details">
 											<div>{this.state.name === '' ? <div><span>Namn:</span> {this.state.profileData.name} </div> :  <div><span>Namn:</span> {this.state.name} </div>}</div>
 											<button onClick={() => this.setState({changeName: true})}>Ändra namn</button>
-										</div> 
+										</div>
 									</div>
 									}
 								</div>
 								<div>
-									{this.state.changeCity ? 
+									{this.state.changeCity ?
 										<div className="changeDetails">
 											<label htmlFor="city">Nytt stad: {" "}
-												<input type="text" value={this.state.city} onChange={(e) => this.setState({city: e.target.value})} /> 
+												<input type="text" value={this.state.city} onChange={(e) => this.setState({city: e.target.value})} />
 											</label>
 											<button onClick={() => this.setState({changeCity: false})}>Spara</button>
 										</div>
-									: 
+									:
 									<div>
 										<div className="view-details">
 											<div>{this.state.city === '' ? <div><span>Stad:</span> {this.state.profileData.city} </div> :  <div><span>Stad:</span> {this.state.city} </div>}</div>
 											<button onClick={() => this.setState({changeCity: true})}>Ändra stad</button>
-										</div> 
+										</div>
 									</div>
 									}
 								</div>
 								<div>
-									{this.state.changeDescription ? 
+									{this.state.changeDescription ?
 										<div className="changeDetails">
 											<label htmlFor="description">Nytt beskrivning: {" "}
-												<input type="text" value={this.state.description} onChange={(e) => this.setState({description: e.target.value})} /> 
+												<input type="text" value={this.state.description} onChange={(e) => this.setState({description: e.target.value})} />
 											</label>
 											<button onClick={() => this.setState({changeDescription: false})}>Spara</button>
 										</div>
-									: 
+									:
 									<div>
 										<div className="view-details">
 											<div>{this.state.description === '' ? <div><span>Description:</span> {this.state.profileData.description} </div> :  <div><span>Description:</span> {this.state.description} </div>}</div>
 											<button onClick={() => this.setState({changeDescription: true})}>Ändra beskrivning</button>
-										</div> 
+										</div>
 									</div>
 									}
 								</div>
@@ -225,7 +226,7 @@ class ProfileView extends React.Component {
 						</main>
 					</div >
 				)
-			}	
+			}
 		}
 	}
 };
