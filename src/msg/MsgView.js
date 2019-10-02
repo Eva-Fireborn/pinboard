@@ -8,12 +8,7 @@ const MsgView = ({ isLoggedIn }) => {
 	const [conversationHistory, setConversationHistory] = useState(null);
 	const [selectedConversation, setSelectedConversation] = useState(null);
 	const [receiverId, setReceiverId] = useState(null);
-	/*
-	Todo:
-	> vissa ditt egna skickade medelande
-	> fixa notification numer grej.
-	> styling
-	*/
+
 
 	useEffect(() => {
 		if (isLoggedIn) {

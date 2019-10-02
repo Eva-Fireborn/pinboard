@@ -16,6 +16,7 @@ const SingleAdCard = ({ adObject, isLoggedIn }) => {
 
 	const renderUserInfo = () => {
 		if (adObject.userData) {
+			//console.log('renderUserInfo, userData=', adObject.userData);
 			return (
 				<Link to={'/profil/' + adObject.userData[0]._id}>
 				<img src={adObject.userData[0].imgUrl} alt="profile img" />

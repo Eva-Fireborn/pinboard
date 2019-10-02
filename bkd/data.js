@@ -205,8 +205,6 @@ class API {
 
 	getTwentyNewestAds(callback) {
 		this.connectToAdCollection(collection => {
-<<<<<<< HEAD
-=======
 			/*
 					collection.find({}, (error, cursor) => {
 							cursor.sort({ createdAt: -1 }).limit(20).toArray()
@@ -215,7 +213,6 @@ class API {
 						})
 					})
 			 */
->>>>>>> dev
 			collection.aggregate(
 				[
 					{ "$sort": { createdAt: -1 } },
@@ -246,11 +243,7 @@ class API {
 	}
 
 
-<<<<<<< HEAD
-	deleteAd(id, callback) {
-=======
 	  deleteAd (id, callback) {
->>>>>>> dev
 		this.connectToAdCollection(collection => {
 			collection.deleteOne({ _id: id }, null, (error, result) => {
 				if (error) throw error
@@ -296,7 +289,6 @@ class API {
 			})
 		})
 
-<<<<<<< HEAD
 	}
 
 	getAllMessagesForUser(userId, callback) {
@@ -309,8 +301,6 @@ class API {
 				callback(result)
 			})
 		})
-=======
->>>>>>> dev
 	}
 
 	updateMessage(objId, msg, senderId, callback) {
