@@ -89,7 +89,7 @@ const CreateUserInputForm = ({activateCreateUser, userInformation, changeUserInf
                             </div>
                             <div>*obligatorisk</div>
                             <div>
-                                <button type="submit" onClick={()=>{console.log('verifiering?')}}>Skapa konto</button>
+                                <button type="submit" className="submitButtonInLoggin" onClick={()=>{console.log('verifiering?')}}>Skapa konto</button>
                             </div>
                         </Form>
                     )}

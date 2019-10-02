@@ -132,11 +132,12 @@ class ProfileView extends React.Component {
 							</section>
 		
 							<section>
-								{this.state.owner ?
+								{this.state.owner ? 
 									<OwnersMenu
 										SetEditProfile={changeEditProfile}
 										logOff={this.props.logOff}
 										changeRemoveAccountVisibility={this.changeRemoveAccountVisibility}
+										loggedIn={this.props.isLoggedIn}
 									/>
 									: null
 								}

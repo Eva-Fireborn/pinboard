@@ -53,8 +53,37 @@
 		> * {
 			margin: 0 0 1em 0;
 		}
+		div > label {
+			display: block;
+			margin: 4px;
+		}
+		.submitButtonInLoggin {
+			margin: 2em;
+		}
 	}
 	.close {
 		align-self: flex-end;
+	}
+	.facebookButton {
+		font-family: Roboto, sans-serif;
+    	font-weight: 500;
+		font-size: 14px;
+    	color: #fff;
+    	cursor: pointer;
+    	display: inline-flex;
+    	align-items: center;
+    	text-decoration: none;
+		width: 194px;
+		height: 44px;
+		padding: 0px;
+    	transition: background-color .3s,border-color .3s;
+		background-color: #4c69ba;
+		box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 2px 0px, rgba(0, 0, 0, 0.24) 0px 0px 1px 0px;
+		border-radius: 2px;
+		border: 1px solid transparent;
+		.icon {
+    		padding: 12px;
+    		border-radius: 2px;
+		}
 	}
 }
