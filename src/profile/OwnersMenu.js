@@ -50,6 +50,7 @@ const OwnersMenu = ({ SetEditProfile, logOff, changeRemoveAccountVisibility, log
 						// setVisible(false);
 						setMessageSent(true);
 						setTimeout(() => setMessageSent(false), 2000);
+						window.location.reload(false);
 						} 
 					}>
 					<FontAwesomeIcon icon={faSignOutAlt} />
