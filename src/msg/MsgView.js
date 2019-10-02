@@ -7,11 +7,7 @@ const MsgView = ({ isLoggedIn }) => {
 	const [history, setHistory] = useState();
 	const [selectedConversation, setSelectedConversation] = useState(null);
 	const [receiverId, setReceiverId] = useState(null);
-<<<<<<< HEAD
 	const [selectedConversationId, setSelectedConversationId] = useState(null);
-=======
-
->>>>>>> Kristina
 
 	useEffect(() => {
 		if (isLoggedIn) {
