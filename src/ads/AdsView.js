@@ -59,19 +59,22 @@ class AdsView extends React.Component {
             this.setState({filterType: 'category'});
         };
         const searchRubrik = (searchWord) => {
-			this.setState({searchWord: searchWord});
-			let filteredByRubrik = this.state.listOfAds.filter(ad => ad.header.toUpperCase().includes(searchWord.toUpperCase()));
-            this.setState({filteredBySearchWord: filteredByRubrik});
-            this.setState({filterType: 'rubrik'});
-		};
+          let filteredByRubrik = this.state.listOfAds.filter(ad => ad.header.toUpperCase().includes(searchWord.toUpperCase()));
+          this.setState({
+            searchWord: searchWord,
+            filteredBySearchWord: filteredByRubrik, filterType: 'rubrik'
+          });
 
-		let ads;
-        
+        };
+
+
+        let ads;
+
         if (this.state.selectedCategory === '' && this.state.searchWord === '' && this.state.listOfAds && this.state.listOfAds.length) {
 			ads = this.state.listOfAds.map((ad, key) => (
 				<SingleAdCard key={key} adObject={ad} isLoggedIn={this.props.isLoggedIn} category={this.state.selectedCategory} /> ))
-        } 
-        
+        }
+
         if (this.state.selectedCategory !== '' && this.state.filterType === 'category') {
             if (this.state.filteredByCategoryList && this.state.filteredByCategoryList.length) {
 			    ads = this.state.filteredByCategoryList.map( (ad, key) => (
@@ -79,8 +82,8 @@ class AdsView extends React.Component {
                 } else if (this.state.filteredByCategoryList.length === 0) {
 			        ads = `Kunde inte hitta annonser med kategori ${this.state.selectedCategory}`;
                 };
-        } 
-        
+        }
+
         if (this.state.searchWord !== '' && this.state.filterType === 'rubrik') {
             if (this.state.filteredBySearchWord && this.state.filteredBySearchWord.length) {
 			        ads = this.state.filteredBySearchWord.map((ad, key) => (
@@ -88,13 +91,13 @@ class AdsView extends React.Component {
                 } else if (this.state.filteredBySearchWord.length === 0) {
                     ads = `Kunde inte hitta annonser med rubrik ${this.state.searchWord}`;
                 }
-        } 
+        }
 
         return (
             <div id="wrapper">
                 <aside className="ads">
                     <div className="fixed">
-                        <SearchView searchRubrik={searchRubrik} />
+                        <SearchView searchRubrik={searchRubrik} searchText={this.state.searchWord} />
                         <h3>Kategorier:</h3>
                         <ul>
                             {category.map((category, index) => (

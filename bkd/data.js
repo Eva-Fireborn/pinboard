@@ -130,7 +130,7 @@ class API {
 				})
 			})
 		})
-		
+
 	}
 
 	// repeat functions for another collection
@@ -160,7 +160,7 @@ class API {
 
 	}
 
-	getAd(ad, callback) {
+	  getAd (ad, callback) {
 		this.connectToAdCollection(collection => {
 			collection.findOne(ad, (error, result) => {
 				if (error) throw error
@@ -168,7 +168,7 @@ class API {
 			})
 		})
 
-	}
+	  }
 
 
 	getAllAds(callback) {
@@ -243,7 +243,7 @@ class API {
 	}
 
 
-	deleteAd(id, callback) {
+	  deleteAd (id, callback) {
 		this.connectToAdCollection(collection => {
 			collection.deleteOne({ _id: id }, null, (error, result) => {
 				if (error) throw error
