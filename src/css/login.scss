@@ -28,6 +28,17 @@
 		#createNewAccountPLInk {
 			font-weight: bold;
 		}
+		#removeUserText{
+			padding: 10px;
+		}
+		#removeUserButton {
+			margin-right: 10px;
+			background-color: rgb(173, 10, 10);
+			color: whitesmoke;
+		}
+		#removeUserButton:hover {
+			background-color: black;
+		}
 		.loginWindowLoginButton{
 			margin-top: 0px;
 			margin-bottom: 50px;

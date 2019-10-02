@@ -20,11 +20,13 @@ const RemoveAccount = ({changeRemoveAccountVisibility, isLoggedIn, logOff}) => {
         <div id="loginPopup">
             <div id="loginWindow">
             <button className="close" onClick={changeRemoveAccountVisibility}>X</button>
-                <div>
+                <div id="removeUserText">
                     <p>Detta kommer permanent radera din information. Är du säker på att du vill ta bort ditt konto? </p>
                 </div>
-                <button onClick={removeAccount}>Ja ta bort mitt konto</button>
-                <button onClick={changeRemoveAccountVisibility}>Avbryt</button>
+                <div>
+                    <button id="removeUserButton" onClick={removeAccount}>Ja ta bort mitt konto</button>
+                    <button onClick={changeRemoveAccountVisibility}>Avbryt</button>
+                </div>
             </div>
             <div className="darkness" onClick={changeRemoveAccountVisibility}></div>
         </div>
