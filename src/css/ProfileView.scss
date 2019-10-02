@@ -21,7 +21,7 @@ aside.profile {
 	text-align: center;
 	ul {
 		list-style: none;
-		padding: 4em 0 0 0;
+		padding: 2em 0 0 0;
 		margin: 0;
 	}
 	li {
@@ -91,5 +91,11 @@ aside.profile {
 }
 .warningText {
 	color: $maroon;
+}
+.ownersMenu .maroon {
+	background-color: $maroon;
+}
+.ownersMenu .greenMessage {
+		padding-top: 9%;
 }
 

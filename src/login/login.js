@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import logo from './../img/pinboard.png';
 import GoogleLogin from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebookF } from '@fortawesome/free-brands-svg-icons';
 
 const Login = ({ visibility, activateLogin, updateIsLoggedIn, activateCreateUser }) => {
 	let switchWindow = () => {
@@ -24,10 +26,14 @@ const Login = ({ visibility, activateLogin, updateIsLoggedIn, activateCreateUser
 						onSuccess={responseGoogle}
 						onFailure={responseGoogle} />
 					<FacebookLogin
+						textButton="Logga in med Facebook"
 						appId="377634436266070"
 						autoLoad={false}
 						fields="name,email,picture"
-						callback={responseFacebook} />
+						callback={responseFacebook}
+						cssClass="facebookButton"
+            			icon={<FontAwesomeIcon icon={faFacebookF} className="icon" />}
+			 		/>
 
 				</div>
 				<div className="darkness" onClick={activateLogin}></div>
