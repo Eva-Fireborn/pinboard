@@ -1,0 +1,56 @@
+#wrapper.pinboard {
+	background-image: url(../img/tempPinboardBG.jpg);
+}
+.pinboard {
+	ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-around;
+		align-items: flex-start;
+	}
+	li {
+		width: 300px;
+		word-wrap: break-word;
+		min-height: 10em;
+		padding: 2.5em 1em 1em 1em;
+		margin: 3em 2.2em;
+		background-image: url(../img/pin.png);
+		background-size: auto 50px;
+		background-repeat: no-repeat;
+		background-position: center 0;
+		background-color: $purple;
+		box-shadow: 4px 4px 8px 3px rgba(37, 37, 37, 0.3);
+		transform: rotate(-2deg);
+	}
+	li:nth-child(2n) {
+		margin: 2.5em 2.6em;
+		transform: rotate(-3deg);
+		background-color: $maroon;
+		width: 340px;
+	}
+	li:nth-child(3n) {
+		margin: 2.8em 2.9em;
+		transform: rotate(3deg);
+		background-color: $blue;
+		width: 300px;
+	}
+	li:nth-child(2) {
+		margin: 3em 2.4em;
+		transform: rotate(4deg);
+		background-color: $brown;
+		width: 320px;
+	}
+	.adCard {
+		border-bottom: none;
+		flex-direction: column;
+		> * {
+			text-align: center;
+		}
+		.price {
+			margin-bottom: 1em;
+		}
+	}
+}

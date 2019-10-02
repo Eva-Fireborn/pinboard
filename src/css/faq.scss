@@ -1,0 +1,125 @@
+.tipsContainer {
+    // background-color: #ffffff;
+	// border-radius: $rounding-large;
+	ul {
+		padding-left: 3em;
+	}
+	li {
+		padding: 0.4em 0.6em;
+	}
+    padding: 0 1em 1em;
+    .rubrik {
+        text-align: center;
+        margin: 0.5em;
+    }
+    input {
+        position: absolute;
+        opacity: 0;
+        z-index: -1;
+    }
+    .row {
+        display: flex;
+        .col {
+          flex: 1;
+          .col :last-child {
+            margin-left: 1em;
+          }
+        }
+      }
+}
+
+
+/* Accordion styles */
+.tabs {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 4px -2px rgba(0,0,0,0.5);
+  // :checked
+input:checked {
+  + .tab-label {
+    background: darken($purple, 10%);
+    &::after {
+      transform: rotate(90deg);
+    }
+  }
+  ~ .tab-content {
+    max-height: 100vh;
+    padding: 1em;
+  }
+}
+  
+}
+.tab {
+  width: 100%;
+  color: white;
+  overflow: hidden;
+  .tab-label {
+    display: flex;
+    justify-content: space-between;
+    padding: 1em;
+    background: $purple;
+    font-weight: bold;
+    cursor: pointer;
+    /* Icon */
+    &:hover {
+      background: darken($purple, 10%);
+    }
+    
+    &::after {
+      content: "\276F";
+      width: 1em;
+      height: 1em;
+      text-align: center;
+      transition: all .35s;
+    }
+  }
+  &-content {
+    max-height: 0;
+    padding: 0 1em;
+    color: black;
+    background: white;
+    transition: all .35s;
+  }
+  
+  &-close {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1em;
+    font-size: 0.75em;
+    background: $purple;
+    cursor: pointer;
+    &:hover {
+      background: darken($purple, 10%);
+    }
+  }
+}
+
+
+
+.info {
+  background-color: #ffffff;
+  border-radius: $rounding-large;
+  padding: 1em;
+  input, textarea {
+    opacity: 1;
+    z-index: 1;
+    position: relative;
+    display: block;
+    width: 100%;
+  }
+  a {
+    text-decoration: underline;
+  }
+  a:hover {
+    color: $green;
+  }
+  h1 {
+    margin-bottom: 1em;
+  }
+  div, p {
+    padding: 0.5em;
+  }
+  button {
+    margin: 0.5em;
+  }
+}

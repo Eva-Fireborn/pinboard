@@ -1,7 +1,118 @@
-import React from 'react';
+import React, {useState} from 'react';
+import logo from './../img/pinboard.png';
+import GoogleLogin from 'react-google-login';
+import FacebookLogin from 'react-facebook-login';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebookF } from '@fortawesome/free-brands-svg-icons';
 
-const Login = () => {
-    return <div id="wrapper">Login</div>
+const Login = ({ visibility, activateLogin, updateIsLoggedIn, activateCreateUser }) => {
+	let switchWindow = () => {
+		activateLogin();
+		activateCreateUser();
+	}
+	let [displayError, changeDisplayError] = useState('');
+	if (visibility) {
+		return (
+			<div id="loginPopup">
+				<div id="loginWindow">
+					<button className="close" onClick={activateLogin}>X</button>
+					<img src={logo} id="loginLogo" alt="logotyp" />
+					<p id="createNewAccountPLInk">Har du inte ett konto?</p>
+					<button className="loginWindowLoginButton" onClick={switchWindow}>Klicka här för att skapa konto</button>
+					{displayError ? (<div className="loginErrorDisplay">{displayError}</div>) : null }
+					<GoogleLogin
+						clientId="285513444438-31ksr33o72j9p5rsvg21jpftqmre5s6f.apps.googleusercontent.com"
+						buttonText="Logga in med Google"
+						onSuccess={responseGoogle}
+						onFailure={responseGoogle} />
+					<FacebookLogin
+						textButton="Logga in med Facebook"
+						appId="377634436266070"
+						autoLoad={false}
+						fields="name,email,picture"
+						callback={responseFacebook}
+						cssClass="facebookButton"
+            			icon={<FontAwesomeIcon icon={faFacebookF} className="icon" />}
+			 		/>
+
+				</div>
+				<div className="darkness" onClick={activateLogin}></div>
+			</div>)
+	} else {
+		return null;
+	}
+
+
+	async function responseGoogle(response) {
+		if (response.error) {
+			console.log('oh, nooo..');
+		} else {
+			let info = response.profileObj;
+			let body = {
+				name: info.name,
+				email: info.email
+			}
+			const serverResponse = await fetch('http://localhost:4000/ApiLogInUser', {
+				method: 'POST',
+				body: JSON.stringify(body),
+				headers: {
+					"Content-type": "application/json; charset=UTF-8"
+				}
+			});
+			const res = await serverResponse.json();
+			if (res.body.res === null) {
+				changeDisplayError('Du måste skapa ett konto för att logga in.')
+			}
+			else {
+				updateIsLoggedIn({
+					_id: res.body.res._id,
+					name: res.body.res.name
+				})
+				let user = {
+					_id: res.body.res._id,
+					name: res.body.res.name
+				}
+				activateLogin();
+				localStorage.setItem('user', JSON.stringify(user));
+			}
+
+		}
+	}
+
+	async function responseFacebook (response) {
+		if (response.error) {
+			console.log('oh, nooo..');
+		} else {
+			let body = {
+				name: response.name,
+				email: response.email
+			}
+			const serverResponse = await fetch('http://localhost:4000/ApiLogInUser', {
+				method: 'POST',
+				body: JSON.stringify(body),
+				headers: {
+					"Content-type": "application/json; charset=UTF-8"
+				}
+			});
+			const res = await serverResponse.json();
+			if (res.body.res === null) {
+				changeDisplayError('Du måste skapa ett konto för att logga in.')
+			}
+			else {
+				updateIsLoggedIn({
+					_id: res.body.res._id,
+					name: res.body.res.name
+				})
+				let user = {
+					_id: res.body.res._id,
+					name: res.body.res.name
+				}
+				activateLogin();
+				localStorage.setItem('user', JSON.stringify(user));
+			}
+		}
+	}
+
 }
 
 export default Login;

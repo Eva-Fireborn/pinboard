@@ -1,57 +1,150 @@
 .formContainer {
-    width: 75%;
-    height: 100%;
+    * {
+        margin: 0.5em;
+    }
     .formButton {
-        background-color: $purple;
         float: right;
-        margin: 0.5em;
     }
-    span {
-        margin: 0.5em;
-        float: left;
+    .resetButton {
+        float: right;
     }
-    .addInfo {
-        input, textarea, select {
-            display: block;
-            margin: 0.5em;
-            width: 90%;
-        }
-        label {
-            margin: 0.5em;
-        }
-        textarea {
-            height: 5em;
-        }
+    input,
+    textarea,
+    label {
+        display: block;
+        width: 100%;
+    }
+    select {
+        display: block;
+        width: 100%;
+    }
+
+    textarea {
+        height: 5em;
+    }
+    .shortInputs {
+        display: flex;
+        justify-content: space-between;
         .shortInput {
-            display: inline-block;
-            width: 30%;
-            margin-right: 1em;
+            width: 40%;
+            margin: 0.5px;
         }
     }
-    
-    .checkboxes {
-        input {
-            display: inline-block;
-            width: 3em;
-        }
-    }
-}
 
-.tipsContainer {
-    width: 20%;
-    height: 60%;
-    margin-left: 2em;
-    li {
-        font-size: 0.9em;
-        padding: 0.5em;
-    }
-}
-
-.formContainer, .tipsContainer {
-    background-color: #ffffff;
-    border-radius: $rounding-large;
     .rubrik {
         text-align: center;
         margin: 0.5em;
     }
 }
+
+.invalid-feedback {
+    color: $maroon;
+    font-size: 0.8em;
+    margin-top: 0.2em;
+}
+
+.checkboxes {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+    input {
+        display: inline-block;
+        width: 3em;
+    }
+    label {
+        cursor: pointer;
+    }
+    .checkbox {
+        flex: 1;
+        width: 3em;
+        //text-align: center;
+    }
+}
+
+/* The customcheck */
+.customcheck {
+    //display: block;
+    display: inline-block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    //user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.customcheck input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #ffff;
+    border-radius: 5px;
+    border: 1px solid black;
+}
+
+/* On mouse-over, add a border color */
+.customcheck:hover input ~ .checkmark {
+    border-color: $green;
+}
+
+/* When the checkbox is checked, add a background */
+.customcheck input:checked ~ .checkmark {
+    background-color: $green;
+    border-radius: 5px;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.customcheck input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.customcheck .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.is-invalid {
+    border-color: $maroon;
+}
+
+.obligatorisk {
+    margin: 1em;
+}
+
+.greenMessage {
+    color: white;
+    width: 100%; 
+    position: absolute;
+    text-align: center;
+    padding-top: 5%;
+    transform: translateY(-50%);
+}
+
