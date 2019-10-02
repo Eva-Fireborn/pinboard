@@ -1,176 +1,107 @@
-import React, { Component } from "react";
-import openSocket from 'socket.io-client';
+import React, { useState, useEffect } from "react";
 import MsgConversations from './MsgConversations';
-const socket = openSocket('http://localhost:4000');
+import { chat, sendMsg, initUser, getHistory } from "../socket/api";
 
+const MsgView = ({ isLoggedIn }) => {
+	const [message, setMessage] = useState([])
+	const [history, setHistory] = useState();
+	const [selectedConversation, setSelectedConversation] = useState(null);
+	const [receiverId, setReceiverId] = useState(null);
+	const [selectedConversationId, setSelectedConversationId] = useState(null);
 
-
-
-export default class MsgView extends Component {
-
-
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			userId: this.props.isLoggedIn._id,
-			conversationId: "",
-			message: "",
-			conversationHistory: null,
-			selectedConversation: null
-		};
-	}
-
-	componentDidMount() {
-		console.log('userId compdid: ',this.props.isLoggedIn._id );
-		console.log('userId compdid: ',this.props.isLoggedIn.name );
-
-			fetch(`http://localhost:4000/ApiGetAllMsgForUser
-				/${this.state.userId}`)
-		.then(res => res.json())
-		.then( (result) => {
-			let parsedResult = JSON.stringify(result.body);
-			let msg = [];
-			JSON.parse(parsedResult).forEach(res => {
-				msg.push(res)
-
-			});
-			this.setState({
-				conversationHistory: msg
-			});
-		},
-		(error) => {
-			console.log(error)
+	useEffect(() => {
+		if (isLoggedIn) {
+			// this shit make everything loop... one extra time for each render... or something
+			initUser(isLoggedIn._id);
+			getHistory(dbHistory => {
+				setHistory(dbHistory)
+			})
 		}
-	)  // fetch
-	//console.log('innan socket alert');
-	socket.on('chat message', data => {
-		console.log('Client received chat message: ', data);
-		alert(JSON.stringify(data.message))
-	});
-}
+	}, [isLoggedIn])
 
-	async	postNewMsg(msg, id) {
-		let obj = {
-			id: id,
-			messages: msg
-		}
-		const serverResponse = await fetch('http://localhost:4000/ApiUpdateMsg',
-				{
-					method: 'POST',
-					body: JSON.stringify(obj, null),
-					headers: {
-							"Content-type": "application/json; charset=UTF-8"
-					}
-			});
-			const res = await serverResponse.json();
-			console.log('response: ', res.status);
-	};
-
-	handleChangeMessage = e => {
-		console.log('Körs handleChangeMessage?');
-		this.setState({
-			message: e.target.value
-		})
-	};
-
-	addMessageButton = e => {
-		let newMessages = this.state.selectedConversation.message;
-		let obj = {
-			msg: this.state.message,
-			msgId: this.state.userId
-		}
-		newMessages.push(obj)
-		/*
-		let messageObj = {
-			message: this.state.message,
-			senderId: this.state.userId,
-			recieverId: this.state.recieverId,
-			timeStamp: new Date(),
-			adId: this.state.adId
-			};
-
-		this.setState({
-			conversationHistory: [...this.state.conversationHistory, messageObj]
-		})
-
-		*/
-		this.postNewMsg(newMessages, this.state.selectedConversation._id)
-		console.log('test', newMessages);
-		socket.emit('chat message', this.state.message)
-
-		this.setState({
-			message: ""
-		})
-	};
-	/*
-	getNewTime = (date) => {
-	  return `${date.getHours()}: ${("0" + date.getMinutes()).slice(-2)}  ${date.getDate()} / ${date.getMonth()} `
-	}
-	*/
-
-	onClickGetConversations = (msg) => {
-		console.log('msg in click:', msg);
-		this.setState({
-			selectedConversation: msg
-		})
-	};
-
-	render(){
-		let allMessages;
-		if(this.state.selectedConversation){
-		allMessages = this.state.selectedConversation.message.map((m, index)	 => {
-			console.log('selconv?: ', this.state.selectedConversation);
-			let className;
-			if(m.msgId === this.state.userId){
-				className = "msgSelf";
-				return (
-					<div className={className} key={index} >
-					{m.msg}
-					</div>
-				)
+	useEffect(() => {
+		chat(msg => {
+			console.log(msg)
+			if (selectedConversation) {
+				setSelectedConversation([...selectedConversation, msg])
 			}
-			else{
-				className = "msgOther";
-				return(
-					<div className={className} key={index} >
-					{m.msg}
-					</div>
-				)
-			};
+
+			/*
+				shit keep geting rerender or something so selectedConversation so times is null and sometime not
+			*/
+			// setSelectedConversation(msg]); // < --this overwrite old msg but sort of work..
+			// setSelectedConversation([...selectedConversation, msg]); // < --this breaks react
+			/*
+			let newArray = selectedConversation; // this is all fine and the array is there..
+			newArray.push(msg) // but when I use push react fucking breaks again..
+			*/
 		});
-	}else{
-		let	allMessages = null;
+	}, [selectedConversation])
+
+	const addMessageButton = e => {
+		let msgObject = {
+			newMessage: message,
+			senderId: isLoggedIn._id,
+			receiverId: receiverId,
+			objId: selectedConversationId
+		}
+		setMessage("");
+		sendMsg(msgObject);
+	};
+
+	const showConversations = msg => {
+		if (msg._id !== selectedConversationId) {
+			setSelectedConversation(msg.message)
+			setSelectedConversationId(msg._id)
+			if (msg.senderId === isLoggedIn._id)
+				setReceiverId(msg.receiverId)
+			else
+				setReceiverId(msg.senderId)
+		}
+	};
+
+	let domAllMessages;
+	if (selectedConversation && selectedConversation.length > 0) {
+		domAllMessages = selectedConversation.map((m) => {
+			if (m.senderId === isLoggedIn._id)
+				return (<div className="msgSelf" key={m.timeStamp}>{m.msg}</div>);
+			else
+				return (<div className="msgOther" key={m.timeStamp}>{m.msg}</div>);
+		});
+	}
+
+	let domHistory;
+	if (history) {
+		domHistory = history.map((msg) => {
+			return (<MsgConversations
+				msg={msg} key={msg.timeStamp}
+				showConversations={showConversations}
+			/>)
+		})
 	}
 
 	return (
-
-				<div id="wrapper">
-				<aside>
-				{this.state.conversationHistory ?
-					this.state.conversationHistory.map((msg, key) =>
-						<MsgConversations
-						onClickGetConversations={this.onClickGetConversations}
-						ads={msg}
-						key={key}
-						/> )
-
-				:
-				 null}
-					</aside>
-					<main id="msg">
-						{allMessages}
+		<div id="wrapper">
+			<aside>
+				{domHistory}
+			</aside>
+			<main>
+				{domAllMessages}
+				{domAllMessages ? (
+					<span>
 						<textarea id="textMessage" type="text"
-									value={this.state.message}
-									onChange={this.handleChangeMessage}
-									placeholder="Skriv ditt meddelande här" />
+							value={message}
+							onChange={e => setMessage(e.target.value)}
+							placeholder="Skriv ditt meddelande här" />
 
-						<button className="call"
-										onClick={this.addMessageButton}>
+						<button className="call" onClick={addMessageButton}>
 							Skicka
 						</button>
-					</main>
-				</div>
-			)
-	};
+					</span>
+				) : null}
+			</main>
+		</div>
+	)
 };
+
+export default MsgView;

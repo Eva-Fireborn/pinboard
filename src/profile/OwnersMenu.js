@@ -33,7 +33,7 @@ const OwnersMenu = ({ SetEditProfile, logOff, changeRemoveAccountVisibility }) =
 				<Link to="#" onClick={() => {
 					logOff()
 					localStorage.removeItem('user');
-				} }>
+				}}>
 					<FontAwesomeIcon icon={faSignOutAlt} />
 					Logga ut
 				</Link>

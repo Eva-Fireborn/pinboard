@@ -58,6 +58,17 @@
 		> a {
 			margin-left: 2em;
 			cursor: pointer;
+			position: relative;
+			span {
+				position: absolute;
+				border-radius: $rounding-small;
+				background-color: $maroon;
+				color: $white;
+				font-size: 0.8rem;
+				padding: 0.1em 0.4em;
+				right: -1em;
+				top: -1em;
+			}
 		}
 		> a:hover {
 			color: $green;
@@ -84,6 +95,13 @@
 				font-size: 0.7rem;
 				margin: 1em 0.2em;
 			}
+			> a {
+				margin-left: 0em;
+				span {
+					right: -0.5em;
+					top: -0.5em;
+				}
+			}
 		}
 		.svg-inline--fa {
 			font-size: 1.5rem;
@@ -96,6 +114,7 @@
 footer {
 	@include shared-large-sizing;
 	@include shared-large-flex;
+	z-index: 200;
 	ul {
 		list-style: none;
 		margin: 0;

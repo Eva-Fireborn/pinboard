@@ -1,10 +1,12 @@
-aside .adUserName {
-	padding: 0 1em;
-	height: 80px;
+aside .msgRoom {
 	justify-content: flex-start;
+	background-color: $green;
+	margin-bottom: 1em;
+	border-radius: $rounding-large;
+	text-align: center;
+	padding: 1em 0;
 }
-aside .selected { background-color: $green; }
-main#msg > textarea {
+#textMessage {
 	width: 100%;
 }
 .msgSelf, .msgOther {
