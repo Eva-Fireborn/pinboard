@@ -104,16 +104,17 @@ class API {
 	}
 
 
-	updateUser(user, callback) {
-		this.connectToUserCollection(collection => {
-			collection.updateOne({ _id: user.id }, { $set: user }, null, (error, result) => {
-				if (error) throw error
+	updateUser (user, callback) {
+		let o_id = ObjectId(user.userId);
+		this.connectToUserCollection( collection => {
+		 collection.updateOne({_id: o_id}, {$set: user}, null, (error, result) => {
+				if( error ) throw error
 				callback(true)
-			})
+		  })
 		})
-	}
+	  }
 
-	deleteUser(id, callback) {
+	  deleteUser (id, callback) {
 		let objId = new ObjectId(id)
 		this.connectToUserCollection(collection => {
 			collection.deleteOne({ _id: objId }, null, (error, result) => {
@@ -151,7 +152,7 @@ class API {
 
 	}
 
-	getAd(ad, callback) {
+	  getAd (ad, callback) {
 		this.connectToAdCollection(collection => {
 			collection.findOne(ad, (error, result) => {
 				if (error) throw error
@@ -159,7 +160,7 @@ class API {
 			})
 		})
 
-	}
+	  }
 
 
 	getAllAds(callback) {
@@ -184,9 +185,12 @@ class API {
 
 
 	getAllAdsByUser(userId, callback) {
+		console.log(userId, 'this is our userId')
+		console.log(callback, 'that is the callback for get all ads by userId')
 		this.connectToAdCollection(collection => {
 			console.log(userId, 'finding ads by userId')
-			collection.find({ userId }, (error, cursor) => {
+			collection.find({ userId: new ObjectId(userId) }, (error, cursor) => {
+				console.log(userId)
 				if (error) throw error
 				cursor.toArray()
 					.then(ads => {
@@ -201,6 +205,17 @@ class API {
 
 	getTwentyNewestAds(callback) {
 		this.connectToAdCollection(collection => {
+<<<<<<< HEAD
+=======
+			/*
+					collection.find({}, (error, cursor) => {
+							cursor.sort({ createdAt: -1 }).limit(20).toArray()
+								.then(ads => callback(ads))
+								.catch(err => console.log('error in cursor about 20 ads:', err))
+						})
+					})
+			 */
+>>>>>>> dev
 			collection.aggregate(
 				[
 					{ "$sort": { createdAt: -1 } },
@@ -231,7 +246,11 @@ class API {
 	}
 
 
+<<<<<<< HEAD
 	deleteAd(id, callback) {
+=======
+	  deleteAd (id, callback) {
+>>>>>>> dev
 		this.connectToAdCollection(collection => {
 			collection.deleteOne({ _id: id }, null, (error, result) => {
 				if (error) throw error
@@ -277,6 +296,7 @@ class API {
 			})
 		})
 
+<<<<<<< HEAD
 	}
 
 	getAllMessagesForUser(userId, callback) {
@@ -289,6 +309,8 @@ class API {
 				callback(result)
 			})
 		})
+=======
+>>>>>>> dev
 	}
 
 	updateMessage(objId, msg, senderId, callback) {

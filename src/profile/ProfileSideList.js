@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from "react-router-dom";
 import {
 	faMapMarkerAlt,
-	faComment,
+	// faComment,
 } from '@fortawesome/free-solid-svg-icons';
 
 const ProfileSideList = ({ reviewScroll, profileData, editProfile, isLoggedIn }) => {
@@ -15,12 +15,12 @@ const ProfileSideList = ({ reviewScroll, profileData, editProfile, isLoggedIn })
 					{profileData.city}
 				</Link>
 			</li>
-			<li>
+			{/* <li>
 				<Link to="#" onClick={reviewScroll}>
 					<FontAwesomeIcon icon={faComment} />
 					{profileData.totalOfRatings} Recensioner
 				</Link>
-			</li>
+			</li> */}
 		</ul>
 	);
 }

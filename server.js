@@ -164,11 +164,13 @@ expServer.get('/ApiGetLatest', (request, response) => {
 
 expServer.get('/getAllAdsByUser/:id', (request, response) => {
 	let id = request.params.id
+	console.log(id, 'this is params id')
 	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
-	api.getAllAdsByUser(id, res => {
+	api.getAllAdsByUser(id, ads => {
+		console.log('this is has to be our ads', ads)
 		response.send({
 			status: 200,
-			body: res
+			body: ads
 		})
 		api.disconnect()
 	})
