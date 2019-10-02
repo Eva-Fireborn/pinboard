@@ -116,13 +116,21 @@ class API {
 
 	  deleteUser (id, callback) {
 		let objId = new ObjectId(id)
-		this.connectToUserCollection(collection => {
-			collection.deleteOne({ _id: objId }, null, (error, result) => {
+		this.connectToAdCollection(adsCollection => {
+			adsCollection.deleteMany({ "userId": objId }, null, (error, result1) => {
 				if (error) throw error
-				// this.client.close()
-				callback(result.deletedCount)
+				console.log(result1.deletedCount)
+				this.connectToUserCollection(userCollection => {
+					userCollection.deleteOne({ _id: objId }, null, (error, result2) => {
+						if (error) throw error
+						// this.client.close()
+						console.log(`annonser: ${result1.deletedCount}, användare:  ${result2.deletedCount}`)
+						callback(result1.deletedCount, result2.deletedCount)
+					})
+				})
 			})
 		})
+		
 	}
 
 	// repeat functions for another collection

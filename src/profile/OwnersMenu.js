@@ -38,9 +38,11 @@ const OwnersMenu = ({ SetEditProfile, logOff, changeRemoveAccountVisibility }) =
 					Logga ut
 				</Link>
 			</li>
-			<li onClick={changeRemoveAccountVisibility}>
-				<FontAwesomeIcon icon={faTrash} />
-				Radera mitt konto
+			<li >
+				<Link to="#" onClick={changeRemoveAccountVisibility} >
+					<FontAwesomeIcon icon={faTrash} />
+					Radera mitt konto
+				</Link>
 			</li>
 		</ul>
 	);

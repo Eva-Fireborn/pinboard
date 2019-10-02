@@ -10,6 +10,8 @@ const RemoveAccount = ({changeRemoveAccountVisibility, isLoggedIn, logOff}) => {
                     console.log(result) 
                     localStorage.removeItem('user');
                     logOff();
+                    changeRemoveAccountVisibility();
+                    window.location.reload(false);
                 }
 				, (error) => console.log(error)
 			)
