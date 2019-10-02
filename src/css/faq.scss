@@ -1,6 +1,12 @@
 .tipsContainer {
     // background-color: #ffffff;
-    // border-radius: $rounding-large;
+	// border-radius: $rounding-large;
+	ul {
+		padding-left: 3em;
+	}
+	li {
+		padding: 0.4em 0.6em;
+	}
     padding: 0 1em 1em;
     .rubrik {
         text-align: center;
