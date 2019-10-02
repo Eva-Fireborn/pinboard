@@ -186,41 +186,13 @@ expServer.post('/ApiPostNewAd', (request, response) => {
 	})
 })
 
-expServer.get('/ApiGetAllMsgForUser/:userId', (request, response) => {
-	let userId = request.params.userId;
-	console.log('server /ApiGetAllMsgForUser', request.params.userId);
-	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
-	api.getAllMessagesForUser(userId, res => {
-		console.log('server /ApiGetAllMsgForUser send response', res);
-		response.send({
-			status: 200,
-			body: res
-		})
-		api.disconnect()
-	})
-	// query db: alla meddelanden som har userId som sender eller reciever
-	// response.send
-});
-
-
-//getting and saving messeges to db
-expServer.get('/ApiGetMessagesForAd/:adId/:userId', (request, response) => {
-	let userId = request.params.userId;
-	let adId = request.params.adId;
-	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
-	// TODO: fixa ad id - bör skickas med querystring
-	api.getMessagesForAd(adId, userId, res => {
-		response.send({
-			status: 200,
-			body: res
-		})
-		api.disconnect()
-	})
-})
-
 expServer.post('/ApiPostNewMsg', (request, response) => {
 	let api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
-	console.log('requestbody: ', request.body)
+
+	request.body = { ...request.body, timeStamp: new Date() }
+	request.body.message[0] = { ...request.body.message[0], timeStamp: new Date() }
+	console.log('requestbody: ', request.body);
+
 	api.createMsg(request.body, res => {
 		response.send({
 			status: 200,
@@ -244,32 +216,50 @@ expServer.post('/ApiUpdateMsg', (request, response) => {
 
 expServer.use(express.static(__dirname + '/build/'));
 
-
 expServer.get('/', (request, response) => {
 	console.log('Request: ', request.url)
 	response.sendFile(__dirname + '/public/index.html')
 
 });
 
-
-let connectedUsers = [];
-io.on('connection', socket => {
+let onlineUsers = [];
+io.on("connection", async (socket) => {
 	const sessionID = socket.id;
-	connectedUsers.push(sessionID);
-	console.log('Server received new client connection: #' + sessionID);
-	console.log('number connected: ', connectedUsers);
-	socket.on('disconnect', () => {
-		console.log(`Client #${sessionID} disconnected from server`);
-	})
-	socket.on('chat message', data => {
-		console.log(`Server received chat message from #${sessionID}: `, data);
-		if( connectedUsers.find(id => data.receiverId) )
-			io.to(sessionID).emit('chat message', data);
+	const api = new API("mongodb+srv://test:test@cluster0-tuevo.mongodb.net/test?retryWrites=true&w=majority");
+	console.log('user connected: ', sessionID);
+
+	socket.on('initUser', userID => {
+		if (onlineUsers.filter(user => user.userID === userID).length === 0) {
+			onlineUsers.push({ sessionID, userID });
+			api.getAllMessagesForUser(userID, res => {
+				res.forEach(s => socket.join(s._id));
+				socket.emit('getHistory', res);
+				api.disconnect()
+			});
+		}
+		console.log('added new user to onlineUsers! ', onlineUsers);
 	})
 
-})
+	socket.on('sendMsg', payload => {
+		api.updateMessage(payload.objId, payload.newMessage, payload.senderId, res => {
+			api.disconnect()
+		})
+		let msg = {
+			msg: payload.newMessage,
+			senderId: payload.senderId,
+			timeStamp: new Date()
+		}
+		socket.to(payload.objId).emit('chat', msg); // to "all" in chatroom
+		socket.emit('chat', msg); // to self
+	})
+
+	socket.on('disconnect', () => {
+		onlineUsers.splice(onlineUsers.findIndex(user => user.sessionID === sessionID), 1);
+		console.log(`Client #${sessionID} disconnected. Still online: `, onlineUsers);
+	})
+});
 
 // OBS! Starta httpServer i stället för expServer.
-httpServer.listen(port, '127.0.0.1', () => {
+httpServer.listen(port, () => {
 	console.log(`Server is listening on port ${port}...`);
 });

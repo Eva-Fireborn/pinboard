@@ -33,13 +33,13 @@ class ProfileView extends React.Component {
 			.then(
 				(result) => {
 					if (result === null) {
-						this.setState({noUserFound: true})
+						this.setState({ noUserFound: true })
 					} else {
 						this.setState({ profileData: result })
-					if (this.props.isLoggedIn) {
-					if (this.state.profileData._id === this.props.isLoggedIn._id)
-						this.setState({ owner: true })
-					}
+						if (this.props.isLoggedIn) {
+							if (this.state.profileData._id === this.props.isLoggedIn._id)
+								this.setState({ owner: true })
+						}
 					}
 				}, (error) => console.log(error)
 			)
@@ -55,7 +55,7 @@ class ProfileView extends React.Component {
 	}
 
 	changeRemoveAccountVisibility = () => {
-		this.setState({removeAccountVisibility: !this.state.removeAccountVisibility});
+		this.setState({ removeAccountVisibility: !this.state.removeAccountVisibility });
 	}
 
 	render() {
@@ -102,18 +102,18 @@ class ProfileView extends React.Component {
 
 		const reviewScroll = () => document.getElementById("reviews").scrollIntoView({ behavior: "smooth" });
 		if (this.state.noUserFound) {
-			return(
+			return (
 				<div id="wrapper">
 					<p>Användaren finns inte.</p>
 				</div>
 			)
 		} else {
-			if (this.state.removeAccountVisibility){
+			if (this.state.removeAccountVisibility) {
 				return (<RemoveAccount
 					changeRemoveAccountVisibility={this.changeRemoveAccountVisibility}
 					isLoggedIn={this.props.isLoggedIn}
 					logOff={this.props.logOff}
-					/> )
+				/>)
 			} else {
 				const timestamp = this.state.profileData.memberSince;
 				const formattedDate = moment(timestamp).format('L');

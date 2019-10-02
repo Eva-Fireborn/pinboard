@@ -56,12 +56,12 @@ const OwnersMenu = ({ SetEditProfile, logOff, changeRemoveAccountVisibility, log
 					Logga ut
 				</Link>
 			</li>
-			<Link to="#" >
-			<li onClick={changeRemoveAccountVisibility}>
-				<FontAwesomeIcon icon={faTrash} />
-				Radera mitt konto
+			<li >
+				<Link to="#" onClick={changeRemoveAccountVisibility} >
+					<FontAwesomeIcon icon={faTrash} />
+					Radera mitt konto
+				</Link>
 			</li>
-			</Link>
 		</ul>
 		{messageSent ? <RedMessage /> : null}
 		</div>
