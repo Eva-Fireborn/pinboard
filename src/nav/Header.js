@@ -39,7 +39,6 @@ const Header = ({ isLoggedIn, loginVisibility, changeLoginVisibility }) => {
 						<Link to="/meddelanden">
 							<FontAwesomeIcon icon={faEnvelope} />
 							Meddelanden
-							<span>0</span>
 						</Link>
 					) : null}
 					{isLoggedIn ?
